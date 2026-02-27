@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MencIA - Catálogo visual de asistentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Iconos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --mencia-red: #cf112d;
+            --mencia-dark: #0f172a;
+            /* Azul pizarra oscuro */
+            --card-bg: rgba(30, 41, 59, 0.7);
+            /* Slate 800 con transparencia */
+            --card-border: rgba(51, 65, 85, 1);
+            /* Slate 700 */
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--mencia-dark);
+            color: #e2e8f0;
+            /* Slate 200 */
+        }
+
+        /* Animación de fondo "Tech" */
+        .tech-bg {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            /* Efecto viñeta sutil */
+            mask-image: radial-gradient(circle at center, black 60%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        .element-card {
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .element-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0 20px rgba(207, 17, 45, 0.15);
+            /* Glow rojo sutil */
+            border-color: rgba(207, 17, 45, 0.5);
+            z-index: 10;
+        }
+
+        /* Scrollbar personalizado oscuro */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #cf112d;
+        }
+
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .category-dot {
+            box-shadow: 0 0 8px currentColor;
+        }
+    </style>
+</head>
+
+<body class="tech-bg min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- Header con identidad corporativa Dark Mode -->
+    <header class="bg-[#0f172a]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-[1800px] mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <!-- Logo -->
+                <div class="flex items-center text-white text-3xl font-bold tracking-tight select-none">
+                    <a href="/" class="block hover:opacity-90 transition-opacity"
+                        aria-label="Volver al inicio"><img
+                            src="../logos/mencia-logo-trans-dark.png" style="height: 42px; width: auto; object-fit: contain;"
+                            alt="MencIA" ></a>
+                </div>
+                <div class="h-6 w-px bg-white/20 mx-2 hidden sm:block"></div>
+                <div class="hidden sm:flex flex-col justify-center">
+                    <span class="text-xs font-bold text-white uppercase tracking-widest">Estratexia de IA</span>
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wide">Deputación de Lugo</span>
+                </div>
+            </div>
+
+            <!-- Leyenda de colores -->
+            <div class="hidden md:flex gap-6 text-xs font-semibold uppercase tracking-wider">
+                <div class="flex items-center gap-2 text-blue-400">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 category-dot"></span> Gestión
+                </div>
+                <div class="flex items-center gap-2 text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 category-dot"></span> Jurídico
+                </div>
+                <div class="flex items-center gap-2 text-purple-400">
+                    <span class="w-2 h-2 rounded-full bg-purple-500 category-dot"></span> Comunicación
+                </div>
+                <div class="flex items-center gap-2 text-amber-400">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 category-dot"></span> Soporte
+                </div>
+                <div class="flex items-center gap-2 text-[#ff4d6d]">
+                    <span class="w-2 h-2 rounded-full bg-[#cf112d] category-dot"></span> Estrategia
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor principal -->
+    <main class="flex-grow p-6 lg:p-10 w-full max-w-[1800px] mx-auto">
+
+        <div class="mb-12 text-left">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+                Ecosistema de <br>
+                <span class="text-[#cf112d]">Soberanía Digital.</span>
+            </h1>
+            <p class="text-slate-400 text-lg max-w-2xl font-light leading-relaxed">
+                Explora nuestra tabla periódica de asistentes. Cada nodo representa una solución de
+                <span class="text-white font-medium">código abierto</span> diseñada bajo los principios de Green AI.
+            </p>
+        </div>
+
+        <!-- Grid de la tabla periódica -->
+        <div id="periodic-table"
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 select-none">
+            <!-- Los elementos se inyectarán aquí con JS -->
+        </div>
+
+    </main>
+
+    <footer class="border-t border-white/5 bg-[#0a0f1c] py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-slate-500 text-xs uppercase tracking-widest font-semibold">
+                MencIA © 2025 — Diputación de Lugo
+            </p>
+            <div class="flex gap-4">
+                <span
+                    class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">Apply
+                    AI Ready</span>
+                <span
+                    class="px-3 py-1 rounded-full bg-green-500/10 text-green-400 text-xs border border-green-500/20">Green
+                    Algorithms</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de detalle (Dark Theme) -->
+    <div id="modal-overlay"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div id="modal-content"
+            class="bg-[#1e293b] border border-white/10 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden transform transition-all duration-300 scale-95 opacity-0 relative">
+
+            <!-- Botón cerrar -->
+            <button id="close-modal"
+                class="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors z-20">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Cabecera modal -->
+            <div id="modal-header"
+                class="h-40 bg-gradient-to-br from-[#cf112d] to-[#0f172a] p-8 flex items-end relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-20 transform rotate-12">
+                    <i id="modal-bg-icon" data-lucide="cpu" class="w-48 h-48 text-white"></i>
+                </div>
+                <div class="relative z-10 text-white w-full">
+                    <div class="flex justify-between items-end w-full">
+                        <div>
+                            <div id="modal-code" class="text-sm font-mono text-red-200 mb-2 opacity-80">RD · 01</div>
+                            <h2 id="modal-title" class="text-3xl md:text-4xl font-bold leading-none tracking-tight">
+                                Título</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cuerpo modal -->
+            <div class="p-8 max-h-[60vh] overflow-y-auto text-slate-300">
+
+                <div class="mb-8">
+                    <p id="modal-desc" class="text-lg leading-relaxed font-light text-white">Descripción del asistente.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <!-- Tarjeta Green AI -->
+                    <div
+                        class="bg-black/20 p-5 rounded-xl border border-white/5 hover:border-green-500/30 transition-colors group">
+                        <h3
+                            class="text-xs font-bold text-green-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <i data-lucide="leaf" class="w-4 h-4"></i> Sostenibilidad
+                        </h3>
+                        <p id="modal-green" class="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
+                            Detalle de sostenibilidad.</p>
+                    </div>
+
+                    <!-- Tarjeta Soberanía -->
+                    <div
+                        class="bg-black/20 p-5 rounded-xl border border-white/5 hover:border-blue-500/30 transition-colors group">
+                        <h3
+                            class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4"></i> Soberanía UE
+                        </h3>
+                        <p id="modal-eu" class="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
+                            Detalle de soberanía.</p>
+                    </div>
+                </div>
+
+                <!-- Footer Modal -->
+                <div class="pt-6 border-t border-white/5 flex flex-wrap gap-3">
+                    <span
+                        class="px-3 py-1.5 bg-white/5 text-white rounded text-xs font-mono border border-white/10">Open
+                        Source</span>
+                    <span
+                        class="px-3 py-1.5 bg-white/5 text-white rounded text-xs font-mono border border-white/10">Local
+                        Execution</span>
+                    <span id="modal-tag"
+                        class="px-3 py-1.5 bg-[#cf112d]/20 text-[#ff8fa3] rounded text-xs font-mono border border-[#cf112d]/30">Tag</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar iconos Lucide
+        lucide.createIcons();
+
+        // Datos de los asistentes (Filtrados)
+        const asistentes = [
+            // GESTIÓN (Azul)
+            {
+                id: "Rd", number: "01", name: "Resumidor de documentos", group: "gestion",
+                desc: "Procesa documentos extensos (leyes, informes) y genera un resumen con las ideas principales en segundos. Ideal para la toma de decisiones rápida.",
+                green: "Reduce el tiempo de pantalla y computación al evitar la lectura completa. Modelo SLM especializado.",
+                eu: "Soberanía de datos: el documento nunca sale del servidor provincial.",
+                icon: "file-text"
+            },
+            {
+                id: "Oc", number: "02", name: "Extractor de texto (OCR)", group: "gestion",
+                desc: "Convierte documentos escaneados o imágenes en texto plano y editable para digitalización masiva.",
+                green: "Digitalización eficiente que evita reimpresiones innecesarias.",
+                eu: "Alternativa open-source a herramientas propietarias en la nube.",
+                icon: "scan-line"
+            },
+            {
+                id: "Tr", number: "03", name: "Transcriptor de audio", group: "gestion",
+                desc: "Convierte grabaciones de voz (plenos, comisiones) en texto, reconociendo gallego y castellano.",
+                green: "Optimiza horas de trabajo manual reduciendo el consumo energético de estaciones de trabajo.",
+                eu: "Soporte para lenguas cooficiales (diversidad cultural europea).",
+                icon: "mic"
+            },
+            {
+                id: "Cp", number: "04", name: "Calculadora plazos LCSP", group: "gestion",
+                desc: "Calcula plazos de trámites de la ley de contratos, considerando días hábiles y festivos locales.",
+                green: "Herramienta simbólica de consumo energético casi nulo frente a LLMs.",
+                eu: "Adaptación específica a la normativa local (Lugo).",
+                icon: "calendar-clock"
+            },
+            {
+                id: "Gc", number: "05", name: "Gestión correo inteligente", group: "gestion",
+                desc: "Analiza, resume y categoriza correos entrantes. Transforma 1 hora de gestión en 5 minutos.",
+                green: "Drástica reducción del tiempo de uso de equipos para tareas rutinarias.",
+                eu: "Privacidad total de las comunicaciones institucionales.",
+                icon: "mail"
+            },
+
+            // JURÍDICO (Verde)
+            {
+                id: "Mb", number: "06", name: "Monitor edictos BOE", group: "juridico",
+                desc: "Agente que analiza diariamente el BOE para detectar edictos concursales relevantes para recaudación.",
+                green: "Automatización que elimina miles de búsquedas manuales.",
+                eu: "Vigilancia administrativa proactiva y soberana.",
+                icon: "scale"
+            },
+            {
+                id: "Mj", number: "07", name: "Memorias justificativas", group: "juridico",
+                desc: "Guía a los gestores en la redacción de la memoria justificativa obligatoria en contratos.",
+                green: "Evita el síndrome de la 'página en blanco' y múltiples correcciones.",
+                eu: "Cumplimiento normativo asistido por IA.",
+                icon: "file-check"
+            },
+            {
+                id: "Ac", number: "08", name: "Asistente contratación", group: "juridico",
+                desc: "Experto en ley de contratos. Resuelve dudas sobre licitaciones y revisa pliegos.",
+                green: "Modelo especializado (SLM) más eficiente que un GPT-4 generalista.",
+                eu: "Alineado con la digitalización del sector público europeo.",
+                icon: "briefcase"
+            },
+            {
+                id: "Fp", number: "09", name: "Asesor función pública", group: "juridico",
+                desc: "Experto en normativa de empleados públicos (Galicia/España). Solo cita leyes.",
+                green: "Sin alucinaciones: computación eficiente sobre base de datos vectorial.",
+                eu: "Transparencia y certeza jurídica en RRHH.",
+                icon: "users"
+            },
+            {
+                id: "Vm", number: "10", name: "Valoración de méritos", group: "juridico",
+                desc: "Calcula automáticamente puntuaciones en procesos selectivos según bases.",
+                green: "Sustituye cálculo manual propenso a errores por proceso batch.",
+                eu: "Garantía de imparcialidad algorítmica.",
+                icon: "calculator"
+            },
+
+            // COMUNICACIÓN (Púrpura)
+            {
+                id: "Np", number: "11", name: "Notas de prensa", group: "comunicacion",
+                desc: "Redacta borradores de comunicaciones institucionales con el estilo histórico de la entidad.",
+                green: "Generación 'One-shot' que evita diálogos extensos.",
+                eu: "Control del relato institucional soberano.",
+                icon: "newspaper"
+            },
+            {
+                id: "Pi", number: "12", name: "Profesor de IA", group: "comunicacion",
+                desc: "Explica conceptos de IA a funcionarios sin conocimientos técnicos.",
+                green: "Educación digital base para el uso responsable.",
+                eu: "Alfabetización digital (DigComp).",
+                icon: "graduation-cap"
+            },
+            // Eliminado: Explicar trabajo unidad
+
+            // SOPORTE (Ámbar)
+            {
+                id: "Ca", number: "13", name: "Asistente CAU", group: "soporte",
+                desc: "Técnico virtual que resuelve dudas sobre herramientas internas (VPN, certificados).",
+                green: "Resolución al primer contacto evitando escalados IT.",
+                eu: "Soporte técnico autónomo.",
+                icon: "help-circle"
+            },
+            {
+                id: "Ap", number: "14", name: "Almacén de prompts", group: "soporte",
+                desc: "Repositorio centralizado para compartir instrucciones eficaces.",
+                green: "Reutilización de prompts optimizados (Green Prompting).",
+                eu: "Inteligencia colectiva pública.",
+                icon: "database"
+            },
+            // Eliminado: Creación de prompts
+            {
+                id: "Ar", number: "15", name: "Arquitecto asistentes", group: "soporte",
+                desc: "Guía el diseño de nuevos asistentes definiendo rol y función.",
+                green: "Diseño 'Green by Design' desde el origen.",
+                eu: "Fomento del desarrollo local.",
+                icon: "layers"
+            },
+            // Eliminado: Atajos de teclado
+
+            // ESTRATEGIA (Rojo)
+            {
+                id: "An", number: "16", name: "Análisis convocatorias", group: "estrategia",
+                desc: "Analiza bases de subvenciones (UE) y extrae fichas con requisitos.",
+                green: "Procesamiento focalizado de información compleja.",
+                eu: "Absorción de fondos NextGen.",
+                icon: "search"
+            }
+            // Eliminado: Asistente analítico
+        ];
+
+        const styles = {
+            gestion: {
+                border: "border-blue-500/30",
+                text: "text-blue-400",
+                bg_hover: "hover:bg-blue-500/10",
+                border_hover: "hover:border-blue-400",
+                glow: "hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
+            },
+            juridico: {
+                border: "border-emerald-500/30",
+                text: "text-emerald-400",
+                bg_hover: "hover:bg-emerald-500/10",
+                border_hover: "hover:border-emerald-400",
+                glow: "hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]"
+            },
+            comunicacion: {
+                border: "border-purple-500/30",
+                text: "text-purple-400",
+                bg_hover: "hover:bg-purple-500/10",
+                border_hover: "hover:border-purple-400",
+                glow: "hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]"
+            },
+            soporte: {
+                border: "border-amber-500/30",
+                text: "text-amber-400",
+                bg_hover: "hover:bg-amber-500/10",
+                border_hover: "hover:border-amber-400",
+                glow: "hover:shadow-[0_0_20px_rgba(245,158,11,0.15)]"
+            },
+            estrategia: {
+                border: "border-red-500/30",
+                text: "text-[#ff4d6d]",
+                bg_hover: "hover:bg-[#cf112d]/10",
+                border_hover: "hover:border-[#cf112d]",
+                glow: "hover:shadow-[0_0_20px_rgba(207,17,45,0.2)]"
+            }
+        };
+
+        const container = document.getElementById('periodic-table');
+
+        // Renderizar las tarjetas
+        asistentes.forEach((item) => {
+            const style = styles[item.group];
+            const card = document.createElement('div');
+
+            // Clases base + estilos dinámicos
+            card.className = `
+                element-card 
+                bg-[#1e293b]/60 
+                border-2 ${style.border} 
+                ${style.bg_hover} ${style.border_hover} ${style.glow}
+                rounded-xl p-4 cursor-pointer 
+                flex flex-col justify-between 
+                h-40 relative overflow-hidden group
+            `;
+
+            card.innerHTML = `
+                <!-- Fondo icono sutil -->
+                <div class="absolute -bottom-4 -right-4 opacity-5 group-hover:opacity-10 transition-opacity duration-500 transform group-hover:scale-110">
+                    <i data-lucide="${item.icon}" class="w-24 h-24 text-white"></i>
+                </div>
+                
+                <div class="flex justify-between items-start z-10">
+                    <span class="text-3xl font-bold ${style.text} tracking-tight">${item.id}</span>
+                    <span class="text-[10px] font-mono text-slate-500 bg-slate-800/50 px-1.5 py-0.5 rounded border border-white/5">${item.number}</span>
+                </div>
+                
+                <div class="z-10 mt-auto">
+                    <h3 class="text-sm font-semibold text-gray-200 leading-tight group-hover:text-white transition-colors">${item.name}</h3>
+                </div>
+            `;
+
+            card.addEventListener('click', () => openModal(item));
+            container.appendChild(card);
+        });
+
+        // Lógica del Modal
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalBtn = document.getElementById('close-modal');
+        const modalBgIcon = document.getElementById('modal-bg-icon');
+
+        function openModal(item) {
+            document.getElementById('modal-title').textContent = item.name;
+            document.getElementById('modal-code').textContent = `${item.id} · ${item.number}`;
+            document.getElementById('modal-desc').textContent = item.desc;
+            document.getElementById('modal-green').textContent = item.green;
+            document.getElementById('modal-eu').textContent = item.eu;
+            document.getElementById('modal-tag').textContent = item.group.toUpperCase();
+
+            // Actualizar icono dinámicamente
+            modalBgIcon.setAttribute('data-lucide', item.icon);
+            lucide.createIcons();
+
+            modalOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalContent.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.add('opacity-0');
+            modalContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                modalOverlay.classList.add('hidden');
+            }, 300);
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // Re-inicializar iconos
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MencIA: Escritorio del Futuro</title>
+    
+    <!-- Tipografía Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary-red: #cf112d;
+            --surface-glass: rgba(30, 41, 59, 0.6);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --success: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            height: 100vh;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(207, 17, 45, 0.05) 0%, transparent 50%),
+                linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cf112d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Layout Principal */
+        .desktop-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            height: 100vh;
+        }
+
+        /* Sidebar de Contexto */
+        .sidebar {
+            background: rgba(15, 23, 42, 0.8);
+            border-right: 1px solid var(--border-light);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+        }
+        .logo-accent { color: var(--primary-red); }
+
+        .context-widget {
+            background: var(--surface-glass);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1rem;
+            opacity: 0.5; /* Inactivo por defecto */
+            transition: all 0.3s ease;
+        }
+        
+        .context-widget.active {
+            opacity: 1;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(207, 17, 45, 0.1);
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .widget-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        /* Área de Trabajo (Main) */
+        .workspace {
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-rows: min-content;
+            gap: 2rem;
+            align-content: start;
+            position: relative;
+        }
+
+        .header-workspace {
+            grid-column: 1 / -1;
+            margin-bottom: 1rem;
+        }
+        
+        .header-workspace h1 { font-size: 1.8rem; font-weight: 400; }
+        .header-workspace p { color: var(--text-gray); }
+
+        /* Tarjetas de Aplicaciones */
+        .app-card {
+            background: var(--surface-glass);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.3s ease;
+            cursor: default;
+        }
+
+        .app-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .app-icon {
+            width: 50px; height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+        }
+
+        .app-title { font-weight: 600; margin-bottom: 0.5rem; }
+        .app-desc { font-size: 0.9rem; color: var(--text-gray); }
+
+        /* Hotspot (Punto interactivo) */
+        .hotspot {
+            position: absolute;
+            top: 15px; right: 15px;
+            width: 24px; height: 24px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 0 rgba(207, 17, 45, 0.7);
+            animation: pulse 2s infinite;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10;
+        }
+
+        .hotspot::after {
+            content: '\f0a6'; /* Icono de mano/click fontawesome */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 0.7rem;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(207, 17, 45, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 10px rgba(207, 17, 45, 0); transform: scale(1.1); }
+            100% { box-shadow: 0 0 0 0 rgba(207, 17, 45, 0); transform: scale(1); }
+        }
+
+        /* Modal de Simulación */
+        .simulation-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .simulation-overlay.visible { opacity: 1; pointer-events: all; }
+
+        .modal-window {
+            width: 500px;
+            background: #1e293b;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .simulation-overlay.visible .modal-window { transform: translateY(0); }
+
+        .process-step {
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .process-step.active { display: block; }
+
+        .scan-line {
+            height: 4px; width: 100%;
+            background: #334155;
+            border-radius: 2px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scan-fill {
+            height: 100%; width: 0%;
+            background: var(--primary-red);
+            transition: width 2s ease-in-out;
+        }
+
+        .extracted-data {
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-left: 3px solid var(--primary-red);
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .btn-validate {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-validate:hover { background: #a30d23; }
+
+        .success-metrics {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .big-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--success);
+            display: block;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="desktop-container">
+        
+        <!-- Sidebar: Contexto Estratégico -->
+        <div class="sidebar">
+            <div class="logo">
+                MENC<span class="logo-accent">IA</span>
+            </div>
+
+            <div style="font-size:0.85rem; color:var(--text-gray); margin-bottom:1rem;">ESTADO DEL SISTEMA</div>
+
+            <!-- Widget Green AI -->
+            <div class="context-widget" id="ctx-green">
+                <div class="widget-title"><i class="fa-solid fa-leaf"></i> Huella Ecológica</div>
+                <div class="widget-value">Mínima</div>
+                <div style="font-size:0.8rem; margin-top:5px;">Modelo SLM especializado.<br>Eficiencia por diseño.</div>
+            </div>
+
+            <!-- Widget Apply AI -->
+            <div class="context-widget" id="ctx-apply">
+                <div class="widget-title"><i class="fa-solid fa-shield-halved"></i> Soberanía</div>
+                <div class="widget-value">100% Local</div>
+                <div style="font-size:0.8rem; margin-top:5px;">Datos procesados en servidores propios (Lugo).</div>
+            </div>
+
+            <!-- Widget Pacto Estado -->
+            <div class="context-widget" id="ctx-pacto">
+                <div class="widget-title"><i class="fa-solid fa-clock"></i> Recurso Público</div>
+                <div class="widget-value">Optimizado</div>
+                <div style="font-size:0.8rem; margin-top:5px;">Liberando tiempo para atención ciudadana.</div>
+            </div>
+        </div>
+
+        <!-- Main: Escritorio Virtual -->
+        <div class="workspace">
+            <div class="header-workspace">
+                <h1>Escritorio del funcionario</h1>
+                <p>Seleccione una herramienta para iniciar la asistencia IA.</p>
+            </div>
+
+            <!-- App 1: Monitor BOE (Interactiva) -->
+            <div class="app-card">
+                <div class="hotspot" onclick="startSimulation('boe')"></div>
+                <div class="app-icon" style="background: rgba(207, 17, 45, 0.2); color: var(--primary-red);">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                </div>
+                <div class="app-title">Monitor del BOE</div>
+                <div class="app-desc">Detección automática de edictos y notificaciones judiciales relevantes.</div>
+            </div>
+
+            <!-- App 2: Decorativa -->
+            <div class="app-card" style="opacity: 0.6;">
+                <div class="app-icon"><i class="fa-solid fa-list-check"></i></div>
+                <div class="app-title">Resumidor Documental</div>
+                <div class="app-desc">Síntesis de expedientes complejos en segundos.</div>
+            </div>
+
+            <!-- App 3: Decorativa -->
+            <div class="app-card" style="opacity: 0.6;">
+                <div class="app-icon"><i class="fa-regular fa-envelope"></i></div>
+                <div class="app-title">Gestor de Correos</div>
+                <div class="app-desc">Clasificación y borrador de respuestas ciudadanas.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Overlay de Simulación -->
+    <div class="simulation-overlay" id="sim-overlay">
+        <div class="modal-window">
+            
+            <!-- Header Modal -->
+            <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem; align-items:center;">
+                <h3 style="display:flex; gap:10px; align-items:center;">
+                    <i class="fa-solid fa-robot logo-accent"></i> Asistente BOE
+                </h3>
+                <button onclick="closeSim()" style="background:none; border:none; color:#fff; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Paso 1: Escaneo -->
+            <div id="step-1" class="process-step">
+                <p>Conectando con repositorio oficial...</p>
+                <p style="font-size:0.9rem; color:var(--text-gray);">Analizando Boletín Oficial del Estado (BOE-A-2025)...</p>
+                <div class="scan-line"><div class="scan-fill" id="scan-bar"></div></div>
+            </div>
+
+            <!-- Paso 2: Resultado + Validación -->
+            <div id="step-2" class="process-step">
+                <p style="font-weight:600;">Se ha detectado 1 notificación relevante:</p>
+                <div class="extracted-data">
+                    > TIPO: Edicto Concursal<br>
+                    > REF: Jdo. Mercantil Nº 1 Lugo<br>
+                    > ACCIÓN SUGERIDA: Enviar a Recaudación
+                </div>
+                <div style="background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 1rem; display:flex; gap:10px; align-items:center;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Requiere supervisión humana</span>
+                </div>
+                <button class="btn-validate" onclick="validateAction()">
+                    <i class="fa-solid fa-check"></i> VALIDAR Y PROCESAR
+                </button>
+            </div>
+
+            <!-- Paso 3: Éxito -->
+            <div id="step-3" class="process-step">
+                <div class="success-metrics">
+                    <i class="fa-solid fa-circle-check" style="color:var(--success); font-size: 3rem; margin-bottom:1rem;"></i>
+                    <h3>Tarea completada</h3>
+                    <p style="margin-top:1rem; color:var(--text-gray);">Tiempo empleado:</p>
+                    <span class="big-number">5 min</span>
+                    <p style="font-size:0.8rem; text-decoration: line-through; color:#64748b;">Tiempo manual: 1 hora</p>
+                    <button onclick="closeSim()" style="margin-top:2rem; background:transparent; border:1px solid var(--border-light); color:white; padding:0.5rem 1rem; border-radius:6px; cursor:pointer;">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function startSimulation(app) {
+            // Activar widgets de contexto
+            document.getElementById('ctx-green').classList.add('active');
+            document.getElementById('ctx-apply').classList.add('active');
+            document.getElementById('ctx-pacto').classList.add('active');
+
+            // Mostrar overlay
+            const overlay = document.getElementById('sim-overlay');
+            overlay.classList.add('visible');
+
+            // Iniciar paso 1
+            document.getElementById('step-1').classList.add('active');
+            
+            // Animación barra
+            setTimeout(() => {
+                document.getElementById('scan-bar').style.width = '100%';
+            }, 100);
+
+            // Transición automática a paso 2 (Extracción)
+            setTimeout(() => {
+                document.getElementById('step-1').classList.remove('active');
+                document.getElementById('step-2').classList.add('active');
+            }, 2200);
+        }
+
+        function validateAction() {
+            // El usuario valida manualmente (Human in the loop)
+            document.getElementById('step-2').classList.remove('active');
+            document.getElementById('step-3').classList.add('active');
+        }
+
+        function closeSim() {
+            // Resetear todo
+            document.getElementById('sim-overlay').classList.remove('visible');
+            
+            // Esperar a que cierre para limpiar clases
+            setTimeout(() => {
+                document.querySelectorAll('.process-step').forEach(el => el.classList.remove('active'));
+                document.getElementById('scan-bar').style.width = '0%';
+                document.querySelectorAll('.context-widget').forEach(el => el.classList.remove('active'));
+            }, 300);
+        }
+    </script>
+</body>
+</html>

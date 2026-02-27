@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MencIA - Calculadora de Impacto Verde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --mencia-red: #cf112d;
+            --mencia-dark: #0f172a;
+            --mencia-card: #1e293b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--mencia-dark);
+            color: #e2e8f0;
+        }
+
+        /* Fuente mono para el reporte */
+        .font-mono-tech {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animación de carga simulada */
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1.4s infinite both;
+            margin: 0 2px;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Scrollbar fino para el reporte */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen flex flex-col p-4 md:p-8 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-8 max-w-7xl mx-auto w-full">
+        <div class="flex items-center gap-3">
+            <div class="flex items-center text-white text-3xl font-bold tracking-tight select-none">
+                <a href="/" class="block hover:opacity-90 transition-opacity"
+                    aria-label="Volver al inicio"><img
+                        src="../logos/mencia-logo-trans-dark.png" style="height: 42px; width: auto; object-fit: contain;"
+                        alt="MencIA" ></a>
+            </div>
+            <div class="h-8 w-px bg-white/20 mx-2"></div>
+            <h1 class="text-xl font-semibold text-slate-200 tracking-wide hidden sm:block">Calculadora de Impacto Verde
+            </h1>
+        </div>
+        <div class="flex gap-4">
+            <div
+                class="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-sm font-medium">
+                <i data-lucide="leaf" class="w-4 h-4"></i> Green in AI
+            </div>
+            <div
+                class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium">
+                <i data-lucide="activity" class="w-4 h-4"></i> Monitor en tiempo real
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- SECCIÓN 1: SIMULADOR -->
+        <section class="lg:col-span-8 glass-panel rounded-2xl p-6 relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="play-circle" class="text-[#cf112d]"></i> Monitor de Edictos BOE
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Comparativa: Agente autónomo (MencIA) vs. Chatbot
+                        Conversacional</p>
+                </div>
+                <button onclick="runSimulation()" id="sim-btn"
+                    class="bg-[#cf112d] hover:bg-[#a00d23] text-white px-6 py-2 rounded-lg font-semibold transition-all shadow-lg shadow-red-900/40 flex items-center gap-2 w-full sm:w-auto justify-center">
+                    <i data-lucide="zap" class="w-4 h-4"></i> Ejecutar Tarea
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Panel MencIA -->
+                <div class="bg-slate-900/50 rounded-xl p-4 border border-white/5 relative flex flex-col h-[320px]">
+                    <div
+                        class="absolute -top-3 -left-3 bg-[#cf112d] text-white text-xs font-bold px-2 py-1 rounded shadow-md flex items-center gap-1">
+                        <i data-lucide="cpu" class="w-3 h-3"></i> MODELO MENCÍA "3 CLICS"
+                    </div>
+
+                    <!-- Contenedor de salida MencIA -->
+                    <div class="mt-4 flex-grow flex flex-col overflow-hidden relative" id="mencia-wrapper">
+                        <div id="mencia-placeholder"
+                            class="absolute inset-0 flex items-center justify-center text-slate-500 text-sm">
+                            Esperando ejecución...
+                        </div>
+                        <!-- Aquí se inyectará el reporte -->
+                        <div id="mencia-output"
+                            class="hidden h-full font-mono-tech text-[10px] md:text-xs text-green-400 bg-black/30 p-3 rounded border border-green-500/20 overflow-y-auto custom-scrollbar leading-tight whitespace-pre-wrap shadow-inner">
+                        </div>
+                    </div>
+
+                    <!-- Barra de energía -->
+                    <div class="mt-4 shrink-0">
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Consumo Energético</span>
+                            <span id="mencia-watts" class="text-green-400 font-bold">0.0 W</span>
+                        </div>
+                        <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
+                            <div id="mencia-bar" class="h-full bg-green-500 w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel Chatbot Genérico -->
+                <div class="bg-slate-900/50 rounded-xl p-4 border border-white/5 relative flex flex-col h-[320px]">
+                    <div
+                        class="absolute -top-3 -left-3 bg-slate-600 text-white text-xs font-bold px-2 py-1 rounded shadow-md flex items-center gap-1">
+                        <i data-lucide="message-square" class="w-3 h-3"></i> CHATBOT COMERCIAL
+                    </div>
+
+                    <div class="mt-4 flex-grow overflow-y-auto pr-2 text-sm custom-scrollbar" id="chatbot-container">
+                        <div class="h-full flex items-center justify-center text-slate-500 text-sm">Esperando usuario...
+                        </div>
+                    </div>
+
+                    <!-- Barra de energía -->
+                    <div class="mt-4 shrink-0">
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Consumo Energético</span>
+                            <span id="chatbot-watts" class="text-red-400 font-bold">0.0 W</span>
+                        </div>
+                        <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
+                            <div id="chatbot-bar" class="h-full bg-red-500 w-0 transition-all duration-100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: CONTADOR RECURSOS (Top Right) -->
+        <section class="lg:col-span-4 glass-panel rounded-2xl p-6 flex flex-col justify-between">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Equivalencia de Impacto</h3>
+
+            <div class="text-center py-4 flex-grow flex flex-col justify-center">
+                <div class="text-6xl font-bold text-white mb-2 tracking-tighter" id="ratio-display">15x</div>
+                <p class="text-slate-400 text-sm">Más eficiente es el modelo MencIA en tareas estructuradas</p>
+            </div>
+
+            <div class="space-y-4 mt-4">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5 flex items-center gap-4">
+                    <div class="p-3 bg-green-500/20 rounded-lg text-green-400"><i data-lucide="smartphone"
+                            class="w-6 h-6"></i></div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase font-semibold">Cargas de móvil</div>
+                        <div class="text-2xl font-bold text-white leading-none mt-1" id="saved-charges">0</div>
+                    </div>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5 flex items-center gap-4">
+                    <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400"><i data-lucide="droplet"
+                            class="w-6 h-6"></i></div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase font-semibold">Agua (ml)</div>
+                        <div class="text-2xl font-bold text-white leading-none mt-1" id="saved-water">0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: GRÁFICO TOKEN (Bottom Left) -->
+        <section class="lg:col-span-6 glass-panel rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-white">Tokens Generados</h3>
+                <span class="text-xs bg-white/10 px-2 py-1 rounded text-slate-300">Menos es mejor</span>
+            </div>
+            <div class="h-56">
+                <canvas id="tokenChart"></canvas>
+            </div>
+            <p class="text-xs text-slate-400 mt-4 text-center px-4">
+                El chatbot genera "ruido" conversacional (saludos, preguntas). MencIA genera solo el dato útil.
+            </p>
+        </section>
+
+        <!-- SECCIÓN 4: PERCEPCIÓN Y GREEN BY DESIGN (Bottom Right) -->
+        <section class="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Percepción -->
+            <div class="glass-panel rounded-2xl p-6 relative flex flex-col items-center justify-center">
+                <h3 class="text-sm font-bold text-slate-400 uppercase mb-4">Percepción Ciudadana</h3>
+                <div class="h-40 w-40 relative">
+                    <canvas id="perceptionChart"></canvas>
+                    <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">
+                        56.8%
+                    </div>
+                </div>
+                <p class="text-xs text-slate-300 mt-4 text-center">
+                    Acepta <span class="text-green-400">sostenibilidad</span> sobre "espectacularidad".
+                </p>
+            </div>
+
+            <!-- Green by Design Stats -->
+            <div
+                class="glass-panel rounded-2xl p-6 flex flex-col gap-4 justify-center bg-gradient-to-br from-[#cf112d]/10 to-transparent">
+                <h3 class="text-lg font-bold text-white mb-2">Green by Design</h3>
+
+                <div class="bg-black/20 p-4 rounded-lg border-l-4 border-green-500">
+                    <h4 class="text-xs font-bold text-green-400 uppercase mb-1 flex items-center gap-2">
+                        <i data-lucide="target" class="w-3 h-3"></i> Especialización
+                    </h4>
+                    <p class="text-xs text-slate-300">SLM (Small Language Models) consumen hasta un 80% menos energía.
+                    </p>
+                </div>
+
+                <div class="bg-black/20 p-4 rounded-lg border-l-4 border-[#cf112d]">
+                    <h4 class="text-xs font-bold text-[#cf112d] uppercase mb-1 flex items-center gap-2">
+                        <i data-lucide="mouse-pointer-click" class="w-3 h-3"></i> Cero Fricción
+                    </h4>
+                    <p class="text-xs text-slate-300">Filosofía "1 Clic": Sin chats de cortesía ni re-prompts.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // --- GRÁFICOS ---
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
+        const ctxToken = document.getElementById('tokenChart').getContext('2d');
+        const tokenChart = new Chart(ctxToken, {
+            type: 'bar',
+            data: {
+                labels: ['Modelo MencIA', 'Chatbot Comercial'],
+                datasets: [{
+                    label: 'Tokens',
+                    data: [150, 800],
+                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(207, 17, 45, 0.8)'],
+                    borderRadius: 6,
+                    barThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        const ctxPerception = document.getElementById('perceptionChart').getContext('2d');
+        new Chart(ctxPerception, {
+            type: 'doughnut',
+            data: {
+                labels: ['Sostenibilidad', 'Rendimiento', 'Indecisos'],
+                datasets: [{
+                    data: [56.8, 6, 37.2],
+                    backgroundColor: ['#10b981', '#cf112d', '#334155'],
+                    borderWidth: 0,
+                    cutout: '75%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // --- LÓGICA SIMULACIÓN ---
+        let isRunning = false;
+
+        // Mensaje estructurado de MencIA
+        const menciaReport = `Tarea completada: REPORTE DE PROCEDIMIENTOS CONCURSALES - BOE
+================================================================================
+Fecha de extracción: 19/11/2025 08:51:20
+Fecha del Tablón Edictal Único: 18/11/2025
+Filtro aplicado: Comunidad Autónoma de Galicia
+Documentos: 77
+Tiempo: 25.58 segundos
+
+================================================================================
+
+DOCUMENTO 001
+----------------------------------------
+📋 Titulo: CORUÑA (A). Edicto de 14 de noviembre de 2025 en procedimiento concursal número 56/2025.
+📋 Url: https://www.boe.es/diario_boe/txt.php?id=BOE-J-2025-394291
+📋 Deudor: JUAN GONZALEZ NUÑEZ
+📋 Cif dni nie: 35676411-B
+📋 Numero concurso: 56/2025
+📋 Fecha auto: 22/10/2025`;
+
+        // Guion del Chatbot
+        const chatScript = [
+            { text: "Hola, soy tu asistente virtual. Para buscar en el BOE necesito que me especifiques la fecha, el departamento y palabras clave.", type: "bot", delay: 800 },
+            { text: "La fecha es 19 de noviembre 2025", type: "user", delay: 1500 },
+            { text: "Estoy procesando tu petición... buscando en bases de datos generales...", type: "bot", delay: 1000 },
+            { text: "...he encontrado 400 resultados posibles. ¿Quieres que los liste todos o prefieres filtrar por comunidad autónoma?", type: "bot", delay: 2000 }
+        ];
+
+        const els = {
+            menciaOut: document.getElementById('mencia-output'),
+            menciaPlace: document.getElementById('mencia-placeholder'),
+            chatContainer: document.getElementById('chatbot-container'),
+            menciaBar: document.getElementById('mencia-bar'),
+            chatBar: document.getElementById('chatbot-bar'),
+            menciaWatts: document.getElementById('mencia-watts'),
+            chatWatts: document.getElementById('chatbot-watts'),
+            btn: document.getElementById('sim-btn'),
+            charges: document.getElementById('saved-charges'),
+            water: document.getElementById('saved-water')
+        };
+
+        function runSimulation() {
+            if (isRunning) return;
+            isRunning = true;
+            els.btn.disabled = true;
+            els.btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Reset UI
+            resetUI();
+
+            // --- 1. MENCÍA: EJECUCIÓN RÁPIDA ---
+            setTimeout(() => {
+                els.menciaPlace.classList.add('hidden');
+                els.menciaOut.classList.remove('hidden');
+                typewriterEffect(els.menciaOut, menciaReport, 10); // Efecto de terminal rápido
+                els.menciaBar.style.width = '8%'; // Poco consumo
+                els.menciaWatts.innerText = '0.4 W';
+            }, 600);
+
+            // --- 2. CHATBOT: CONVERSACIÓN LENTA ---
+            runChatSequence(0);
+        }
+
+        function resetUI() {
+            els.menciaOut.innerHTML = '';
+            els.menciaOut.classList.add('hidden');
+            els.menciaPlace.classList.remove('hidden');
+            els.chatContainer.innerHTML = '';
+            els.menciaBar.style.width = '0%';
+            els.chatBar.style.width = '0%';
+            els.menciaWatts.innerText = '0.0 W';
+            els.chatWatts.innerText = '0.0 W';
+        }
+
+        // Efecto máquina de escribir para reporte
+        function typewriterEffect(element, text, speed) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    element.scrollTop = element.scrollHeight; // Auto-scroll
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Secuencia de Chat
+        let currentWatts = 0;
+        function runChatSequence(index) {
+            if (index >= chatScript.length) {
+                finishSimulation();
+                return;
+            }
+
+            const step = chatScript[index];
+
+            if (step.type === 'bot') {
+                // Mostrar indicador "Escribiendo..."
+                const typingDiv = showTyping();
+                els.chatContainer.scrollTop = els.chatContainer.scrollHeight;
+
+                setTimeout(() => {
+                    typingDiv.remove();
+                    addMessage(step.text, 'bot');
+                    updateEnergy(25); // Bots gastan más
+                    setTimeout(() => runChatSequence(index + 1), 500);
+                }, step.delay);
+            } else {
+                // Usuario responde rápido
+                setTimeout(() => {
+                    addMessage(step.text, 'user');
+                    updateEnergy(5); // Usuario gasta menos (solo input)
+                    runChatSequence(index + 1);
+                }, step.delay);
+            }
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = "flex justify-start mb-3";
+            div.innerHTML = `<div class="bg-slate-700/50 p-3 rounded-2xl rounded-tl-none typing-indicator"><span></span><span></span><span></span></div>`;
+            els.chatContainer.appendChild(div);
+            return div;
+        }
+
+        function addMessage(text, type) {
+            const div = document.createElement('div');
+            div.className = `flex ${type === 'bot' ? 'justify-start' : 'justify-end'} mb-3 animate-[fadeIn_0.3s_ease-out]`;
+            const style = type === 'bot'
+                ? 'bg-slate-700 text-slate-200 rounded-tl-none'
+                : 'bg-[#cf112d] text-white rounded-tr-none';
+
+            div.innerHTML = `<div class="${style} p-3 rounded-2xl text-xs md:text-sm max-w-[85%] shadow-md leading-relaxed">${text}</div>`;
+            els.chatContainer.appendChild(div);
+            els.chatContainer.scrollTop = els.chatContainer.scrollHeight;
+        }
+
+        function updateEnergy(amount) {
+            currentWatts += amount;
+            els.chatWatts.innerText = currentWatts.toFixed(1) + ' W';
+            let pct = Math.min((currentWatts / 100) * 100, 100);
+            els.chatBar.style.width = pct + '%';
+        }
+
+        function finishSimulation() {
+            isRunning = false;
+            els.btn.disabled = false;
+            els.btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            els.btn.innerHTML = `<i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reiniciar`;
+            lucide.createIcons();
+
+            // Actualizar contadores globales
+            animateValue(els.charges, parseInt(els.charges.innerText), parseInt(els.charges.innerText) + 1, 1000);
+            animateValue(els.water, parseInt(els.water.innerText), parseInt(els.water.innerText) + 50, 1000);
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+
+</html>
