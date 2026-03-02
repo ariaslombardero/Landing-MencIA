@@ -253,61 +253,74 @@
     <script>
         var lang = new URLSearchParams(window.location.search).get('lang') || 'es';
         var isGl = lang === 'gl';
+        var isEn = lang === 'en';
 
         var i18n = {
-            pageTitle:  isGl ? 'MencIA: Radar estrat\u00e9xico'   : 'MencIA: Radar Estrat\u00e9gico',
-            h1:         isGl ? 'Radar estrat\u00e9xico: Lugo en Europa' : 'Radar estrat\u00e9gico: Lugo en Europa',
-            subtitle:   isGl ? 'Comparativa de rendemento do modelo vs. administraci\u00f3n tradicional' : 'Comparativa de rendimiento del modelo vs. administraci\u00f3n tradicional',
-            cardTitle:  isGl ? 'Ali\u00f1aci\u00f3n Estrat\u00e9xica' : 'Alineaci\u00f3n Estrat\u00e9gica',
-            cardBody:   isGl ? 'Pasa o cursor sobre os puntos vermellos do gr\u00e1fico para descubrir como o modelo MencIA conecta os obxectivos locais coas grandes estratexias nacionais e europeas.' : 'Pasa el cursor sobre los puntos rojos del gr\u00e1fico para descubrir c\u00f3mo el modelo MencIA conecta los objetivos locales con las grandes estrategias nacionales y europeas.',
-            cardBadge:  isGl ? 'Interacci\u00f3n requirida' : 'Interacci\u00f3n requerida',
-            quote:      isGl ? '"O modelo de Lugo non s\u00f3 \u00e9 compatible coa visi\u00f3n europea, sen\u00f3n un playbook validado e listo para integrarse na caixa de ferramentas dixital da Uni\u00f3n."' : '"El modelo de Lugo no es solo compatible con la visi\u00f3n europea, sino un playbook validado y listo para integrarse en la caja de herramientas digital de la Uni\u00f3n."',
-            quoteAuthor: 'Informe Apply AI',
-            labels: isGl
-                ? ['Soberan\u00eda tecnol\u00f3xica', 'Sostibilidade (Green AI)', 'Replicabilidade', 'C\u00f3digo aberto', 'Competitividade']
-                : ['Soberan\u00eda tecnol\u00f3gica', 'Sostenibilidad (Green AI)', 'Replicabilidad', 'C\u00f3digo abierto', 'Competitividad'],
-            dataset0: 'Modelo MencIA',
-            dataset1: isGl ? 'Promedio Administraci\u00f3n' : 'Promedio Administraci\u00f3n'
+            pageTitle: isEn ? 'MencIA: Strategic Radar' : (isGl ? 'MencIA: Radar estrat\u00e9xico' : 'MencIA: Radar Estrat\u00e9gico'),
+            h1: isEn ? 'Strategic Radar: Lugo in Europe' : (isGl ? 'Radar estrat\u00e9xico: Lugo en Europa' : 'Radar estrat\u00e9gico: Lugo en Europa'),
+            subtitle: isEn ? 'Model performance comparison vs. traditional administration' : (isGl ? 'Comparativa de rendemento do modelo vs. administraci\u00f3n tradicional' : 'Comparativa de rendimiento del modelo vs. administraci\u00f3n tradicional'),
+            cardTitle: isEn ? 'Strategic Alignment' : (isGl ? 'Ali\u00f1aci\u00f3n Estrat\u00e9xica' : 'Alineaci\u00f3n Estrat\u00e9gica'),
+            cardBody: isEn ? 'Hover over the red dots on the chart to discover how the MencIA model connects local objectives with major national and European strategies.' : (isGl ? 'Pasa o cursor sobre os puntos vermellos do gr\u00e1fico para descubrir como o modelo MencIA conecta os obxectivos locais coas grandes estratexias nacionais e europeas.' : 'Pasa el cursor sobre los puntos rojos del gr\u00e1fico para descubrir c\u00f3mo el modelo MencIA conecta los objetivos locales con las grandes estrategias nacionales y europeas.'),
+            cardBadge: isEn ? 'Interaction required' : (isGl ? 'Interacci\u00f3n requirida' : 'Interacci\u00f3n requerida'),
+            quote: isEn ? '"The Lugo model is not only compatible with the European vision, but a validated playbook ready to be integrated into the Union\'s digital toolbox."' : (isGl ? '"O modelo de Lugo non s\u00f3 \u00e9 compatible coa visi\u00f3n europea, sen\u00f3n un playbook validado e listo para integrarse na caixa de ferramentas dixital da Uni\u00f3n."' : '"El modelo de Lugo no es solo compatible con la visi\u00f3n europea, sino un playbook validado y listo para integrarse en la caja de herramientas digital de la Uni\u00f3n."'),
+            quoteAuthor: isEn ? 'Apply AI Report' : 'Informe Apply AI',
+            labels: isEn
+                ? ['Technological sovereignty', 'Sustainability (Green AI)', 'Replicability', 'Open source', 'Competitiveness']
+                : (isGl
+                    ? ['Soberan\u00eda tecnol\u00f3xica', 'Sostibilidade (Green AI)', 'Replicabilidade', 'C\u00f3digo aberto', 'Competitividade']
+                    : ['Soberan\u00eda tecnol\u00f3gica', 'Sostenibilidad (Green AI)', 'Replicabilidad', 'C\u00f3digo abierto', 'Competitividad']),
+            dataset0: isEn ? 'MencIA Model' : 'Modelo MencIA',
+            dataset1: isEn ? 'Administration Average' : 'Promedio Administraci\u00f3n'
         };
 
         var contextDataRaw = [
-            { title: isGl ? 'Soberan\u00eda tecnol\u00f3xica' : 'Soberan\u00eda tecnol\u00f3gica', icon: 'fa-shield-halved',
-              text:  isGl ? 'Conexi\u00f3n directa coa estratexia <strong>\'AI First\'</strong> da UE. Garantimos o control total dos datos e eliminamos dependencias de provedores externos (feudalismo dixital).'
-                           : 'Conexi\u00f3n directa con la estrategia <strong>\'AI First\'</strong> de la UE. Garantizamos el control total de los datos y eliminamos dependencias de proveedores externos (feudalismo digital).',
-              badge: isGl ? 'Estratexia UE Apply AI' : 'Estrategia UE Apply AI' },
-            { title: isGl ? 'Sostibilidade (Green AI)' : 'Sostenibilidad (Green AI)', icon: 'fa-leaf',
-              text:  isGl ? 'Ali\u00f1aci\u00f3n co <strong>Pacto de Estado</strong> e a emerxencia clim\u00e1tica. O noso enfoque de \'un clic, unha tarefa\' reduce drasticamente a pegada de carbono fronte a modelos masivos.'
-                           : 'Alineaci\u00f3n con el <strong>Pacto de Estado</strong> y la emergencia clim\u00e1tica. Nuestro enfoque de \'un clic, una tarea\' reduce dr\u00e1sticamente la huella de carbono frente a modelos masivos.',
-              badge: 'Pacto de Estado / Green AI' },
-            { title: isGl ? 'Replicabilidade' : 'Replicabilidad', icon: 'fa-clone',
-              text:  isGl ? 'Un modelo dese\u00f1ado como <strong>Playbook</strong>. Documentaci\u00f3n, c\u00f3digo e metodolox\u00eda listos para ser exportados a outras deputaci\u00f3ns e \u00e1 caixa de ferramentas da UE.'
-                           : 'Un modelo dise\u00f1ado como <strong>Playbook</strong>. Documentaci\u00f3n, c\u00f3digo y metodolog\u00eda listos para ser exportados a otras diputaciones y a la caja de herramientas de la UE.',
-              badge: isGl ? 'Escalabilidade Europea' : 'Escalabilidad Europea' },
-            { title: isGl ? 'C\u00f3digo aberto' : 'C\u00f3digo abierto', icon: 'fa-code-branch',
-              text:  isGl ? 'Cumprimento do principio de transparencia. Usamos e contibu\u00edmos ao ecosistema <strong>Open Source</strong>, permitindo auditor\u00eda p\u00fablica e mellora continua.'
-                           : 'Cumplimiento del principio de transparencia. Utilizamos y contribuimos al ecosistema <strong>Open Source</strong>, permitiendo auditor\u00eda p\u00fablica y mejora continua.',
-              badge: 'Transparencia Total' },
-            { title: isGl ? 'Competitividade' : 'Competitividad', icon: 'fa-rocket',
-              text:  isGl ? 'Mellora real da produtividade administrativa sen sacrificar dereitos. Convertemos a administraci\u00f3n local nun motor de innovaci\u00f3n \u00e1xil.'
-                           : 'Mejora real de la productividad administrativa sin sacrificar derechos. Convertimos a la administraci\u00f3n local en un motor de innovaci\u00f3n \u00e1gil.',
-              badge: isGl ? 'Eficiencia P\u00fablica' : 'Eficiencia P\u00fablica' }
+            {
+                title: isEn ? 'Technological sovereignty' : (isGl ? 'Soberan\u00eda tecnol\u00f3xica' : 'Soberan\u00eda tecnol\u00f3gica'), icon: 'fa-shield-halved',
+                text: isEn ? 'Direct connection with the EU\'s <strong>\'AI First\'</strong> strategy. We guarantee full data control and eliminate dependencies on external providers (digital feudalism).' : (isGl ? 'Conexi\u00f3n directa coa estratexia <strong>\'AI First\'</strong> da UE. Garantimos o control total dos datos e eliminamos dependencias de provedores externos (feudalismo dixital).'
+                    : 'Conexi\u00f3n directa con la estrategia <strong>\'AI First\'</strong> de la UE. Garantizamos el control total de los datos y eliminamos dependencias de proveedores externos (feudalismo digital).'),
+                badge: isEn ? 'EU Apply AI Strategy' : (isGl ? 'Estratexia UE Apply AI' : 'Estrategia UE Apply AI')
+            },
+            {
+                title: isEn ? 'Sustainability (Green AI)' : (isGl ? 'Sostibilidade (Green AI)' : 'Sostenibilidad (Green AI)'), icon: 'fa-leaf',
+                text: isEn ? 'Alignment with the <strong>State Pact</strong> and the climate emergency. Our \'one click, one task\' approach drastically reduces carbon footprint compared to massive models.' : (isGl ? 'Ali\u00f1aci\u00f3n co <strong>Pacto de Estado</strong> e a emerxencia clim\u00e1tica. O noso enfoque de \'un clic, unha tarefa\' reduce drasticamente a pegada de carbono fronte a modelos masivos.'
+                    : 'Alineaci\u00f3n con el <strong>Pacto de Estado</strong> y la emergencia clim\u00e1tica. Nuestro enfoque de \'un clic, una tarea\' reduce dr\u00e1sticamente la huella de carbono frente a modelos masivos.'),
+                badge: isEn ? 'State Pact / Green AI' : 'Pacto de Estado / Green AI'
+            },
+            {
+                title: isEn ? 'Replicability' : (isGl ? 'Replicabilidade' : 'Replicabilidad'), icon: 'fa-clone',
+                text: isEn ? 'A model designed as a <strong>Playbook</strong>. Documentation, code, and methodology ready to be exported to other provincial councils and the EU toolbox.' : (isGl ? 'Un modelo dese\u00f1ado como <strong>Playbook</strong>. Documentaci\u00f3n, c\u00f3digo e metodolox\u00eda listos para ser exportados a outras deputaci\u00f3ns e \u00e1 caixa de ferramentas da UE.'
+                    : 'Un modelo dise\u00f1ado como <strong>Playbook</strong>. Documentaci\u00f3n, c\u00f3digo y metodolog\u00eda listos para ser exportados a otras diputaciones y a la caja de herramientas de la UE.'),
+                badge: isEn ? 'European Scalability' : (isGl ? 'Escalabilidade Europea' : 'Escalabilidad Europea')
+            },
+            {
+                title: isEn ? 'Open source' : (isGl ? 'C\u00f3digo aberto' : 'C\u00f3digo abierto'), icon: 'fa-code-branch',
+                text: isEn ? 'Compliance with the transparency principle. We use and contribute to the <strong>Open Source</strong> ecosystem, allowing public auditing and continuous improvement.' : (isGl ? 'Cumprimento do principio de transparencia. Usamos e contibu\u00edmos ao ecosistema <strong>Open Source</strong>, permitindo auditor\u00eda p\u00fablica e mellora continua.'
+                    : 'Cumplimiento del principio de transparencia. Utilizamos y contribuimos al ecosistema <strong>Open Source</strong>, permitiendo auditor\u00eda p\u00fablica y mejora continua.'),
+                badge: isEn ? 'Total Transparency' : 'Transparencia Total'
+            },
+            {
+                title: isEn ? 'Competitiveness' : (isGl ? 'Competitividade' : 'Competitividad'), icon: 'fa-rocket',
+                text: isEn ? 'Real improvement of administrative productivity without sacrificing rights. We turn local administration into an agile innovation engine.' : (isGl ? 'Mellora real da produtividade administrativa sen sacrificar dereitos. Convertemos a administraci\u00f3n local nun motor de innovaci\u00f3n \u00e1xil.'
+                    : 'Mejora real de la productividad administrativa sin sacrificar derechos. Convertimos a la administraci\u00f3n local en un motor de innovaci\u00f3n \u00e1gil.'),
+                badge: isEn ? 'Public Efficiency' : (isGl ? 'Eficiencia P\u00fablica' : 'Eficiencia P\u00fablica')
+            }
         ];
 
         document.title = i18n.pageTitle;
         var tsH1 = document.querySelector('.title-section h1');
-        if(tsH1) tsH1.textContent = i18n.h1;
-        var tsP  = document.querySelector('.title-section p');
-        if(tsP)  tsP.textContent  = i18n.subtitle;
+        if (tsH1) tsH1.textContent = i18n.h1;
+        var tsP = document.querySelector('.title-section p');
+        if (tsP) tsP.textContent = i18n.subtitle;
         var dcH3 = document.querySelector('#dynamic-card h3');
-        if(dcH3) dcH3.innerHTML = '<i class="fa-solid fa-chart-pie"></i> ' + i18n.cardTitle;
-        var dcP  = document.querySelector('#dynamic-card p');
-        if(dcP)  dcP.textContent = i18n.cardBody;
-        var dcB  = document.querySelector('#dynamic-card .context-badge');
-        if(dcB)  dcB.textContent = i18n.cardBadge;
-        var qt   = document.querySelector('.quote-text');
-        if(qt)   qt.textContent  = i18n.quote;
-        var qa   = document.querySelector('.quote-author');
-        if(qa)   qa.textContent  = i18n.quoteAuthor;
+        if (dcH3) dcH3.innerHTML = '<i class="fa-solid fa-chart-pie"></i> ' + i18n.cardTitle;
+        var dcP = document.querySelector('#dynamic-card p');
+        if (dcP) dcP.textContent = i18n.cardBody;
+        var dcB = document.querySelector('#dynamic-card .context-badge');
+        if (dcB) dcB.textContent = i18n.cardBadge;
+        var qt = document.querySelector('.quote-text');
+        if (qt) qt.textContent = i18n.quote;
+        var qa = document.querySelector('.quote-author');
+        if (qa) qa.textContent = i18n.quoteAuthor;
 
         var chartData = {
             labels: i18n.labels,
@@ -322,14 +335,14 @@
                 pointHoverBackgroundColor: '#fff',
                 pointHoverBorderColor: '#cf112d',
                 borderWidth: 3
-            },{
+            }, {
                 label: i18n.dataset1,
                 data: [30, 40, 20, 30, 50],
                 fill: true,
                 backgroundColor: 'rgba(148,163,184,0.1)',
                 borderColor: '#475569',
                 pointBackgroundColor: '#475569',
-                borderDash: [5,5],
+                borderDash: [5, 5],
                 borderWidth: 1
             }]
         };
@@ -353,7 +366,7 @@
                     legend: { labels: { color: '#fff', font: { family: "'Plus Jakarta Sans'" } } },
                     tooltip: { enabled: false }
                 },
-                onHover: function(event, elements) {
+                onHover: function (event, elements) {
                     if (elements.length && elements[0].datasetIndex === 0) {
                         updateContextPanel(elements[0].index);
                     }

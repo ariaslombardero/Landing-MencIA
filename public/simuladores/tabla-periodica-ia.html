@@ -246,19 +246,27 @@
 
     <script>
         var lang = new URLSearchParams(window.location.search).get('lang') || 'es';
+        var isGl = lang === 'gl';
+        var isEn = lang === 'en';
 
         // Translations for UI
-        if (lang === 'gl') {
-            document.title = 'MencIA - Cat\u00e1logo visual de asistentes';
+        if (isGl || isEn) {
+            document.title = isEn ? 'MencIA - Visual catalog of assistants' : 'MencIA - Cat\u00e1logo visual de asistentes';
             var h1 = document.querySelector('h1');
-            if (h1) h1.innerHTML = 'Ecosistema de <br><span class="text-[#cf112d]">Soberan\u00eda Dixital.</span>';
+            if (h1) h1.innerHTML = isEn ? 'Ecosystem of <br><span class="text-[#cf112d]">Digital Sovereignty.</span>' : 'Ecosistema de <br><span class="text-[#cf112d]">Soberan\u00eda Dixital.</span>';
             var mp = document.querySelector('main > div > p');
-            if (mp) mp.innerHTML = 'Explora a nosa t\u00e1boa peri\u00f3dica de asistentes. Cada nodo representa unha soluci\u00f3n de <span class="text-white font-medium">c\u00f3digo aberto</span> dese\u00f1ada baixo os principios de Green AI.';
+            if (mp) mp.innerHTML = isEn ? 'Explore our periodic table of assistants. Each node represents an <span class="text-white font-medium">open source</span> solution designed under Green AI principles.' : 'Explora a nosa t\u00e1boa peri\u00f3dica de asistentes. Cada nodo representa unha soluci\u00f3n de <span class="text-white font-medium">c\u00f3digo aberto</span> dese\u00f1ada baixo os principios de Green AI.';
             var fp = document.querySelector('footer p');
-            if (fp) fp.textContent = 'MencIA \u00a9 2025 \u2014 Deputaci\u00f3n de Lugo';
+            if (fp) fp.textContent = isEn ? 'MencIA \u00a9 2025 \u2014 Provincial Council of Lugo' : 'MencIA \u00a9 2025 \u2014 Deputaci\u00f3n de Lugo';
 
             // Safe translation of header legend without destroying DOM
-            var cats = {
+            var cats = isEn ? {
+                'Gesti\u00f3n': 'MANAGEMENT',
+                'Jur\u00eddico': 'LEGAL',
+                'Comunicaci\u00f3n': 'COMMUNICATION',
+                'Soporte': 'SUPPORT',
+                'Estrategia': 'STRATEGY'
+            } : {
                 'Gesti\u00f3n': 'XESTI\u00d3N',
                 'Jur\u00eddico': 'XUR\u00cdDICO',
                 'Comunicaci\u00f3n': 'COMUNICACI\u00d3N',
@@ -275,14 +283,33 @@
             });
 
             var mGreen = document.querySelector('#modal-content .text-green-400.uppercase');
-            if (mGreen) mGreen.innerHTML = '<i data-lucide="leaf" class="w-4 h-4"></i> Sostibilidade';
+            if (mGreen) mGreen.innerHTML = '<i data-lucide="leaf" class="w-4 h-4"></i> ' + (isEn ? 'Sustainability' : 'Sostibilidade');
             var mBlue = document.querySelector('#modal-content .text-blue-400.uppercase');
-            if (mBlue) mBlue.innerHTML = '<i data-lucide="shield" class="w-4 h-4"></i> Soberan\u00eda UE';
+            if (mBlue) mBlue.innerHTML = '<i data-lucide="shield" class="w-4 h-4"></i> ' + (isEn ? 'EU Sovereignty' : 'Soberan\u00eda UE');
         }
 
         // Datos de asistentes
         var asistentes = [];
-        if (lang === 'gl') {
+        if (isEn) {
+            asistentes = [
+                { id: "Rd", number: "01", name: "Document summarizer", group: "gestion", desc: "Processes extensive documents (laws, reports) and generates a summary with the main ideas in seconds. Ideal for quick decision making.", green: "Reduces screen time and computation by avoiding full reading. Specialized SLM model.", eu: "Data sovereignty: the document never leaves the provincial server.", icon: "file-text" },
+                { id: "Oc", number: "02", name: "Text extractor (OCR)", group: "gestion", desc: "Converts scanned documents or images into plain and editable text for massive digitization.", green: "Efficient digitization avoiding unnecessary reprints.", eu: "Open-source alternative to proprietary cloud tools.", icon: "scan-line" },
+                { id: "Tr", number: "03", name: "Audio transcriber", group: "gestion", desc: "Converts voice recordings (plenaries, commissions) to text, recognizing Galician and Spanish.", green: "Optimizes manual work hours reducing workstation energy consumption.", eu: "Support for co-official languages (European cultural diversity).", icon: "mic" },
+                { id: "Cp", number: "04", name: "LCSP deadline calculator", group: "gestion", desc: "Calculates deadlines for contract law procedures, considering working days and local holidays.", green: "Symbolic tool with almost zero energy consumption compared to LLMs.", eu: "Specific adaptation to local regulations (Lugo).", icon: "calendar-clock" },
+                { id: "Gc", number: "05", name: "Smart email management", group: "gestion", desc: "Analyzes, summarizes and categorizes incoming emails. Transforms 1 hour of management into 5 minutes.", green: "Drastic reduction in equipment usage time for routine tasks.", eu: "Total privacy of institutional communications.", icon: "mail" },
+                { id: "Mb", number: "06", name: "BOE edicts monitor", group: "juridico", desc: "Agent that daily analyzes the BOE to detect bankruptcy edicts relevant for collection.", green: "Automation eliminating thousands of manual searches.", eu: "Proactive and sovereign administrative vigilance.", icon: "scale" },
+                { id: "Mj", number: "07", name: "Justificatory reports", group: "juridico", desc: "Guides managers in drafting the mandatory justificatory report in contracts.", green: "Avoids 'blank page' syndrome and multiple corrections.", eu: "AI-assisted regulatory compliance.", icon: "file-check" },
+                { id: "Ac", number: "08", name: "Hiring assistant", group: "juridico", desc: "Expert in contract law. Resolves doubts about bids and reviews specifications.", green: "Specialized model (SLM) more efficient than a generalist GPT-4.", eu: "Aligned with the digitization of the European public sector.", icon: "briefcase" },
+                { id: "Fp", number: "09", name: "Public function advisor", group: "juridico", desc: "Expert in public employee regulations (Galicia/Spain). Only cites laws.", green: "No hallucinations: efficient computation over a vector database.", eu: "Transparency and legal certainty in HR.", icon: "users" },
+                { id: "Vm", number: "10", name: "Merit valuation", group: "juridico", desc: "Automatically calculates scores in selection processes according to bases.", green: "Replaces error-prone manual calculation with a batch process.", eu: "Guarantee of algorithmic impartiality.", icon: "calculator" },
+                { id: "Np", number: "11", name: "Press releases", group: "comunicacion", desc: "Drafts institutional communication rough drafts with the historical style of the entity.", green: "'One-shot' generation avoiding extensive dialogues.", eu: "Control of the sovereign institutional narrative.", icon: "newspaper" },
+                { id: "Pi", number: "12", name: "AI Teacher", group: "comunicacion", desc: "Explains AI concepts to officials without technical knowledge.", green: "Basic digital education for responsible use.", eu: "Digital literacy (DigComp).", icon: "graduation-cap" },
+                { id: "Ca", number: "13", name: "CAU Assistant", group: "soporte", desc: "Virtual technician addressing internal tool queries (VPN, certificates).", green: "First-contact resolution avoiding IT escalations.", eu: "Autonomous technical support.", icon: "help-circle" },
+                { id: "Ap", number: "14", name: "Prompts store", group: "soporte", desc: "Centralized repository to share effective instructions.", green: "Reuse of optimized prompts (Green Prompting).", eu: "Public collective intelligence.", icon: "database" },
+                { id: "Ar", number: "15", name: "Assistants architect", group: "soporte", desc: "Guides new assistant design defining role and function.", green: "'Green by Design' design from the origin.", eu: "Promotion of local development.", icon: "layers" },
+                { id: "An", number: "16", name: "Call analysis", group: "estrategia", desc: "Analyzes EU grant bases extracting requirements cards.", green: "Focused processing of complex information.", eu: "NextGen funds absorption.", icon: "search" }
+            ];
+        } else if (isGl) {
             asistentes = [
                 { id: 'Rd', number: '01', name: 'Resumidor de documentos', group: 'gestion', desc: 'Procesa documentos extensos (leis, informes) e xera un resumo coas ideas principais en segundos. Ideal para a toma de decisi\u00f3ns r\u00e1pida.', green: 'Reduce o tempo de pantalla e computaci\u00f3n ao evitar a lectura completa. Modelo SLM especializado.', eu: 'Soberan\u00eda de datos: o documento nunca sae do servidor provincial.', icon: 'file-text' },
                 { id: 'Oc', number: '02', name: 'Extractor de texto (OCR)', group: 'gestion', desc: 'Converte documentos escaneados ou imaxes en texto chan e editable para dixitalizaci\u00f3n masiva.', green: 'Dixitalizaci\u00f3n eficiente que evita reimpresions innecesarias.', eu: 'Alternativa open-source a ferramentas propietarias na nube.', icon: 'scan-line' },

@@ -434,47 +434,87 @@
 
         <!-- i18n: traducción gallego -->
         <script>
-        var _lang = new URLSearchParams(window.location.search).get('lang') || 'es';
-        if (_lang === 'gl') {
-            document.title = 'MencIA - Ecosistema de Replicabilidade';
-            var _hdr = document.querySelector('header .text-xs.font-bold');
-            if(_hdr) _hdr.innerHTML = 'Ecosistema de Rede<br>Neural Provincial';
-            var _card = document.querySelector('.glass-panel.rounded-2xl.p-5');
-            if(_card){
-                var _ch3 = _card.querySelector('h3');
-                if(_ch3) _ch3.innerHTML = 'IA en 3 Clics = Green AI <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">Sostibilidade</span>';
-                var _cp  = _card.querySelector('p');
-                if(_cp)  _cp.textContent = 'A eficiencia \u00e9 ecol\u00f3xica. As nosas aplicaci\u00f3ns resolven tarefas complexas en segundos (\u201c3 clics\u201d), evitando o consumo enerx\u00e9tico masivo de sesi\u00f3ns de chat longas.';
-                // Buscar los spans de energia y tiempo de forma robusta
-                var _allSpans = _card.querySelectorAll('span');
-                _allSpans.forEach(function(s){
-                    var t = s.textContent.trim();
-                    if(t.indexOf('-80%') !== -1) s.innerHTML = '<i data-lucide="zap" class="w-3 h-3 text-yellow-400"></i> -80% Enerx\u00eda';
-                    if(t.indexOf('-90%') !== -1) s.innerHTML = '<i data-lucide="clock" class="w-3 h-3 text-blue-400"></i> -90% Tempo';
-                });
+            var _lang = new URLSearchParams(window.location.search).get('lang') || 'es';
+
+            if (_lang === 'en') {
+                document.title = 'MencIA - Ecosistema de Replicabilidad';
+                var _hdr = document.querySelector('header .text-xs.font-bold');
+                if (_hdr) _hdr.innerHTML = 'Provincial Neural<br>Network Ecosystem';
+                var _card = document.querySelector('.glass-panel.rounded-2xl.p-5');
+                if (_card) {
+                    var _ch3 = _card.querySelector('h3');
+                    if (_ch3) _ch3.innerHTML = 'AI in 3 Clicks = Green AI <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">Sustainability</span>';
+                    var _cp = _card.querySelector('p');
+                    if (_cp) _cp.textContent = 'Efficiency is ecological. Our applications solve complex tasks in seconds ("3 clicks"), avoiding the massive energy consumption of long chat sessions.';
+
+                    var _allSpans = _card.querySelectorAll('span');
+                    _allSpans.forEach(function (s) {
+                        var t = s.textContent.trim();
+                        if (t.indexOf('-80%') !== -1) s.innerHTML = '<i data-lucide="zap" class="w-3 h-3 text-yellow-400"></i> -80% Energy';
+                        if (t.indexOf('-90%') !== -1) s.innerHTML = '<i data-lucide="clock" class="w-3 h-3 text-blue-400"></i> -90% Time';
+                    });
+                }
+                var _legend = document.querySelector('.glass-panel.p-6.rounded-2xl.max-w-sm');
+                if (_legend) {
+                    var _lh4 = _legend.querySelector('h4');
+                    if (_lh4) _lh4.textContent = 'Graph Legend';
+                    var _lbold = _legend.querySelectorAll('.text-sm.font-bold.text-white');
+                    if (_lbold[0]) _lbold[0].textContent = 'Central Hub (Provincial Council)';
+                    if (_lbold[1]) _lbold[1].textContent = 'Municipal Node (<20k)';
+                    if (_lbold[2]) _lbold[2].textContent = 'Hyperlocal EDIH Flow';
+                    var _lsub = _legend.querySelectorAll('.text-xs.text-slate-400');
+                    if (_lsub[0]) _lsub[0].textContent = 'Services & Knowledge Provider';
+                    if (_lsub[1]) _lsub[1].textContent = 'LBRL Art. 36.1 Receiver';
+                    if (_lsub[2]) _lsub[2].textContent = 'Models & Data Transmission';
+
+                    var _blueBoxes = _legend.querySelectorAll('[class*="text-blue"]');
+                    _blueBoxes.forEach(function (el) {
+                        if (el.textContent.indexOf('Apply AI') !== -1 || el.textContent.indexOf('Caja') !== -1)
+                            el.textContent = 'Apply AI: EU "Toolbox"';
+                    });
+                }
+                lucide.createIcons();
+
+            } else if (_lang === 'gl') {
+                document.title = 'MencIA - Ecosistema de Replicabilidade';
+                var _hdr = document.querySelector('header .text-xs.font-bold');
+                if (_hdr) _hdr.innerHTML = 'Ecosistema de Rede<br>Neural Provincial';
+                var _card = document.querySelector('.glass-panel.rounded-2xl.p-5');
+                if (_card) {
+                    var _ch3 = _card.querySelector('h3');
+                    if (_ch3) _ch3.innerHTML = 'IA en 3 Clics = Green AI <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">Sostibilidade</span>';
+                    var _cp = _card.querySelector('p');
+                    if (_cp) _cp.textContent = 'A eficiencia \u00e9 ecol\u00f3xica. As nosas aplicaci\u00f3ns resolven tarefas complexas en segundos (\u201c3 clics\u201d), evitando o consumo enerx\u00e9tico masivo de sesi\u00f3ns de chat longas.';
+                    // Buscar los spans de energia y tiempo de forma robusta
+                    var _allSpans = _card.querySelectorAll('span');
+                    _allSpans.forEach(function (s) {
+                        var t = s.textContent.trim();
+                        if (t.indexOf('-80%') !== -1) s.innerHTML = '<i data-lucide="zap" class="w-3 h-3 text-yellow-400"></i> -80% Enerx\u00eda';
+                        if (t.indexOf('-90%') !== -1) s.innerHTML = '<i data-lucide="clock" class="w-3 h-3 text-blue-400"></i> -90% Tempo';
+                    });
+                }
+                var _legend = document.querySelector('.glass-panel.p-6.rounded-2xl.max-w-sm');
+                if (_legend) {
+                    var _lh4 = _legend.querySelector('h4');
+                    if (_lh4) _lh4.textContent = 'Lenda do Grafo';
+                    var _lbold = _legend.querySelectorAll('.text-sm.font-bold.text-white');
+                    if (_lbold[0]) _lbold[0].textContent = 'Hub Central (Deputaci\u00f3n)';
+                    if (_lbold[1]) _lbold[1].textContent = 'Nodo Municipal (<20k)';
+                    if (_lbold[2]) _lbold[2].textContent = 'Fluxo EDIH Hiperlocal';
+                    var _lsub = _legend.querySelectorAll('.text-xs.text-slate-400');
+                    if (_lsub[0]) _lsub[0].textContent = 'Provedor de servizos & Co\u00f1ecemento';
+                    if (_lsub[1]) _lsub[1].textContent = 'Receptor Art. 36.1 LBRL';
+                    if (_lsub[2]) _lsub[2].textContent = 'Transmisi\u00f3n de Modelos & Datos';
+                    // Boton Apply AI
+                    var _blueBoxes = _legend.querySelectorAll('[class*="text-blue"]');
+                    _blueBoxes.forEach(function (el) {
+                        if (el.textContent.indexOf('Apply AI') !== -1 || el.textContent.indexOf('Caja') !== -1)
+                            el.textContent = 'Apply AI: "Caixa de ferramentas" UE';
+                    });
+                }
+                lucide.createIcons();
             }
-            var _legend = document.querySelector('.glass-panel.p-6.rounded-2xl.max-w-sm');
-            if(_legend){
-                var _lh4 = _legend.querySelector('h4');
-                if(_lh4) _lh4.textContent = 'Lenda do Grafo';
-                var _lbold = _legend.querySelectorAll('.text-sm.font-bold.text-white');
-                if(_lbold[0]) _lbold[0].textContent = 'Hub Central (Deputaci\u00f3n)';
-                if(_lbold[1]) _lbold[1].textContent = 'Nodo Municipal (<20k)';
-                if(_lbold[2]) _lbold[2].textContent = 'Fluxo EDIH Hiperlocal';
-                var _lsub = _legend.querySelectorAll('.text-xs.text-slate-400');
-                if(_lsub[0]) _lsub[0].textContent = 'Provedor de servizos & Co\u00f1ecemento';
-                if(_lsub[1]) _lsub[1].textContent = 'Receptor Art. 36.1 LBRL';
-                if(_lsub[2]) _lsub[2].textContent = 'Transmisi\u00f3n de Modelos & Datos';
-                // Boton Apply AI
-                var _blueBoxes = _legend.querySelectorAll('[class*="text-blue"]');
-                _blueBoxes.forEach(function(el){
-                    if(el.textContent.indexOf('Apply AI') !== -1 || el.textContent.indexOf('Caja') !== -1)
-                        el.textContent = 'Apply AI: "Caixa de ferramentas" UE';
-                });
-            }
-            lucide.createIcons();
-        }
-    </script>
+        </script>
 </body>
 
 </html>

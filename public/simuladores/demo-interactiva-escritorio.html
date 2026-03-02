@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MencIA: Escritorio del Futuro</title>
-    
+
     <!-- Tipografía Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -24,7 +26,11 @@
             --success: #10b981;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -32,7 +38,7 @@
             color: var(--text-white);
             height: 100vh;
             overflow: hidden;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 20%, rgba(207, 17, 45, 0.05) 0%, transparent 50%),
                 linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1)),
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cf112d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -64,17 +70,21 @@
             gap: 8px;
             margin-bottom: 2rem;
         }
-        .logo-accent { color: var(--primary-red); }
+
+        .logo-accent {
+            color: var(--primary-red);
+        }
 
         .context-widget {
             background: var(--surface-glass);
             border: 1px solid var(--border-light);
             border-radius: 12px;
             padding: 1rem;
-            opacity: 0.5; /* Inactivo por defecto */
+            opacity: 0.5;
+            /* Inactivo por defecto */
             transition: all 0.3s ease;
         }
-        
+
         .context-widget.active {
             opacity: 1;
             border-color: var(--primary-red);
@@ -110,9 +120,15 @@
             grid-column: 1 / -1;
             margin-bottom: 1rem;
         }
-        
-        .header-workspace h1 { font-size: 1.8rem; font-weight: 400; }
-        .header-workspace p { color: var(--text-gray); }
+
+        .header-workspace h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+        }
+
+        .header-workspace p {
+            color: var(--text-gray);
+        }
 
         /* Tarjetas de Aplicaciones */
         .app-card {
@@ -130,34 +146,49 @@
         }
 
         .app-icon {
-            width: 50px; height: 50px;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 1.5rem;
             color: var(--text-white);
             margin-bottom: 1rem;
         }
 
-        .app-title { font-weight: 600; margin-bottom: 0.5rem; }
-        .app-desc { font-size: 0.9rem; color: var(--text-gray); }
+        .app-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-desc {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
 
         /* Hotspot (Punto interactivo) */
         .hotspot {
             position: absolute;
-            top: 15px; right: 15px;
-            width: 24px; height: 24px;
+            top: 15px;
+            right: 15px;
+            width: 24px;
+            height: 24px;
             background: var(--primary-red);
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 0 0 rgba(207, 17, 45, 0.7);
             animation: pulse 2s infinite;
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 10;
         }
 
         .hotspot::after {
-            content: '\f0a6'; /* Icono de mano/click fontawesome */
+            content: '\f0a6';
+            /* Icono de mano/click fontawesome */
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             font-size: 0.7rem;
@@ -165,26 +196,44 @@
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(207, 17, 45, 0.7); transform: scale(1); }
-            70% { box-shadow: 0 0 0 10px rgba(207, 17, 45, 0); transform: scale(1.1); }
-            100% { box-shadow: 0 0 0 0 rgba(207, 17, 45, 0); transform: scale(1); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(207, 17, 45, 0.7);
+                transform: scale(1);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(207, 17, 45, 0);
+                transform: scale(1.1);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(207, 17, 45, 0);
+                transform: scale(1);
+            }
         }
 
         /* Modal de Simulación */
         .simulation-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 100;
-            opacity: 0; pointer-events: none;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity 0.3s ease;
         }
 
-        .simulation-overlay.visible { opacity: 1; pointer-events: all; }
+        .simulation-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
 
         .modal-window {
             width: 500px;
@@ -197,7 +246,9 @@
             transition: transform 0.3s ease;
         }
 
-        .simulation-overlay.visible .modal-window { transform: translateY(0); }
+        .simulation-overlay.visible .modal-window {
+            transform: translateY(0);
+        }
 
         .process-step {
             margin-bottom: 1.5rem;
@@ -205,25 +256,29 @@
             animation: fadeIn 0.5s forwards;
         }
 
-        .process-step.active { display: block; }
+        .process-step.active {
+            display: block;
+        }
 
         .scan-line {
-            height: 4px; width: 100%;
+            height: 4px;
+            width: 100%;
             background: #334155;
             border-radius: 2px;
             margin: 1rem 0;
             position: relative;
             overflow: hidden;
         }
-        
+
         .scan-fill {
-            height: 100%; width: 0%;
+            height: 100%;
+            width: 0%;
             background: var(--primary-red);
             transition: width 2s ease-in-out;
         }
 
         .extracted-data {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             padding: 1rem;
             border-left: 3px solid var(--primary-red);
             border-radius: 4px;
@@ -246,12 +301,15 @@
             transition: background 0.2s;
         }
 
-        .btn-validate:hover { background: #a30d23; }
+        .btn-validate:hover {
+            background: #a30d23;
+        }
 
         .success-metrics {
             text-align: center;
             margin-top: 1rem;
         }
+
         .big-number {
             font-size: 2rem;
             font-weight: 800;
@@ -259,14 +317,24 @@
             display: block;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
 
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div class="desktop-container">
-        
+
         <!-- Sidebar: Contexto Estratégico -->
         <div class="sidebar">
             <div class="logo">
@@ -334,20 +402,24 @@
     <!-- Overlay de Simulación -->
     <div class="simulation-overlay" id="sim-overlay">
         <div class="modal-window">
-            
+
             <!-- Header Modal -->
             <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem; align-items:center;">
                 <h3 style="display:flex; gap:10px; align-items:center;">
                     <i class="fa-solid fa-robot logo-accent"></i> Asistente BOE
                 </h3>
-                <button onclick="closeSim()" style="background:none; border:none; color:#fff; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeSim()" style="background:none; border:none; color:#fff; cursor:pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
 
             <!-- Paso 1: Escaneo -->
             <div id="step-1" class="process-step">
                 <p>Conectando con repositorio oficial...</p>
-                <p style="font-size:0.9rem; color:var(--text-gray);">Analizando Boletín Oficial del Estado (BOE-A-2025)...</p>
-                <div class="scan-line"><div class="scan-fill" id="scan-bar"></div></div>
+                <p style="font-size:0.9rem; color:var(--text-gray);">Analizando Boletín Oficial del Estado
+                    (BOE-A-2025)...</p>
+                <div class="scan-line">
+                    <div class="scan-fill" id="scan-bar"></div>
+                </div>
             </div>
 
             <!-- Paso 2: Resultado + Validación -->
@@ -358,7 +430,8 @@
                     > REF: Jdo. Mercantil Nº 1 Lugo<br>
                     > ACCIÓN SUGERIDA: Enviar a Recaudación
                 </div>
-                <div style="background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 1rem; display:flex; gap:10px; align-items:center;">
+                <div
+                    style="background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 1rem; display:flex; gap:10px; align-items:center;">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Requiere supervisión humana</span>
                 </div>
@@ -370,12 +443,14 @@
             <!-- Paso 3: Éxito -->
             <div id="step-3" class="process-step">
                 <div class="success-metrics">
-                    <i class="fa-solid fa-circle-check" style="color:var(--success); font-size: 3rem; margin-bottom:1rem;"></i>
+                    <i class="fa-solid fa-circle-check"
+                        style="color:var(--success); font-size: 3rem; margin-bottom:1rem;"></i>
                     <h3>Tarea completada</h3>
                     <p style="margin-top:1rem; color:var(--text-gray);">Tiempo empleado:</p>
                     <span class="big-number">5 min</span>
                     <p style="font-size:0.8rem; text-decoration: line-through; color:#64748b;">Tiempo manual: 1 hora</p>
-                    <button onclick="closeSim()" style="margin-top:2rem; background:transparent; border:1px solid var(--border-light); color:white; padding:0.5rem 1rem; border-radius:6px; cursor:pointer;">Cerrar</button>
+                    <button onclick="closeSim()"
+                        style="margin-top:2rem; background:transparent; border:1px solid var(--border-light); color:white; padding:0.5rem 1rem; border-radius:6px; cursor:pointer;">Cerrar</button>
                 </div>
             </div>
 
@@ -383,6 +458,56 @@
     </div>
 
     <script>
+        var lang = new URLSearchParams(window.location.search).get('lang') || 'es';
+        var isGl = lang === 'gl';
+        var isEn = lang === 'en';
+
+        if (isGl || isEn) {
+            document.title = isEn ? 'MencIA: Desk of the Future' : 'MencIA: Escritorio do Futuro';
+            document.querySelector('.sidebar > div:nth-child(2)').textContent = isEn ? 'SYSTEM STATUS' : 'ESTADO DO SISTEMA';
+            // widgets
+            document.querySelector('#ctx-green .widget-title').innerHTML = '<i class="fa-solid fa-leaf"></i> ' + (isEn ? 'Ecological Footprint' : 'Pegada Ecolóxica');
+            document.querySelector('#ctx-green .widget-value').textContent = isEn ? 'Minimum' : 'Mínima';
+            document.querySelector('#ctx-green div:nth-child(3)').innerHTML = isEn ? 'Specialized SLM model.<br>Efficiency by design.' : 'Modelo SLM especializado.<br>Eficiencia por deseño.';
+
+            document.querySelector('#ctx-apply .widget-title').innerHTML = '<i class="fa-solid fa-shield-halved"></i> ' + (isEn ? 'Sovereignty' : 'Soberanía');
+            document.querySelector('#ctx-apply .widget-value').textContent = '100% Local';
+            document.querySelector('#ctx-apply div:nth-child(3)').textContent = isEn ? 'Data processed on own servers (Lugo).' : 'Datos procesados en servidores propios (Lugo).';
+
+            document.querySelector('#ctx-pacto .widget-title').innerHTML = '<i class="fa-solid fa-clock"></i> ' + (isEn ? 'Public Resource' : 'Recurso Público');
+            document.querySelector('#ctx-pacto .widget-value').textContent = isEn ? 'Optimized' : 'Optimizado';
+            document.querySelector('#ctx-pacto div:nth-child(3)').textContent = isEn ? 'Freeing up time for citizen care.' : 'Liberando tempo para atención cidadá.';
+
+            document.querySelector('.header-workspace h1').textContent = isEn ? 'Civil Servant\'s Desk' : 'Escritorio do funcionario';
+            document.querySelector('.header-workspace p').textContent = isEn ? 'Select a tool to start AI assistance.' : 'Seleccione unha ferramenta para iniciar a asistencia IA.';
+
+            var cards = document.querySelectorAll('.app-card');
+            cards[0].querySelector('.app-title').textContent = isEn ? 'BOE Monitor' : 'Monitor do BOE';
+            cards[0].querySelector('.app-desc').textContent = isEn ? 'Automatic detection of relevant edicts and judicial notifications.' : 'Detección automática de edictos e notificacións xudiciais relevantes.';
+
+            cards[1].querySelector('.app-title').textContent = isEn ? 'Document Summarizer' : 'Resumidor Documental';
+            cards[1].querySelector('.app-desc').textContent = isEn ? 'Synthesis of complex files in seconds.' : 'Síntese de expedientes complexos en segundos.';
+
+            cards[2].querySelector('.app-title').textContent = isEn ? 'Email Manager' : 'Xestor de Correos';
+            cards[2].querySelector('.app-desc').textContent = isEn ? 'Classification and drafting of citizen responses.' : 'Clasificación e borrador de respostas cidadás.';
+
+            document.querySelector('.modal-window h3').innerHTML = '<i class="fa-solid fa-robot logo-accent"></i> ' + (isEn ? 'BOE Assistant' : 'Asistente BOE');
+
+            document.querySelector('#step-1 p:nth-child(1)').textContent = isEn ? 'Connecting to official repository...' : 'Conectando con repositorio oficial...';
+            document.querySelector('#step-1 p:nth-child(2)').textContent = isEn ? 'Analyzing the Official State Gazette (BOE-A-2025)...' : 'Analizando Boletín Oficial do Estado (BOE-A-2025)...';
+
+            document.querySelector('#step-2 p:nth-child(1)').textContent = isEn ? '1 relevant notification detected:' : 'Detectouse 1 notificación relevante:';
+            document.querySelector('.extracted-data').innerHTML = isEn ? '> TYPE: Bankruptcy Edict<br>> REF: Mercantile Court No. 1 Lugo<br>> SUGGESTED ACTION: Send to Collection' : '> TIPO: Edicto Concursal<br>> REF: Xdo. Mercantil Nº 1 Lugo<br>> ACCIÓN SUXIRIDA: Enviar a Recadación';
+
+            document.querySelector('#step-2 div:nth-child(3) span').textContent = isEn ? 'Requires human supervision' : 'Require supervisión humana';
+            document.querySelector('.btn-validate').innerHTML = '<i class="fa-solid fa-check"></i> ' + (isEn ? 'VALIDATE AND PROCESS' : 'VALIDAR E PROCESAR');
+
+            document.querySelector('#step-3 h3').textContent = isEn ? 'Task completed' : 'Tarefa completada';
+            document.querySelector('#step-3 p:nth-child(3)').textContent = isEn ? 'Time spent:' : 'Tempo empregado:';
+            document.querySelector('#step-3 p:nth-child(5)').textContent = isEn ? 'Manual time: 1 hour' : 'Tempo manual: 1 hora';
+            document.querySelector('#step-3 button').textContent = isEn ? 'Close' : 'Pechar';
+        }
+
         function startSimulation(app) {
             // Activar widgets de contexto
             document.getElementById('ctx-green').classList.add('active');
@@ -395,7 +520,7 @@
 
             // Iniciar paso 1
             document.getElementById('step-1').classList.add('active');
-            
+
             // Animación barra
             setTimeout(() => {
                 document.getElementById('scan-bar').style.width = '100%';
@@ -417,7 +542,7 @@
         function closeSim() {
             // Resetear todo
             document.getElementById('sim-overlay').classList.remove('visible');
-            
+
             // Esperar a que cierre para limpiar clases
             setTimeout(() => {
                 document.querySelectorAll('.process-step').forEach(el => el.classList.remove('active'));
@@ -427,4 +552,5 @@
         }
     </script>
 </body>
+
 </html>

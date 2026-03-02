@@ -281,15 +281,20 @@
     <script>
         var _lang = new URLSearchParams(window.location.search).get('lang') || 'es';
         var isGl = _lang === 'gl';
+        var isEn = _lang === 'en';
 
         // Constantes i18n
-        var txtGenChatbot = isGl ? "Xerando saúdos" : "Generando saludos";
-        var txtChatbotDone = isGl
-            ? "<p>¡Ola! Son o teu asistente virtual. Analicei o Boletín Oficial del Estado e atopei a información que solicitas. O documento indica que... [TEXTO LONGO E REDUNDANTE]</p><p class='mt-2 text-red-400'>Consumo alto por procesamento NLP xeneralista.</p>"
-            : "<p>¡Hola! Soy tu asistente virtual. He analizado el Boletín Oficial del Estado y he encontrado la información que solicitas. El documento indica que... [TEXTO LARGO Y REDUNDANTE]</p><p class='mt-2 text-red-400'>Consumo alto por procesamiento NLP generalista.</p>";
-        var txtMenciaOut = isGl
-            ? "> INICIO TAREFA EDICTOS BOE\n> CONEXIÓN API ESTABLECIDA\n> EXTRACCIÓN ESTRUTURADA:\n  { \"estado\": \"CRÍTICO\", \"prazo\": \"24H\" }\n> FIN TAREFA (0.3s)"
-            : "> INICIO TAREA EDICTOS BOE\n> CONEXIÓN API ESTABLECIDA\n> EXTRACCIÓN ESTRUCTURADA:\n  { \"estado\": \"CRÍTICO\", \"plazo\": \"24H\" }\n> FIN TAREA (0.3s)";
+        var txtGenChatbot = isEn ? "Generating greetings" : (isGl ? "Xerando saúdos" : "Generando saludos");
+        var txtChatbotDone = isEn
+            ? "<p>Hello! I am your virtual assistant. I have analyzed the Official State Gazette and found the information you requested. The document indicates that... [LONG AND REDUNDANT TEXT]</p><p class='mt-2 text-red-400'>High consumption due to generalist NLP processing.</p>"
+            : (isGl
+                ? "<p>¡Ola! Son o teu asistente virtual. Analicei o Boletín Oficial del Estado e atopei a información que solicitas. O documento indica que... [TEXTO LONGO E REDUNDANTE]</p><p class='mt-2 text-red-400'>Consumo alto por procesamento NLP xeneralista.</p>"
+                : "<p>¡Hola! Soy tu asistente virtual. He analizado el Boletín Oficial del Estado y he encontrado la información que solicitas. El documento indica que... [TEXTO LARGO Y REDUNDANTE]</p><p class='mt-2 text-red-400'>Consumo alto por procesamiento NLP generalista.</p>");
+        var txtMenciaOut = isEn
+            ? "> START TASK BOE EDICTS\n> API CONNECTION ESTABLISHED\n> STRUCTURED EXTRACTION:\n  { \"status\": \"CRITICAL\", \"deadline\": \"24H\" }\n> END TASK (0.3s)"
+            : (isGl
+                ? "> INICIO TAREFA EDICTOS BOE\n> CONEXIÓN API ESTABLECIDA\n> EXTRACCIÓN ESTRUTURADA:\n  { \"estado\": \"CRÍTICO\", \"prazo\": \"24H\" }\n> FIN TAREFA (0.3s)"
+                : "> INICIO TAREA EDICTOS BOE\n> CONEXIÓN API ESTABLECIDA\n> EXTRACCIÓN ESTRUCTURADA:\n  { \"estado\": \"CRÍTICO\", \"plazo\": \"24H\" }\n> FIN TAREA (0.3s)");
 
         function runSimulation() {
             var btn = document.getElementById('sim-btn');
@@ -365,22 +370,58 @@
             window.requestAnimationFrame(step);
         }
 
-        if (isGl) {
-            document.title = 'MencIA - Calculadora de Impacto Verde';
-            var _h1 = document.querySelector('h1');
-            if (_h1) _h1.textContent = 'Calculadora de Impacto Verde';
+        if (isGl || isEn) {
+            document.title = isEn ? 'MencIA - Green Impact Calculator' : 'MencIA - Calculadora de Impacto Verde';
+            var _h1 = document.querySelector('h1.hidden');
+            if (_h1) _h1.textContent = isEn ? 'Green Impact Calculator' : 'Calculadora de Impacto Verde';
             var _btn = document.getElementById('sim-btn');
-            if (_btn) _btn.innerHTML = '<i data-lucide="zap" class="w-4 h-4"></i> Executar Tarefa';
+            if (_btn) _btn.innerHTML = '<i data-lucide="zap" class="w-4 h-4"></i> ' + (isEn ? 'Execute Task' : 'Executar Tarefa');
             var _simH2 = document.querySelector('section h2');
-            if (_simH2) _simH2.innerHTML = '<i data-lucide="play-circle" class="text-[#cf112d]"></i> Monitor de Edictos BOE';
+            if (_simH2) _simH2.innerHTML = '<i data-lucide="play-circle" class="text-[#cf112d]"></i> ' + (isEn ? 'BOE Edicts Monitor' : 'Monitor de Edictos BOE');
             var _ph = document.getElementById('mencia-placeholder');
-            if (_ph) _ph.textContent = 'Agardando execución...';
+            if (_ph) _ph.textContent = isEn ? 'Waiting for execution...' : 'Agardando execución...';
             var _eqP = document.querySelector('#ratio-display + p');
-            if (_eqP) _eqP.textContent = 'Máis eficiente é o modelo MencIA en tarefas estruturadas';
-            document.querySelectorAll('.progress-label span:first-child').forEach(function (el) { el.textContent = 'Consumo Enerxético'; });
+            if (_eqP) _eqP.textContent = isEn ? 'More efficient is the MencIA model in structured tasks' : 'Máis eficiente é o modelo MencIA en tarefas estruturadas';
+            document.querySelectorAll('.flex.justify-between.text-xs.text-slate-400.mb-1 span:first-child').forEach(function (el) { el.textContent = isEn ? 'Energy Consumption' : 'Consumo Enerxético'; });
             document.querySelectorAll('span.text-xs').forEach(function (el) {
-                if (el.textContent.trim() === 'Menos es mejor') el.textContent = 'Menos é mellor';
+                if (el.textContent.trim() === 'Menos es mejor') el.textContent = isEn ? 'Less is better' : 'Menos é mellor';
+                if (isEn && el.textContent.trim() === 'Menos é mellor') el.textContent = 'Less is better';
             });
+            if (isEn) {
+                var _monitorTop = document.querySelector('header .gap-4');
+                if (_monitorTop && _monitorTop.lastElementChild) _monitorTop.lastElementChild.innerHTML = '<i data-lucide="activity" class="w-4 h-4"></i> Real-time monitor';
+                var _subH2 = document.querySelector('section h2').nextElementSibling;
+                if (_subH2) _subH2.textContent = 'Comparison: Autonomous agent (MencIA) vs. Conversational Chatbot';
+                var _ph2 = document.querySelector('#chatbot-container div');
+                if (_ph2) _ph2.textContent = 'Waiting for user...';
+                var _eqTitle = document.querySelector('h3.uppercase');
+                if (_eqTitle && _eqTitle.textContent.trim() === 'Equivalencia de Impacto') _eqTitle.textContent = 'Impact Equivalence';
+                var _m1 = document.querySelector('#saved-charges');
+                if (_m1 && _m1.previousElementSibling) _m1.previousElementSibling.textContent = 'Phone charges';
+                var _m2 = document.querySelector('#saved-water');
+                if (_m2 && _m2.previousElementSibling) _m2.previousElementSibling.textContent = 'Water (ml)';
+                var _tTitle = document.querySelector('#tokenChart');
+                if (_tTitle && _tTitle.parentElement.previousElementSibling) _tTitle.parentElement.previousElementSibling.querySelector('h3').textContent = 'Generated Tokens';
+                var _tDesc = document.querySelector('#tokenChart');
+                if (_tDesc && _tDesc.parentElement.nextElementSibling) _tDesc.parentElement.nextElementSibling.textContent = 'The chatbot generates conversational "noise" (greetings, questions). MencIA generates only the useful data.';
+                var _pTitle = document.querySelector('#perceptionChart');
+                if (_pTitle && _pTitle.parentElement.previousElementSibling) _pTitle.parentElement.previousElementSibling.textContent = 'Citizen Perception';
+                var _pDesc = document.querySelector('#perceptionChart');
+                if (_pDesc && _pDesc.parentElement.nextElementSibling) _pDesc.parentElement.nextElementSibling.innerHTML = 'Accepts <span class="text-green-400">sustainability</span> over "spectacularity".';
+                var _spec = document.querySelector('.border-green-500 h4');
+                if (_spec) _spec.innerHTML = '<i data-lucide="target" class="w-3 h-3"></i> Specialization';
+                var _specDesc = _spec ? _spec.nextElementSibling : null;
+                if (_specDesc) _specDesc.textContent = 'SLMs (Small Language Models) consume up to 80% less energy.';
+                var _fric = document.querySelector('.border-\\[\\#cf112d\\] h4');
+                if (_fric) _fric.innerHTML = '<i data-lucide="mouse-pointer-click" class="w-3 h-3"></i> Zero Friction';
+                var _fricDesc = _fric ? _fric.nextElementSibling : null;
+                if (_fricDesc) _fricDesc.textContent = '"1 Click" philosophy: No courtesy chats or re-prompts.';
+                var _lblMenc = document.querySelector('.bg-\\[\\#cf112d\\]');
+                if (_lblMenc) _lblMenc.innerHTML = '<i data-lucide="cpu" class="w-3 h-3"></i> MENCÍA "3 CLICKS" MODEL';
+                var _lblChat = document.querySelector('.bg-slate-600.text-white');
+                if (_lblChat) _lblChat.innerHTML = '<i data-lucide="message-square" class="w-3 h-3"></i> COMMERCIAL CHATBOT';
+                document.querySelector('header .gap-4').firstElementChild.innerHTML = '<i data-lucide="leaf" class="w-4 h-4"></i> Green in AI';
+            }
         }
 
         lucide.createIcons();
@@ -395,7 +436,7 @@
                     data: {
                         labels: ['Chatbot (LLM)', 'MencIA (SLM)'],
                         datasets: [{
-                            label: isGl ? 'Tokens procesados' : 'Tokens procesados',
+                            label: isEn ? 'Processed tokens' : (isGl ? 'Tokens procesados' : 'Tokens procesados'),
                             data: [4500, 120],
                             backgroundColor: ['rgba(239, 68, 68, 0.5)', 'rgba(34, 197, 94, 0.5)'],
                             borderColor: ['rgb(239, 68, 68)', 'rgb(34, 197, 94)'],
@@ -428,7 +469,7 @@
                 new Chart(perceptionCtx, {
                     type: 'doughnut',
                     data: {
-                        labels: [isGl ? 'Apoia Green AI' : 'Apoya Green AI', isGl ? 'Indiferente' : 'Indiferente/Exige Potencia'],
+                        labels: [isEn ? 'Supports Green AI' : (isGl ? 'Apoia Green AI' : 'Apoya Green AI'), isEn ? 'Indifferent/Demands Power' : (isGl ? 'Indiferente' : 'Indiferente/Exige Potencia')],
                         datasets: [{
                             data: [56.8, 43.2],
                             backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(255, 255, 255, 0.1)'],
