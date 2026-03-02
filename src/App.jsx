@@ -11,7 +11,7 @@ import VideoInmersivo from './components/VideoInmersivo';
 import Solucion from './components/Solucion';
 import Arquitectura from './components/Arquitectura';
 import Alineacion from './components/Alineacion';
-import HojaRuta from './components/Hojaruta';
+import HojaRuta from './components/HojaRuta';
 import ArchivosDesclasificados from './components/ArchivosDesclasificados';
 import Laboratorio from './components/Laboratorio';
 import Footer from './components/Footer';
