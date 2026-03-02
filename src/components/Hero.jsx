@@ -43,7 +43,7 @@ export default function Hero({ lang }) {
                 width: '600px', height: '600px',
                 background: 'var(--mencia-red)',
                 borderRadius: '50%',
-                opacity: 0.15,
+                opacity: 0.07,
                 filter: 'blur(120px)',
             }}></div>
 
@@ -73,7 +73,7 @@ export default function Hero({ lang }) {
                 {/* Title */}
                 <h1 className="hero-element" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700, marginBottom: '1.5rem', letterSpacing: '-0.04em', lineHeight: 1.1 }}>
                     <span style={{ display: 'block', color: 'var(--text-primary)' }}>
-                        Un modelo soberano,
+                        {lang === 'en' ? 'A sovereign model,' : 'Un modelo soberano,'}
                     </span>
                     <span className="text-shadow-glow" style={{ display: 'block', color: 'var(--mencia-red)' }}>
                         {lang === 'en' ? 'sustainable and strategic.' : (lang === 'es' ? 'sostenible y estratégico.' : 'sostible e estratéxico.')}

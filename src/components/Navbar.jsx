@@ -138,7 +138,14 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                     onMouseEnter={() => { setLangTooltip(true); setLangMenuOpen(true); }}
                     onMouseLeave={() => { setLangTooltip(false); setLangMenuOpen(false); }}
                 >
-                    <button className="theme-toggle" aria-label="Cambiar idioma">
+                    <button
+                        className="theme-toggle"
+                        aria-label="Cambiar idioma"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setLangMenuOpen(!langMenuOpen);
+                        }}
+                    >
                         <Globe size={18} />
                     </button>
 
