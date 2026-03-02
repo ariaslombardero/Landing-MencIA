@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function Preloader({ onComplete }) {
+export default function Preloader({ onComplete, lang }) {
     const preloaderRef = useRef(null);
     const lineRef = useRef(null);
 
@@ -56,7 +56,7 @@ export default function Preloader({ onComplete }) {
                 fontWeight: 600,
                 marginTop: '1rem'
             }}>
-                CARGANDO SISTEMA...
+                {lang === 'en' ? 'SYSTEM LOADING...' : 'CARGANDO SISTEMA...'}
             </div>
         </div>
     );

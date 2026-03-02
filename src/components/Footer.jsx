@@ -33,9 +33,11 @@ export default function Footer({ lang, lightMode }) {
 
                 <div style={{ flex: '2 1 400px', textAlign: 'center', minWidth: '300px' }}>
                     <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>
-                        {lang === 'es'
-                            ? '© 2026 MencIA — Estrategia de Inteligencia Artificial · Deputación de Lugo'
-                            : '© 2026 MencIA — Estratexia de Intelixencia Artificial · Deputación de Lugo'
+                        {lang === 'en'
+                            ? '© 2026 MencIA — Artificial Intelligence Strategy · Deputación de Lugo'
+                            : (lang === 'es'
+                                ? '© 2026 MencIA — Estrategia de Inteligencia Artificial · Deputación de Lugo'
+                                : '© 2026 MencIA — Estratexia de Intelixencia Artificial · Deputación de Lugo')
                         }
                     </p>
                 </div>

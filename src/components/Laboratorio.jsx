@@ -3,31 +3,31 @@ import { ExternalLink, Radar, Calculator, Map, BarChart3, Table2 } from 'lucide-
 const SIMULATORS = [
     {
         icon: Radar,
-        title: { gl: 'Radar estratéxico', es: 'Radar estratégico' },
+        title: { gl: 'Radar estratéxico', es: 'Radar estratégico', en: 'Strategic Radar' },
         file: 'radar-estrategico.html',
         color: '#ef4444',
-        desc: { gl: 'Visualiza a posición de MencIA fronte á administración tradicional.', es: 'Visualiza la posición de MencIA frente a la administración tradicional.' },
+        desc: { gl: 'Visualiza a posición de MencIA fronte á administración tradicional.', es: 'Visualiza la posición de MencIA frente a la administración tradicional.', en: 'Visualize the position of MencIA against traditional administration.' },
     },
     {
         icon: Calculator,
-        title: { gl: 'Calculadora de impacto verde', es: 'Calculadora de impacto verde' },
+        title: { gl: 'Calculadora de impacto verde', es: 'Calculadora de impacto verde', en: 'Green impact calculator' },
         file: 'calculadora-impacto-verde.html',
         color: '#22c55e',
-        desc: { gl: 'Compara o consumo enerxético entre modelos locais e na nube.', es: 'Compara el consumo energético entre modelos locales y en la nube.' },
+        desc: { gl: 'Compara o consumo enerxético entre modelos locais e na nube.', es: 'Compara el consumo energético entre modelos locales y en la nube.', en: 'Compare energy consumption between local and cloud models.' },
     },
     {
         icon: BarChart3,
-        title: { gl: 'Comparador de tarefas', es: 'Comparador de tareas' },
+        title: { gl: 'Comparador de tarefas', es: 'Comparador de tareas', en: 'Task comparator' },
         file: 'comparador-tareas.html',
         color: '#eab308',
-        desc: { gl: 'Funcionalidade real fronte a escaparate tecnolóxico.', es: 'Funcionalidad real frente a escaparate tecnológico.' },
+        desc: { gl: 'Funcionalidade real fronte a escaparate tecnolóxico.', es: 'Funcionalidad real frente a escaparate tecnológico.', en: 'Real functionality vs. technological showcase.' },
     },
     {
         icon: Table2,
-        title: { gl: 'Táboa periódica de IA', es: 'Tabla periódica de IA' },
+        title: { gl: 'Táboa periódica de IA', es: 'Tabla periódica de IA', en: 'Periodic Table of AI' },
         file: 'tabla-periodica-ia.html',
         color: '#a855f7',
-        desc: { gl: 'Catálogo visual de todas as ferramentas do ecosistema MencIA.', es: 'Catálogo visual de todas las herramientas del ecosistema MencIA.' },
+        desc: { gl: 'Catálogo visual de todas as ferramentas do ecosistema MencIA.', es: 'Catálogo visual de todas las herramientas del ecosistema MencIA.', en: 'Visual catalog of all tools in the MencIA ecosystem.' },
     },
 ];
 
@@ -39,12 +39,14 @@ export default function Laboratorio({ lang }) {
                 {/* Header */}
                 <div className="reveal-text" style={{ marginBottom: '3rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--mencia-border)' }}>
                     <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', fontWeight: 700, marginBottom: '0.5rem' }}>
-                        Laboratorio MencIA
+                        {lang === 'en' ? 'MencIA Laboratory' : 'Laboratorio MencIA'}
                     </h2>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '40rem' }}>
-                        {lang === 'es'
-                            ? 'Conoce nuestro conjunto de aplicaciones y asistentes visitando nuestros simuladores interactivos.'
-                            : 'Coñece o noso conxunto de aplicacións e asistentes visitando os nosos simuladores interactivos.'
+                        {lang === 'en'
+                            ? 'Discover our suite of applications and assistants by visiting our interactive simulators.'
+                            : (lang === 'es'
+                                ? 'Conoce nuestro conjunto de aplicaciones y asistentes visitando nuestros simuladores interactivos.'
+                                : 'Coñece o noso conxunto de aplicacións e asistentes visitando os nosos simuladores interactivos.')
                         }
                     </p>
 
@@ -68,10 +70,10 @@ export default function Laboratorio({ lang }) {
                                 </div>
                                 <div>
                                     <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-                                        {lang === 'es' ? title.es : title.gl}
+                                        {lang === 'en' ? title.en : (lang === 'es' ? title.es : title.gl)}
                                     </h4>
                                     <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                                        {lang === 'es' ? desc.es : desc.gl}
+                                        {lang === 'en' ? desc.en : (lang === 'es' ? desc.es : desc.gl)}
                                     </p>
                                 </div>
                             </div>

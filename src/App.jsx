@@ -11,7 +11,7 @@ import VideoInmersivo from './components/VideoInmersivo';
 import Solucion from './components/Solucion';
 import Arquitectura from './components/Arquitectura';
 import Alineacion from './components/Alineacion';
-import HojaRuta from './components/HojaRuta';
+import HojaRuta from './components/Hojaruta';
 import ArchivosDesclasificados from './components/ArchivosDesclasificados';
 import Laboratorio from './components/Laboratorio';
 import Footer from './components/Footer';
@@ -102,7 +102,7 @@ export default function App() {
       <div className="noise-overlay"></div>
 
       {/* Preloader */}
-      {loading && <Preloader onComplete={handlePreloaderComplete} />}
+      {loading && <Preloader onComplete={handlePreloaderComplete} lang={lang} />}
 
       {/* BSO Player (small floating button) */}
       <AudioPlayer lang={lang} />

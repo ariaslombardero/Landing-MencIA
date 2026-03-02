@@ -3,20 +3,20 @@ export default function HojaRuta({ lang }) {
         {
             num: '0',
             color: 'var(--mencia-red)',
-            title: { gl: 'Fase 0 (Actual): Laboratorio de IA', es: 'Fase 0 (actual): Laboratorio de IA' },
-            desc: { gl: 'Construír, probar e demostrar valor con casos de uso concretos para vencer a resistencia ao cambio.', es: 'Construir, probar y demostrar valor con casos de uso concretos para vencer la resistencia al cambio.' }
+            title: { gl: 'Fase 0 (Actual): Laboratorio de IA', es: 'Fase 0 (actual): Laboratorio de IA', en: 'Phase 0 (current): AI Laboratory' },
+            desc: { gl: 'Construír, probar e demostrar valor con casos de uso concretos para vencer a resistencia ao cambio.', es: 'Construir, probar y demostrar valor con casos de uso concretos para vencer la resistencia al cambio.', en: 'Build, test, and demonstrate value with concrete use cases to overcome resistance to change.' }
         },
         {
             num: '1',
             color: '#3b82f6',
-            title: { gl: 'Próximos pasos: Consolidación', es: 'Próximos pasos: Consolidación' },
-            desc: { gl: 'Abordar os pasos previos necesarios: definir un marco de gobernanza, un código ético, auditar procesos e deseñar un plan de alfabetización en IA.', es: 'Abordar los pasos previos necesarios: definir un marco de gobernanza, un código ético, auditar procesos y diseñar un plan de alfabetización en IA.' }
+            title: { gl: 'Próximos pasos: Consolidación', es: 'Próximos pasos: Consolidación', en: 'Next steps: Consolidation' },
+            desc: { gl: 'Abordar os pasos previos necesarios: definir un marco de gobernanza, un código ético, auditar procesos e deseñar un plan de alfabetización en IA.', es: 'Abordar los pasos previos necesarios: definir un marco de gobernanza, un código ético, auditar procesos y diseñar un plan de alfabetización en IA.', en: 'Address the necessary previous steps: define a governance framework, an ethical code, audit processes, and design an AI literacy plan.' }
         },
         {
             num: '2',
             color: '#22c55e',
-            title: { gl: 'Obxectivo final: Escalado', es: 'Objetivo final: Escalamiento' },
-            desc: { gl: 'Ofrecer a plataforma MENCIA como un servizo público a todos os concellos da provincia.', es: 'Ofrecer la plataforma MENCIA como un servicio público a todos los ayuntamientos de la provincia.' }
+            title: { gl: 'Obxectivo final: Escalado', es: 'Objetivo final: Escalamiento', en: 'Final objective: Scaling' },
+            desc: { gl: 'Ofrecer a plataforma MENCIA como un servizo público a todos os concellos da provincia.', es: 'Ofrecer la plataforma MENCIA como un servicio público a todos los ayuntamientos de la provincia.', en: 'Offer the MENCIA platform as a public service to all municipalities in the province.' }
         },
     ];
 
@@ -36,9 +36,11 @@ export default function HojaRuta({ lang }) {
                         fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', fontWeight: 700,
                         letterSpacing: '-0.03em', color: 'var(--text-primary)', marginBottom: '1rem'
                     }}>
-                        {lang === 'es'
-                            ? 'Nuestra hoja de ruta: de un laboratorio de pruebas a un servicio público provincial'
-                            : 'A nosa folla de ruta: dun laboratorio de probas a un servizo público provincial'
+                        {lang === 'en'
+                            ? 'Our roadmap: from a test laboratory to a provincial public service'
+                            : (lang === 'es'
+                                ? 'Nuestra hoja de ruta: de un laboratorio de pruebas a un servicio público provincial'
+                                : 'A nosa folla de ruta: dun laboratorio de probas a un servizo público provincial')
                         }
                     </h2>
                 </div>
@@ -84,13 +86,13 @@ export default function HojaRuta({ lang }) {
                                     color: 'var(--text-primary)', letterSpacing: '-0.01em',
                                     marginBottom: '0.5rem', lineHeight: 1.3
                                 }}>
-                                    {lang === 'es' ? title.es : title.gl}
+                                    {lang === 'en' ? title.en : (lang === 'es' ? title.es : title.gl)}
                                 </h3>
                                 <p style={{
                                     fontSize: '0.9rem', color: '#64748b',
                                     lineHeight: 1.75, fontWeight: 400
                                 }}>
-                                    {lang === 'es' ? desc.es : desc.gl}
+                                    {lang === 'en' ? desc.en : (lang === 'es' ? desc.es : desc.gl)}
                                 </p>
                             </div>
                         </div>

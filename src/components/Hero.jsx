@@ -67,7 +67,7 @@ export default function Hero({ lang }) {
                     marginBottom: '1.5rem',
                 }}>
                     <span className="animate-pulse-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ef4444' }}></span>
-                    {lang === 'es' ? 'Estrategia pública de IA' : 'Estratexia pública de IA'}
+                    {lang === 'en' ? 'Public AI Strategy' : (lang === 'es' ? 'Estrategia pública de IA' : 'Estratexia pública de IA')}
                 </div>
 
                 {/* Title */}
@@ -76,7 +76,7 @@ export default function Hero({ lang }) {
                         Un modelo soberano,
                     </span>
                     <span className="text-shadow-glow" style={{ display: 'block', color: 'var(--mencia-red)' }}>
-                        {lang === 'es' ? 'sostenible y estratégico.' : 'sostible e estratéxico.'}
+                        {lang === 'en' ? 'sustainable and strategic.' : (lang === 'es' ? 'sostenible y estratégico.' : 'sostible e estratéxico.')}
                     </span>
                 </h1>
 
@@ -115,15 +115,17 @@ export default function Hero({ lang }) {
                         }}
                     >
                         <span style={{ fontSize: '13px' }}>🏆</span>
-                        {lang === 'es' ? 'Estrategia premiada por la Asociación Española para la Calidad' : 'Estratexia premiada pola Asociación Española para a Calidade'}
+                        {lang === 'en' ? 'Award-winning strategy by the Spanish Quality Association' : (lang === 'es' ? 'Estrategia premiada por la Asociación Española para la Calidad' : 'Estratexia premiada pola Asociación Española para a Calidade')}
                     </a>
                 </div>
 
                 {/* Subtitle */}
                 <p className="hero-element" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: 'var(--text-secondary)', maxWidth: '40rem', margin: '0 auto', fontWeight: 300, lineHeight: 1.7 }}>
-                    {lang === 'es'
-                        ? <>MencIA combina control e innovación desde el sector público.<br />La diferencia entre alquilar una casa o ser el propietario.</>
-                        : <>MencIA combina control e innovación dende o sector público.<br />A diferenza entre alugar unha casa ou ser o propietario.</>
+                    {lang === 'en'
+                        ? <>MencIA combines control and innovation from the public sector.<br />The difference between renting a house or being the owner.</>
+                        : (lang === 'es'
+                            ? <>MencIA combina control e innovación desde el sector público.<br />La diferencia entre alquilar una casa o ser el propietario.</>
+                            : <>MencIA combina control e innovación dende o sector público.<br />A diferenza entre alugar unha casa ou ser o propietario.</>)
                     }
                 </p>
 
@@ -145,7 +147,7 @@ export default function Hero({ lang }) {
                             backdropFilter: 'blur(8px)',
                             WebkitBackdropFilter: 'blur(8px)',
                         }}
-                        aria-label={lang === 'es' ? 'Activar música de fondo' : 'Activar música de fondo'}
+                        aria-label={lang === 'en' ? 'Enable background music' : 'Activar música de fondo'}
                     >
                         <Music2 size={13} color="#f87171" className="animate-pulse" />
                         <span style={{
@@ -153,9 +155,11 @@ export default function Hero({ lang }) {
                             color: 'var(--text-secondary)',
                             letterSpacing: '0.01em'
                         }}>
-                            {lang === 'es'
-                                ? 'Activa nuestra banda sonora original para una experiencia inmersiva'
-                                : 'Activa a nosa banda sonora orixinal para unha experiencia inmersiva'
+                            {lang === 'en'
+                                ? 'Enable our original soundtrack for an immersive experience'
+                                : (lang === 'es'
+                                    ? 'Activa nuestra banda sonora original para una experiencia inmersiva'
+                                    : 'Activa a nosa banda sonora orixinal para unha experiencia inmersiva')
                             }
                         </span>
                     </button>

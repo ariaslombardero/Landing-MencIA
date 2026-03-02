@@ -93,7 +93,7 @@ export default function VideoInmersivo({ lang }) {
                     opacity: 0.4
                 }}>
                     <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
-                        MencIA • {lang === 'es' ? 'Experiencia Audiovisual' : 'Experiencia Audiovisual'}
+                        MencIA • {lang === 'en' ? 'Audiovisual Experience' : (lang === 'es' ? 'Experiencia Audiovisual' : 'Experiencia Audiovisual')}
                     </span>
                 </div>
             </div>
@@ -155,7 +155,7 @@ export default function VideoInmersivo({ lang }) {
                 }}></div>
 
                 {/* Top corner branding */}
-                <div style={{
+                <div className="top-branding" style={{
                     position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 8,
                     display: 'flex', alignItems: 'center', gap: '0.5rem', opacity: 0.5
                 }}>
@@ -207,15 +207,15 @@ export default function VideoInmersivo({ lang }) {
                 </div>
 
                 {/* Title — inferior izquierda sobre el gradiente oscuro */}
-                <div style={{
-                    position: 'absolute', bottom: '4.5rem', left: '2rem', zIndex: 10,
+                <div className="video-preview-title" style={{
+                    position: 'absolute', zIndex: 10,
                 }}>
                     <h3 style={{
                         fontSize: 'clamp(1.25rem, 2.5vw, 2rem)', fontWeight: 200, color: '#fff',
                         letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: '0.6rem',
                         textShadow: '0 2px 20px rgba(0,0,0,0.8)'
                     }}>
-                        {lang === 'es' ? 'La visión de MencIA' : 'A visión de MencIA'}
+                        {lang === 'en' ? 'The vision of MencIA' : (lang === 'es' ? 'La visión de MencIA' : 'A visión de MencIA')}
                     </h3>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                         <div style={{ width: '1.5rem', height: '1px', background: 'rgba(255,255,255,0.4)' }}></div>
@@ -223,7 +223,7 @@ export default function VideoInmersivo({ lang }) {
                             fontSize: '0.65rem', fontWeight: 600, color: 'rgba(255,255,255,0.5)',
                             textTransform: 'uppercase', letterSpacing: '0.2em'
                         }}>
-                            {lang === 'es' ? 'Reproducir' : 'Reproducir'}
+                            {lang === 'en' ? 'Play' : (lang === 'es' ? 'Reproducir' : 'Reproducir')}
                         </span>
                     </div>
                 </div>
@@ -245,6 +245,20 @@ export default function VideoInmersivo({ lang }) {
                 @keyframes fadeIn {
                     from { opacity: 0; }
                     to { opacity: 1; }
+                }
+                .video-preview-title {
+                    bottom: 4.5rem;
+                    left: 2rem;
+                }
+                @media (max-width: 640px) {
+                    .video-preview-title {
+                        bottom: auto !important;
+                        top: 1.5rem !important;
+                        left: 1.5rem !important;
+                    }
+                    .top-branding {
+                        display: none !important;
+                    }
                 }
             `}</style>
         </section>

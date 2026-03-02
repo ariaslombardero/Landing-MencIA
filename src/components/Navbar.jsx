@@ -1,20 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Sun, Moon, Menu, X } from 'lucide-react';
+import { Sun, Moon, Menu, X, Globe, Check } from 'lucide-react';
 
 const NAV_ITEMS = [
-    { id: 'dilema', gl: 'O contexto', es: 'El contexto' },
-    { id: 'solucion', gl: 'A estratexia', es: 'La estrategia' },
-    { id: 'ferramentas', gl: 'Ferramentas', es: 'Herramientas' },
-    { id: 'aliñacion', gl: 'Aliñación', es: 'Alineación' },
-    { id: 'hoja-ruta', gl: 'Folla de ruta', es: 'Hoja de ruta' },
-    { id: 'archivos', gl: 'Arquivos', es: 'Archivos' },
-    { id: 'simulaciones', gl: 'Laboratorio', es: 'Laboratorio' },
+    { id: 'dilema', gl: 'O contexto', es: 'El contexto', en: 'Context' },
+    { id: 'solucion', gl: 'A estratexia', es: 'La estrategia', en: 'Strategy' },
+    { id: 'ferramentas', gl: 'Ferramentas', es: 'Herramientas', en: 'Tools' },
+    { id: 'aliñacion', gl: 'Aliñación', es: 'Alineación', en: 'Alignment' },
+    { id: 'hoja-ruta', gl: 'Folla de ruta', es: 'Hoja de ruta', en: 'Roadmap' },
+    { id: 'archivos', gl: 'Arquivos', es: 'Archivos', en: 'Files' },
+    { id: 'simulaciones', gl: 'Laboratorio', es: 'Laboratorio', en: 'Laboratory' },
 ];
 
 export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
     const [activeSection, setActiveSection] = useState('');
     const [themeTooltip, setThemeTooltip] = useState(false);
     const [langTooltip, setLangTooltip] = useState(false);
+    const [langMenuOpen, setLangMenuOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleScroll = useCallback(() => {
@@ -88,7 +89,7 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                         href={`#${item.id}`}
                         className={`nav-link${activeSection === item.id ? ' active-nav' : ''}`}
                     >
-                        {lang === 'es' ? item.es : item.gl}
+                        {lang === 'en' ? item.en : (lang === 'es' ? item.es : item.gl)}
                     </a>
                 ))}
             </div>
@@ -125,31 +126,22 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                         zIndex: 100,
                     }}>
                         {lightMode
-                            ? (lang === 'es' ? 'Modo oscuro' : 'Modo escuro')
-                            : (lang === 'es' ? 'Modo claro' : 'Modo claro')
+                            ? (lang === 'en' ? 'Dark mode' : (lang === 'es' ? 'Modo oscuro' : 'Modo escuro'))
+                            : (lang === 'en' ? 'Light mode' : (lang === 'es' ? 'Modo claro' : 'Modo claro'))
                         }
                     </div>
                 </div>
 
-                {/* Language Switcher with tooltip */}
+                {/* Language Switcher Dropdown */}
                 <div
-                    style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.75rem', paddingLeft: '0.75rem', borderLeft: '1px solid var(--mencia-border)' }}
-                    onMouseEnter={() => setLangTooltip(true)}
-                    onMouseLeave={() => setLangTooltip(false)}
+                    style={{ position: 'relative', display: 'flex', alignItems: 'center', paddingLeft: '0.75rem', borderLeft: '1px solid var(--mencia-border)' }}
+                    onMouseEnter={() => { setLangTooltip(true); setLangMenuOpen(true); }}
+                    onMouseLeave={() => { setLangTooltip(false); setLangMenuOpen(false); }}
                 >
-                    <button
-                        className={`lang-btn${lang === 'gl' ? ' active' : ''}`}
-                        onClick={() => setLang('gl')}
-                    >
-                        GAL
+                    <button className="theme-toggle" aria-label="Cambiar idioma">
+                        <Globe size={18} />
                     </button>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>/</span>
-                    <button
-                        className={`lang-btn${lang === 'es' ? ' active' : ''}`}
-                        onClick={() => setLang('es')}
-                    >
-                        ES
-                    </button>
+
                     {/* Tooltip */}
                     <div style={{
                         position: 'absolute',
@@ -165,15 +157,86 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                         fontWeight: 500,
                         letterSpacing: '0.04em',
                         whiteSpace: 'nowrap',
-                        opacity: langTooltip ? 1 : 0,
+                        opacity: langTooltip && !langMenuOpen ? 1 : 0,
                         transition: 'opacity 0.3s ease',
                         pointerEvents: 'none',
                         zIndex: 100,
                     }}>
-                        {lang === 'es'
-                            ? (lang === 'es' ? 'Cambiar idioma' : 'Cambiar idioma')
-                            : 'Cambiar idioma'
+                        {lang === 'en'
+                            ? 'Change language'
+                            : (lang === 'es' ? 'Cambiar idioma' : 'Cambiar idioma')
                         }
+                    </div>
+
+                    {/* Menu Dropdown */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 'calc(100% + 5px)',
+                        right: 0,
+                        background: lightMode ? 'rgba(255, 255, 255, 0.95)' : 'rgba(15, 23, 42, 0.95)',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        border: lightMode ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '12px',
+                        padding: '0.5rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        minWidth: '130px',
+                        opacity: langMenuOpen ? 1 : 0,
+                        visibility: langMenuOpen ? 'visible' : 'hidden',
+                        transform: langMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
+                        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                        boxShadow: '0 10px 40px -10px rgba(0,0,0,0.5)',
+                        zIndex: 110,
+                    }}>
+                        <button
+                            onClick={() => { setLang('gl'); setLangMenuOpen(false); }}
+                            style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                width: '100%', padding: '0.5rem 0.75rem', borderRadius: '6px',
+                                background: 'transparent', border: 'none', cursor: 'pointer',
+                                color: lang === 'gl' ? 'var(--mencia-red)' : 'var(--text-primary)',
+                                fontWeight: lang === 'gl' ? 600 : 400,
+                                fontSize: '0.875rem', textAlign: 'left',
+                                transition: 'background 0.2s ease',
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background = lightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                        >
+                            Galego {lang === 'gl' && <Check size={14} color="var(--mencia-red)" />}
+                        </button>
+                        <button
+                            onClick={() => { setLang('es'); setLangMenuOpen(false); }}
+                            style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                width: '100%', padding: '0.5rem 0.75rem', borderRadius: '6px',
+                                background: 'transparent', border: 'none', cursor: 'pointer',
+                                color: lang === 'es' ? 'var(--mencia-red)' : 'var(--text-primary)',
+                                fontWeight: lang === 'es' ? 600 : 400,
+                                fontSize: '0.875rem', textAlign: 'left',
+                                transition: 'background 0.2s ease',
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background = lightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                        >
+                            Español {lang === 'es' && <Check size={14} color="var(--mencia-red)" />}
+                        </button>
+                        <button
+                            onClick={() => { setLang('en'); setLangMenuOpen(false); }}
+                            style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                width: '100%', padding: '0.5rem 0.75rem', borderRadius: '6px',
+                                background: 'transparent', border: 'none', cursor: 'pointer',
+                                color: lang === 'en' ? 'var(--mencia-red)' : 'var(--text-primary)',
+                                fontWeight: lang === 'en' ? 600 : 400,
+                                fontSize: '0.875rem', textAlign: 'left',
+                                transition: 'background 0.2s ease',
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background = lightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                        >
+                            English {lang === 'en' && <Check size={14} color="var(--mencia-red)" />}
+                        </button>
                     </div>
                 </div>
 
@@ -222,7 +285,7 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                         }}
                         onClick={() => setMobileMenuOpen(false)}
                     >
-                        {lang === 'es' ? item.es : item.gl}
+                        {lang === 'en' ? item.en : (lang === 'es' ? item.es : item.gl)}
                     </a>
                 ))}
             </div>

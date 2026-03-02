@@ -1,10 +1,10 @@
 import { Flag, Leaf, ThermometerSun, Globe } from 'lucide-react';
 
 const CARDS = [
-    { icon: Flag, color: '#eab308', title: { gl: 'Proxecto ALIA e OpenEuroLLM', es: 'Proyecto ALIA y OpenEuroLLM' }, desc: { gl: 'MencIA contribúe ao ecosistema de modelos de linguaxe en castelán e linguas cooficiais (proxecto ALIA) e fomenta a creación de grandes modelos de linguaxe europeos de código aberto (OpenEuroLLM), impulsando a soberanía do dato.', es: 'MencIA contribuye al ecosistema de modelos de lenguaje en castellano y lenguas cooficiales (proyecto ALIA) y fomenta la creación de grandes modelos de lenguaje europeos de código abierto (OpenEuroLLM), impulsando la soberanía del dato.' } },
-    { icon: Leaf, color: '#22c55e', title: { gl: 'Algoritmos verdes e Green in AI', es: 'Algoritmos verdes y Green in AI' }, desc: { gl: "Aliñado co Plan nacional de algoritmos verdes. A nosa filosofía 'Green in AI' prioriza a eficiencia enerxética mediante a especialización de tarefas, usando modelos pequenos (SLM) que reducen drasticamente a carga computacional e o consumo de auga.", es: "Alineado con el Plan nacional de algoritmos verdes. Nuestra filosofía 'Green in AI' prioriza la eficiencia energética mediante la especialización de tareas, usando modelos pequeños (SLM) que reducen drásticamente la carga computacional y el consumo de agua." } },
-    { icon: ThermometerSun, color: '#ef4444', title: { gl: 'Pacto de Estado fronte á emerxencia climática', es: 'Pacto de Estado frente a la emergencia climática' }, desc: { gl: 'Unha resposta tecnolóxica á emerxencia climática. O modelo evita o desperdicio de recursos dixitais mediante a centralización do cómputo na Deputación e a reutilización de hardware nos pequenos concellos, garantindo a cohesión dixital sostible.', es: 'Una respuesta tecnológica a la emergencia climática. El modelo evita el desperdicio de recursos digitales mediante la centralización del cómputo en la Diputación y la reutilización de hardware en los pequeños ayuntamientos, garantizando la cohesión digital sostenible.' } },
-    { icon: Globe, color: '#3b82f6', title: { gl: "Estratexia UE 'Apply AI'", es: "Estrategia UE 'Apply AI'" }, desc: { gl: "Un modelo exemplar para o sector público europeo baseado no principio 'AI First'. MencIA integra a intelixencia artificial no núcleo dos procesos administrativos de forma soberana, servindo como unha solución replicable para a 'caixa de ferramentas' da UE.", es: "Un modelo ejemplar para el sector público europeo basado en el principio 'AI First'. MencIA integra la inteligencia artificial en el núcleo de los procesos administrativos de forma soberana, sirviendo como una solución replicable para la 'caja de herramientas' de la UE." } },
+    { icon: Flag, color: '#eab308', title: { gl: 'Proxecto ALIA e OpenEuroLLM', es: 'Proyecto ALIA y OpenEuroLLM', en: 'ALIA Project and OpenEuroLLM' }, desc: { gl: 'MencIA contribúe ao ecosistema de modelos de linguaxe en castelán e linguas cooficiais (proxecto ALIA) e fomenta a creación de grandes modelos de linguaxe europeos de código aberto (OpenEuroLLM), impulsando a soberanía do dato.', es: 'MencIA contribuye al ecosistema de modelos de lenguaje en castellano y lenguas cooficiales (proyecto ALIA) y fomenta la creación de grandes modelos de lenguaje europeos de código abierto (OpenEuroLLM), impulsando la soberanía del dato.', en: 'MencIA contributes to the ecosystem of language models in Spanish and co-official languages (ALIA project) and promotes the creation of large open-source European language models (OpenEuroLLM), driving data sovereignty.' } },
+    { icon: Leaf, color: '#22c55e', title: { gl: 'Algoritmos verdes e Green in AI', es: 'Algoritmos verdes y Green in AI', en: 'Green algorithms and Green in AI' }, desc: { gl: "Aliñado co Plan nacional de algoritmos verdes. A nosa filosofía 'Green in AI' prioriza a eficiencia enerxética mediante a especialización de tarefas, usando modelos pequenos (SLM) que reducen drasticamente a carga computacional e o consumo de auga.", es: "Alineado con el Plan nacional de algoritmos verdes. Nuestra filosofía 'Green in AI' prioriza la eficiencia energética mediante la especialización de tareas, usando modelos pequeños (SLM) que reducen drásticamente la carga computacional y el consumo de agua.", en: "Aligned with the National plan for green algorithms. Our 'Green in AI' philosophy prioritizes energy efficiency through task specialization, using small language models (SLM) that drastically reduce computational load and water consumption." } },
+    { icon: ThermometerSun, color: '#ef4444', title: { gl: 'Pacto de Estado fronte á emerxencia climática', es: 'Pacto de Estado frente a la emergencia climática', en: 'State Pact against the climate emergency' }, desc: { gl: 'Unha resposta tecnolóxica á emerxencia climática. O modelo evita o desperdicio de recursos dixitais mediante a centralización do cómputo na Deputación e a reutilización de hardware nos pequenos concellos, garantindo a cohesión dixital sostible.', es: 'Una respuesta tecnológica a la emergencia climática. El modelo evita el desperdicio de recursos digitales mediante la centralización del cómputo en la Diputación y la reutilización de hardware en los pequeños ayuntamientos, garantizando la cohesión digital sostenible.', en: 'A technological response to the climate emergency. The model avoids the waste of digital resources by centralizing computing in the Provincial Council and reusing hardware in small municipalities, ensuring sustainable digital cohesion.' } },
+    { icon: Globe, color: '#3b82f6', title: { gl: "Estratexia UE 'Apply AI'", es: "Estrategia UE 'Apply AI'", en: "EU 'Apply AI' Strategy" }, desc: { gl: "Un modelo exemplar para o sector público europeo baseado no principio 'AI First'. MencIA integra a intelixencia artificial no núcleo dos procesos administrativos de forma soberana, servindo como unha solución replicable para a 'caixa de ferramentas' da UE.", es: "Un modelo ejemplar para el sector público europeo basado en el principio 'AI First'. MencIA integra la inteligencia artificial en el núcleo de los procesos administrativos de forma soberana, sirviendo como una solución replicable para la 'caja de herramientas' de la UE.", en: "An exemplary model for the European public sector based on the 'AI First' principle. MencIA integrates artificial intelligence into the core of administrative processes in a sovereign manner, serving as a replicable solution for the EU's 'toolbox'." } },
 ];
 
 export default function Alineacion({ lang }) {
@@ -29,18 +29,20 @@ export default function Alineacion({ lang }) {
                         fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.2em',
                         textTransform: 'uppercase', color: '#cf112d', display: 'block', marginBottom: '1rem'
                     }}>
-                        — {lang === 'es' ? 'Marco estratégico' : 'Marco estratéxico'}
+                        — {lang === 'en' ? 'Strategic framework' : (lang === 'es' ? 'Marco estratégico' : 'Marco estratéxico')}
                     </span>
                     <h2 style={{
                         fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em',
                         fontWeight: 700, color: '#f8fafc', marginBottom: '1rem'
                     }}>
-                        {lang === 'es' ? 'Alineación estratégica' : 'Aliñación estratéxica'}
+                        {lang === 'en' ? 'Strategic alignment' : (lang === 'es' ? 'Alineación estratégica' : 'Aliñación estratéxica')}
                     </h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 400, maxWidth: '44rem' }}>
-                        {lang === 'es'
-                            ? 'MencIA no es una iniciativa aislada, es la materialización de las grandes estrategias nacionales y europeas.'
-                            : 'MencIA non é unha iniciativa illada, é a materialización das grandes estratexias nacionais e europeas.'}
+                        {lang === 'en'
+                            ? 'MencIA is not an isolated initiative, it is the materialization of major national and European strategies.'
+                            : (lang === 'es'
+                                ? 'MencIA no es una iniciativa aislada, es la materialización de las grandes estrategias nacionales y europeas.'
+                                : 'MencIA non é unha iniciativa illada, é a materialización das grandes estratexias nacionais e europeas.')}
                     </p>
                 </div>
 
@@ -94,7 +96,7 @@ export default function Alineacion({ lang }) {
                                 fontSize: '1.05rem', fontWeight: 600, color: '#f1f5f9',
                                 lineHeight: 1.35, letterSpacing: '-0.01em', marginBottom: '0.75rem'
                             }}>
-                                {lang === 'es' ? title.es : title.gl}
+                                {lang === 'en' ? title.en : (lang === 'es' ? title.es : title.gl)}
                             </h3>
 
                             {/* Body */}
@@ -102,7 +104,7 @@ export default function Alineacion({ lang }) {
                                 color: 'var(--text-muted)', fontSize: '0.9rem',
                                 lineHeight: 1.75, fontWeight: 400
                             }}>
-                                {lang === 'es' ? desc.es : desc.gl}
+                                {lang === 'en' ? desc.en : (lang === 'es' ? desc.es : desc.gl)}
                             </p>
                         </div>
                     ))}

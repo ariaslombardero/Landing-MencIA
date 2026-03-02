@@ -89,8 +89,8 @@ export default function AudioPlayer({ lang }) {
                 onClick={togglePlay}
                 aria-label="Toggle Music"
                 title={isPlaying
-                    ? (lang === 'es' ? 'Pausar BSO' : 'Pausar BSO')
-                    : (lang === 'es' ? 'Reproducir BSO inmersiva' : 'Reproducir BSO inmersiva')}
+                    ? (lang === 'en' ? 'Pause BSO' : (lang === 'es' ? 'Pausar BSO' : 'Pausar BSO'))
+                    : (lang === 'en' ? 'Play immersive BSO' : (lang === 'es' ? 'Reproducir BSO inmersiva' : 'Reproducir BSO inmersiva'))}
                 style={{
                     width: '3.25rem', height: '3.25rem', borderRadius: '50%',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',

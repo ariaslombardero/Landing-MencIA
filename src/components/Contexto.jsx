@@ -20,12 +20,14 @@ export default function Contexto({ lang }) {
                 {/* Header Editorial */}
                 <div className="reveal-text" style={{ textAlign: 'center', maxWidth: '54rem', margin: '0 auto 6rem' }}>
                     <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '1.5rem', letterSpacing: '-0.04em', fontWeight: 700, color: '#f8fafc', lineHeight: 1.1 }}>
-                        {lang === 'es' ? 'La encrucijada de la administración' : 'A encrucillada da administración'}
+                        {lang === 'en' ? 'The public administration crossroads' : (lang === 'es' ? 'La encrucijada de la administración' : 'A encrucillada da administración')}
                     </h2>
                     <p style={{ color: '#94a3b8', fontSize: '1.25rem', lineHeight: 1.8, fontWeight: 400 }}>
-                        {lang === 'es'
-                            ? 'Las administraciones públicas se encuentran atrapadas entre dos caminos que llevan al fracaso. Uno nos hace dependientes; el otro, irrelevantes.'
-                            : 'As administracións públicas atópanse atrapadas entre dous camiños que levan ao fracaso. Un fainos dependentes; o outro, irrelevantes.'
+                        {lang === 'en'
+                            ? 'Public administrations are caught between two paths that lead to failure. One makes us dependent; the other, irrelevant.'
+                            : (lang === 'es'
+                                ? 'Las administraciones públicas se encuentran atrapadas entre dos caminos que llevan al fracaso. Uno nos hace dependientes; el otro, irrelevantes.'
+                                : 'As administracións públicas atópanse atrapadas entre dous camiños que levan ao fracaso. Un fainos dependentes; o outro, irrelevantes.')
                         }
                     </p>
                 </div>
@@ -82,22 +84,24 @@ export default function Contexto({ lang }) {
                                 </div>
                                 <div>
                                     <div style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#ef4444', marginBottom: '0.25rem' }}>
-                                        {lang === 'es' ? 'VÍA 1' : 'VÍA 1'}
+                                        {lang === 'en' ? 'PATH 1' : 'VÍA 1'}
                                     </div>
                                     <h3 style={{ fontSize: '2rem', fontWeight: 400, letterSpacing: '-0.02em', color: '#f8fafc', lineHeight: 1 }}>
-                                        {lang === 'es' ? 'Feudalismo digital' : 'Feudalismo dixital'}
+                                        {lang === 'en' ? 'Digital feudalism' : (lang === 'es' ? 'Feudalismo digital' : 'Feudalismo dixital')}
                                     </h3>
                                 </div>
                             </div>
 
                             <p style={{ color: '#cbd5e1', fontSize: '1.125rem', marginBottom: '2.5rem', fontWeight: 300, lineHeight: 1.6 }}>
-                                {lang === 'es' ? 'Dependencia absoluta de soluciones propietarias cerradas.' : 'Dependencia absoluta de solucións propietarias pechadas.'}
+                                {lang === 'en' ? 'Absolute dependence on closed proprietary solutions.' : (lang === 'es' ? 'Dependencia absoluta de soluciones propietarias cerradas.' : 'Dependencia absoluta de solucións propietarias pechadas.')}
                             </p>
 
                             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '3rem' }}>
-                                {(lang === 'es'
-                                    ? ['Se cede el control total de los datos.', 'Operamos a través de "cajas negras".', 'Costes de alquiler recurrentes y crecientes.']
-                                    : ['Cédese o control total dos datos.', 'Operamos a través de "caixas negras".', 'Custos de aluguer recorrentes e crecentes.']
+                                {(lang === 'en'
+                                    ? ['Total control of data is surrendered.', 'Operating through "black boxes".', 'Recurring and increasing rental costs.']
+                                    : (lang === 'es'
+                                        ? ['Se cede el control total de los datos.', 'Operamos a través de "cajas negras".', 'Costes de alquiler recurrentes y crecientes.']
+                                        : ['Cédese o control total dos datos.', 'Operamos a través de "caixas negras".', 'Custos de aluguer recorrentes e crecentes.'])
                                 ).map((text, i) => (
                                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1.05rem', color: '#94a3b8', fontWeight: 300 }}>
                                         <X size={20} color="#ef4444" style={{ marginTop: '2px', flexShrink: 0 }} />
@@ -108,7 +112,7 @@ export default function Contexto({ lang }) {
 
                             <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
                                 <p style={{ fontSize: '1rem', fontWeight: 300, color: '#ef4444', fontStyle: 'italic', letterSpacing: '0.02em' }}>
-                                    {lang === 'es' ? '"Entregamos las llaves de nuestra institución."' : '"Entregamos as chaves da nosa institución."'}
+                                    {lang === 'en' ? '"We hand over the keys to our institution."' : (lang === 'es' ? '"Entregamos las llaves de nuestra institución."' : '"Entregamos as chaves da nosa institución."')}
                                 </p>
                             </div>
                         </div>
@@ -163,22 +167,24 @@ export default function Contexto({ lang }) {
                                 </div>
                                 <div>
                                     <div style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: '0.25rem' }}>
-                                        {lang === 'es' ? 'VÍA 2' : 'VÍA 2'}
+                                        {lang === 'en' ? 'PATH 2' : 'VÍA 2'}
                                     </div>
                                     <h3 style={{ fontSize: '2rem', fontWeight: 400, letterSpacing: '-0.02em', color: '#f8fafc', lineHeight: 1 }}>
-                                        {lang === 'es' ? 'El valle de los pilotos' : 'O val dos pilotos'}
+                                        {lang === 'en' ? 'The valley of pilots' : (lang === 'es' ? 'El valle de los pilotos' : 'O val dos pilotos')}
                                     </h3>
                                 </div>
                             </div>
 
                             <p style={{ color: '#cbd5e1', fontSize: '1.125rem', marginBottom: '2.5rem', fontWeight: 300, lineHeight: 1.6 }}>
-                                {lang === 'es' ? 'Estancamiento disfrazado de innovación.' : 'Estancamento disfrazado de innovación.'}
+                                {lang === 'en' ? 'Stagnation disguised as innovation.' : (lang === 'es' ? 'Estancamiento disfrazado de innovación.' : 'Estancamento disfrazado de innovación.')}
                             </p>
 
                             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '3rem' }}>
-                                {(lang === 'es'
-                                    ? ['Prudencia excesiva que paraliza la acción.', 'Pilotos tecnológicos que nunca escalan.', 'Inversión sin transformación real.']
-                                    : ['Prudencia excesiva que paraliza a acción.', 'Pilotos tecnolóxicos que nunca escalan.', 'Investimento sen transformación real.']
+                                {(lang === 'en'
+                                    ? ['Excessive caution that paralyzes action.', 'Technological pilots that never scale.', 'Investment without real transformation.']
+                                    : (lang === 'es'
+                                        ? ['Prudencia excesiva que paraliza la acción.', 'Pilotos tecnológicos que nunca escalan.', 'Inversión sin transformación real.']
+                                        : ['Prudencia excesiva que paraliza a acción.', 'Pilotos tecnolóxicos que nunca escalan.', 'Investimento sen transformación real.'])
                                 ).map((text, i) => (
                                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1.05rem', color: '#94a3b8', fontWeight: 300 }}>
                                         <AlertCircle size={20} color="#94a3b8" style={{ marginTop: '2px', flexShrink: 0 }} />
@@ -189,7 +195,7 @@ export default function Contexto({ lang }) {
 
                             <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
                                 <p style={{ fontSize: '1rem', fontWeight: 300, color: '#94a3b8', fontStyle: 'italic', letterSpacing: '0.02em' }}>
-                                    {lang === 'es' ? '"La tecnología funciona, pero no somos capaces de integrarla."' : '"A tecnoloxía funciona, pero non somos capaces de integrala."'}
+                                    {lang === 'en' ? '"The technology works, but we are unable to integrate it."' : (lang === 'es' ? '"La tecnología funciona, pero no somos capaces de integrarla."' : '"A tecnoloxía funciona, pero non somos capaces de integrala."')}
                                 </p>
                             </div>
                         </div>
