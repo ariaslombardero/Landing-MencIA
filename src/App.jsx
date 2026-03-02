@@ -6,12 +6,16 @@ import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Contexto from './components/Contexto';
+import VideoInmersivo from './components/VideoInmersivo';
+
 import Solucion from './components/Solucion';
 import Arquitectura from './components/Arquitectura';
 import Alineacion from './components/Alineacion';
 import HojaRuta from './components/HojaRuta';
+import ArchivosDesclasificados from './components/ArchivosDesclasificados';
 import Laboratorio from './components/Laboratorio';
 import Footer from './components/Footer';
+import AudioPlayer from './components/AudioPlayer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +25,6 @@ export default function App() {
   const [lightMode, setLightMode] = useState(false);
   const hasAnimated = useRef(false);
 
-  // Toggle light mode
   const toggleLightMode = useCallback(() => {
     setLightMode((prev) => !prev);
   }, []);
@@ -30,13 +33,11 @@ export default function App() {
     document.body.classList.toggle('light-mode', lightMode);
   }, [lightMode]);
 
-  // Preloader complete → animate hero & navbar
   const handlePreloaderComplete = useCallback(() => {
     setLoading(false);
     if (hasAnimated.current) return;
     hasAnimated.current = true;
 
-    // Small delay so elements are mounted
     requestAnimationFrame(() => {
       gsap.to('#navbar', { y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
       gsap.to('.hero-element', { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.3 });
@@ -58,7 +59,6 @@ export default function App() {
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    // Delay slightly to ensure all elements are rendered
     const timer = setTimeout(() => {
       document.querySelectorAll('.reveal-text').forEach((el) => observer.observe(el));
     }, 100);
@@ -69,10 +69,9 @@ export default function App() {
     };
   }, [loading]);
 
-  // Initialize Lenis smooth scroll
+  // Lenis smooth scroll
   useEffect(() => {
     if (loading) return;
-
     let lenis;
     let rafId;
 
@@ -80,7 +79,6 @@ export default function App() {
       try {
         const Lenis = (await import('@studio-freight/lenis')).default;
         lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-
         function raf(time) {
           lenis.raf(time);
           rafId = requestAnimationFrame(raf);
@@ -92,7 +90,6 @@ export default function App() {
     };
 
     initLenis();
-
     return () => {
       if (lenis) lenis.destroy();
       if (rafId) cancelAnimationFrame(rafId);
@@ -106,6 +103,9 @@ export default function App() {
 
       {/* Preloader */}
       {loading && <Preloader onComplete={handlePreloaderComplete} />}
+
+      {/* BSO Player (small floating button) */}
+      <AudioPlayer lang={lang} />
 
       {/* Navbar */}
       <Navbar
@@ -123,7 +123,10 @@ export default function App() {
         <Arquitectura lang={lang} />
         <Alineacion lang={lang} />
         <HojaRuta lang={lang} />
+        <ArchivosDesclasificados lang={lang} />
         <Laboratorio lang={lang} />
+
+        <VideoInmersivo lang={lang} />
       </main>
 
       <Footer lang={lang} lightMode={lightMode} />

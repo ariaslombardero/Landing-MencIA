@@ -4,35 +4,28 @@ const SIMULATORS = [
     {
         icon: Radar,
         title: { gl: 'Radar estratéxico', es: 'Radar estratégico' },
-        file: 'Radar estratégico.html',
+        file: 'radar-estrategico.html',
         color: '#ef4444',
         desc: { gl: 'Visualiza a posición de MencIA fronte á administración tradicional.', es: 'Visualiza la posición de MencIA frente a la administración tradicional.' },
     },
     {
         icon: Calculator,
         title: { gl: 'Calculadora de impacto verde', es: 'Calculadora de impacto verde' },
-        file: 'Calculadora impacto verde.html',
+        file: 'calculadora-impacto-verde.html',
         color: '#22c55e',
         desc: { gl: 'Compara o consumo enerxético entre modelos locais e na nube.', es: 'Compara el consumo energético entre modelos locales y en la nube.' },
     },
     {
-        icon: Map,
-        title: { gl: 'Mapa do ecosistema provincial', es: 'Mapa ecosistema provincial' },
-        file: 'Mapa ecosistema provincial.html',
-        color: '#3b82f6',
-        desc: { gl: 'Mapa interactivo dos concellos e servizos da provincia.', es: 'Mapa interactivo de los ayuntamientos y servicios de la provincia.' },
-    },
-    {
         icon: BarChart3,
         title: { gl: 'Comparador de tarefas', es: 'Comparador de tareas' },
-        file: 'Comparador de tareas.funcionalidad frente a espectáculo.html',
+        file: 'comparador-tareas.html',
         color: '#eab308',
         desc: { gl: 'Funcionalidade real fronte a escaparate tecnolóxico.', es: 'Funcionalidad real frente a escaparate tecnológico.' },
     },
     {
         icon: Table2,
         title: { gl: 'Táboa periódica de IA', es: 'Tabla periódica de IA' },
-        file: 'Tabla periódica de asistentes y apps.html',
+        file: 'tabla-periodica-ia.html',
         color: '#a855f7',
         desc: { gl: 'Catálogo visual de todas as ferramentas do ecosistema MencIA.', es: 'Catálogo visual de todas las herramientas del ecosistema MencIA.' },
     },
@@ -54,17 +47,15 @@ export default function Laboratorio({ lang }) {
                             : 'Coñece o noso conxunto de aplicacións e asistentes visitando os nosos simuladores interactivos.'
                         }
                     </p>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.15em', marginTop: '0.5rem' }}>
-                        MencIA OS v2.0
-                    </p>
+
                 </div>
 
                 {/* Simulator Cards */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 20rem), 1fr))', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 30rem), 1fr))', gap: '1.5rem' }}>
                     {SIMULATORS.map(({ icon: Icon, title, file, color, desc }, i) => (
                         <a
                             key={i}
-                            href={`/simuladores/${encodeURIComponent(file)}`}
+                            href={`/simuladores/${file}?lang=${lang}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="sim-link glass-panel reveal-text"

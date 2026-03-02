@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MencIA - Ecosistema de Replicabilidad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --mencia-red: #cf112d;
+            --mencia-dark: #0f172a;
+            --mencia-node: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--mencia-dark);
+            color: white;
+            overflow: hidden;
+            /* Para el canvas a pantalla completa */
+            margin: 0;
+        }
+
+        /* Panel de cristal */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Animación de pulso para el nodo central */
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(207, 17, 45, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(207, 17, 45, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(207, 17, 45, 0);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse-red 2s infinite;
+        }
+
+        /* Tooltip personalizado */
+        #tooltip {
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 50;
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #cf112d, transparent);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 2s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="relative w-full h-screen">
+
+    <!-- CANVAS FONDO -->
+    <canvas id="networkCanvas" class="absolute inset-0 z-0"></canvas>
+
+    <!-- HEADER UI -->
+    <header class="absolute top-0 left-0 w-full z-40 px-8 py-6 pointer-events-none">
+        <div class="flex justify-between items-start">
+            <div class="pointer-events-auto">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="text-3xl font-bold tracking-tight text-white">
+                        <a href="/" class="block hover:opacity-90 transition-opacity" aria-label="Volver al inicio"><img
+                                src="../logos/mencia-logo-trans-dark.png"
+                                style="height: 42px; width: auto; object-fit: contain;" alt="MencIA"></a>
+                    </div>
+                    <div class="h-6 w-px bg-white/20 mx-2"></div>
+                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        Ecosistema de Red <br> Neural Provincial
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAYER ESTRATÉGICO: GREEN AI & 3 CLICS -->
+            <div
+                class="glass-panel rounded-2xl p-5 max-w-lg pointer-events-auto border-l-4 border-l-[#cf112d] relative overflow-hidden group">
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-[#cf112d]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+
+                <div class="flex items-start gap-4 relative z-10">
+                    <div class="bg-[#cf112d]/20 p-3 rounded-xl text-[#cf112d]">
+                        <i data-lucide="mouse-pointer-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            IA en 3 Clics = Green AI
+                            <span
+                                class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">Sostenibilidad</span>
+                        </h3>
+                        <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                            La eficiencia es ecológica. Nuestras aplicaciones resuelven tareas complejas en segundos ("3
+                            clics"), evitando el consumo energético masivo de sesiones de chat largas.
+                        </p>
+                        <div class="flex gap-4 mt-3 text-xs font-mono text-slate-400">
+                            <span class="flex items-center gap-1"><i data-lucide="zap"
+                                    class="w-3 h-3 text-yellow-400"></i> -80% Energía</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock"
+                                    class="w-3 h-3 text-blue-400"></i> -90% Tiempo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- PANEL LATERAL INFERIOR IZQUIERDA (Leyenda) -->
+    <div class="absolute bottom-8 left-8 z-40 glass-panel p-6 rounded-2xl max-w-sm pointer-events-auto">
+        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Leyenda
+            del Grafo</h4>
+
+        <div class="space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-4 h-4 rounded-full bg-[#cf112d] shadow-[0_0_10px_#cf112d]"></div>
+                <div>
+                    <div class="text-sm font-bold text-white">Hub Central (Diputación)</div>
+                    <div class="text-xs text-slate-400">Proveedor de servicios & Conocimiento</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-white shadow-[0_0_10px_white]"></div>
+                <div>
+                    <div class="text-sm font-bold text-white">Nodo Municipal (<20k)< /div>
+                            <div class="text-xs text-slate-400">Receptor Art. 36.1 LBRL</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#cf112d] to-transparent relative">
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full animate-ping">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-white">Flujo EDIH Hiperlocal</div>
+                        <div class="text-xs text-slate-400">Transmisión de Modelos & Datos</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10">
+                <div
+                    class="flex items-center gap-2 text-xs text-blue-300 bg-blue-500/10 p-2 rounded border border-blue-500/20">
+                    <i data-lucide="box" class="w-4 h-4"></i>
+                    <span>Apply AI: "Caja de herramientas" UE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOOLTIP FLOTANTE (Se mueve con el mouse) -->
+        <div id="tooltip"
+            class="absolute top-0 left-0 opacity-0 transform translate-y-4 glass-panel p-4 rounded-xl w-72 border-l-4 border-l-green-500 shadow-2xl">
+            <div class="scan-line"></div>
+            <div class="flex justify-between items-start mb-2">
+                <h5 id="tt-name" class="text-lg font-bold text-white font-mono">Municipio</h5>
+                <span class="text-[10px] font-bold bg-slate-700 px-1.5 py-0.5 rounded text-slate-300">POP &lt;
+                    20K</span>
+            </div>
+
+            <p class="text-xs text-slate-400 mb-3 flex items-start gap-1.5">
+                <i data-lucide="scale" class="w-3 h-3 mt-0.5 text-slate-500"></i>
+                <span class="italic">Competencia delegada por Art 36.1 LBRL (Soporte Diputación)</span>
+            </p>
+
+            <div class="bg-slate-900/80 rounded p-2 border border-white/5">
+                <div class="text-[10px] text-green-400 uppercase font-bold mb-1 flex items-center gap-1">
+                    <i data-lucide="leaf" class="w-3 h-3"></i> Impacto Green AI
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                        <span class="block text-slate-500 text-[10px]">Apps Activas</span>
+                        <span class="text-white font-mono">MencIA Pack</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500 text-[10px]">Ahorro CO2</span>
+                        <span class="text-green-400 font-bold font-mono">Alto</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script Lógica Canvas -->
+        <script>
+            lucide.createIcons();
+
+            const canvas = document.getElementById('networkCanvas');
+            const ctx = canvas.getContext('2d');
+            const tooltip = document.getElementById('tooltip');
+            const ttName = document.getElementById('tt-name');
+
+            let width, height;
+            let nodes = [];
+            let centralNode;
+            let particles = []; // Datos fluyendo
+            let mouse = { x: -1000, y: -1000 };
+
+            // Configuraci\u00f3n
+            const NODE_COUNT = 25;
+            const HUB_COLOR = '#cf112d';
+            const NODE_COLOR = '#e2e8f0';
+            const LINK_COLOR = 'rgba(255, 255, 255, 0.05)';
+
+            // Nombres ficticios de municipios para demo
+            const municipios = ["Vilalba", "Sarria", "Viveiro", "Monforte", "Ribadeo", "Chantada", "Guitiriz", "Foz", "Burela", "Monterroso", "Palas de Rei", "Becerre\u00e1", "A Fonsagrada", "Mondo\u00f1edo", "Outeiro de Rei", "Castro de Rei", "Begonte", "Cospeito", "Xove", "Cervo", "Barreiros", "Lourenz\u00e1", "Friol", "Gunt\u00edn", "O Corgo"];
+
+            class Node {
+                constructor(x, y, type, name = "") {
+                    this.x = x;
+                    this.y = y;
+                    this.type = type; // 'hub' or 'leaf'
+                    this.name = name;
+                    this.radius = type === 'hub' ? 25 : Math.random() * 3 + 4;
+                    this.baseX = x;
+                    this.baseY = y;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.speed = Math.random() * 0.2 + 0.05;
+                    this.hovered = false;
+                }
+
+                update() {
+                    if (this.type === 'leaf') {
+                        // Movimiento orbital sutil
+                        this.angle += 0.002;
+                        this.x = this.baseX + Math.cos(this.angle) * 20;
+                        this.y = this.baseY + Math.sin(this.angle) * 20;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.hovered ? this.radius * 1.5 : this.radius, 0, Math.PI * 2);
+
+                    if (this.type === 'hub') {
+                        ctx.fillStyle = HUB_COLOR;
+                        ctx.shadowBlur = 30;
+                        ctx.shadowColor = HUB_COLOR;
+                    } else {
+                        ctx.fillStyle = this.hovered ? '#10b981' : NODE_COLOR; // Verde al hover (Green AI)
+                        ctx.shadowBlur = this.hovered ? 20 : 10;
+                        ctx.shadowColor = this.hovered ? '#10b981' : 'rgba(255,255,255,0.5)';
+                    }
+
+                    ctx.fill();
+                    ctx.shadowBlur = 0; // Reset shadow
+
+                    // Anillos para el hub
+                    if (this.type === 'hub') {
+                        ctx.strokeStyle = 'rgba(207, 17, 45, 0.3)';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius + 10 + Math.sin(Date.now() / 500) * 5, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    // Elegir un nodo destino al azar
+                    if (nodes.length > 1) {
+                        const target = nodes[Math.floor(Math.random() * (nodes.length - 1)) + 1];
+                        this.targetX = target.x;
+                        this.targetY = target.y;
+                        this.x = centralNode.x;
+                        this.y = centralNode.y;
+                        this.speed = Math.random() * 2 + 2;
+                        this.active = true;
+                        this.size = Math.random() * 2 + 1;
+                    }
+                }
+
+                update() {
+                    if (!this.active) return;
+
+                    const dx = this.targetX - this.x;
+                    const dy = this.targetY - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 5) {
+                        this.reset();
+                    } else {
+                        this.x += (dx / dist) * this.speed;
+                        this.y += (dy / dist) * this.speed;
+                    }
+                }
+
+                draw() {
+                    if (!this.active) return;
+                    ctx.beginPath();
+                    ctx.fillStyle = '#fff';
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+
+                nodes = [];
+                particles = [];
+
+                // Crear Hub Central
+                centralNode = new Node(width / 2, height / 2, 'hub', 'Diputaci\u00f3n de Lugo');
+                nodes.push(centralNode);
+
+                // Crear Municipios
+                for (let i = 0; i < NODE_COUNT; i++) {
+                    const angle = (i / NODE_COUNT) * Math.PI * 2;
+                    const dist = Math.min(width, height) * 0.35 + (Math.random() * 50);
+                    const x = width / 2 + Math.cos(angle) * dist;
+                    const y = height / 2 + Math.sin(angle) * dist;
+
+                    // Nombre aleatorio o rotativo
+                    const name = municipios[i % municipios.length];
+                    nodes.push(new Node(x, y, 'leaf', name));
+                }
+
+                // Crear part\u00edculas de datos
+                for (let i = 0; i < 15; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Dibujar conexiones
+                nodes.forEach((node, index) => {
+                    if (index === 0) return; // Skip hub linking to itself
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = LINK_COLOR;
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(centralNode.x, centralNode.y);
+                    ctx.lineTo(node.x, node.y);
+                    ctx.stroke();
+                });
+
+                // Dibujar Part\u00edculas (Data Flow)
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                // Dibujar Nodos
+                let hoveredNode = null;
+                nodes.forEach(node => {
+                    node.update();
+
+                    // Detect Hover
+                    const dx = mouse.x - node.x;
+                    const dy = mouse.y - node.y;
+                    if (Math.sqrt(dx * dx + dy * dy) < node.radius + 10) {
+                        node.hovered = true;
+                        hoveredNode = node;
+                    } else {
+                        node.hovered = false;
+                    }
+
+                    node.draw();
+                });
+
+                // Manejar Tooltip HTML
+                if (hoveredNode && hoveredNode.type === 'leaf') {
+                    tooltip.style.opacity = '1';
+                    tooltip.style.transform = `translate(${hoveredNode.x + 20}px, ${hoveredNode.y - 20}px)`;
+                    ttName.innerText = hoveredNode.name;
+                    canvas.style.cursor = 'pointer';
+                } else {
+                    tooltip.style.opacity = '0';
+                    canvas.style.cursor = 'default';
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            // Event Listeners
+            window.addEventListener('resize', init);
+            window.addEventListener('mousemove', e => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            // Start
+            init();
+            animate();
+
+        </script>
+
+        <!-- i18n: traducción gallego -->
+        <script>
+        var _lang = new URLSearchParams(window.location.search).get('lang') || 'es';
+        if (_lang === 'gl') {
+            document.title = 'MencIA - Ecosistema de Replicabilidade';
+            var _hdr = document.querySelector('header .text-xs.font-bold');
+            if(_hdr) _hdr.innerHTML = 'Ecosistema de Rede<br>Neural Provincial';
+            var _card = document.querySelector('.glass-panel.rounded-2xl.p-5');
+            if(_card){
+                var _ch3 = _card.querySelector('h3');
+                if(_ch3) _ch3.innerHTML = 'IA en 3 Clics = Green AI <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">Sostibilidade</span>';
+                var _cp  = _card.querySelector('p');
+                if(_cp)  _cp.textContent = 'A eficiencia \u00e9 ecol\u00f3xica. As nosas aplicaci\u00f3ns resolven tarefas complexas en segundos (\u201c3 clics\u201d), evitando o consumo enerx\u00e9tico masivo de sesi\u00f3ns de chat longas.';
+                // Buscar los spans de energia y tiempo de forma robusta
+                var _allSpans = _card.querySelectorAll('span');
+                _allSpans.forEach(function(s){
+                    var t = s.textContent.trim();
+                    if(t.indexOf('-80%') !== -1) s.innerHTML = '<i data-lucide="zap" class="w-3 h-3 text-yellow-400"></i> -80% Enerx\u00eda';
+                    if(t.indexOf('-90%') !== -1) s.innerHTML = '<i data-lucide="clock" class="w-3 h-3 text-blue-400"></i> -90% Tempo';
+                });
+            }
+            var _legend = document.querySelector('.glass-panel.p-6.rounded-2xl.max-w-sm');
+            if(_legend){
+                var _lh4 = _legend.querySelector('h4');
+                if(_lh4) _lh4.textContent = 'Lenda do Grafo';
+                var _lbold = _legend.querySelectorAll('.text-sm.font-bold.text-white');
+                if(_lbold[0]) _lbold[0].textContent = 'Hub Central (Deputaci\u00f3n)';
+                if(_lbold[1]) _lbold[1].textContent = 'Nodo Municipal (<20k)';
+                if(_lbold[2]) _lbold[2].textContent = 'Fluxo EDIH Hiperlocal';
+                var _lsub = _legend.querySelectorAll('.text-xs.text-slate-400');
+                if(_lsub[0]) _lsub[0].textContent = 'Provedor de servizos & Co\u00f1ecemento';
+                if(_lsub[1]) _lsub[1].textContent = 'Receptor Art. 36.1 LBRL';
+                if(_lsub[2]) _lsub[2].textContent = 'Transmisi\u00f3n de Modelos & Datos';
+                // Boton Apply AI
+                var _blueBoxes = _legend.querySelectorAll('[class*="text-blue"]');
+                _blueBoxes.forEach(function(el){
+                    if(el.textContent.indexOf('Apply AI') !== -1 || el.textContent.indexOf('Caja') !== -1)
+                        el.textContent = 'Apply AI: "Caixa de ferramentas" UE';
+                });
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+
+</html>

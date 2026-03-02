@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MencIA: Comparador de Eficiencia</title>
+
+    <!-- TipografÃ­a Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            /* Azul pizarra oscuro */
+            --card-bg: #1e293b;
+            /* Ligeramente mÃ¡s claro */
+            --primary-red: #cf112d;
+            /* Rojo corporativo MencIA */
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --accent-green: #10b981;
+            /* Para datos positivos ecolÃ³gicos */
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            /* Sutil patrÃ³n de fondo tipo circuito */
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(207, 17, 45, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(207, 17, 45, 0.05) 0%, transparent 25%);
+        }
+
+        /* --- Header & Logo --- */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 2.5rem;
+            letter-spacing: -0.03em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--text-white);
+        }
+
+        .logo-accent {
+            color: var(--primary-red);
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            font-weight: 400;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Selector de Tareas --- */
+        .task-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .task-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-gray);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .task-btn:hover {
+            border-color: var(--primary-red);
+            color: var(--text-white);
+        }
+
+        .task-btn.active {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            color: var(--text-white);
+            box-shadow: 0 0 15px rgba(207, 17, 45, 0.4);
+        }
+
+        /* --- Contenedor de ComparaciÃ³n --- */
+        .comparison-stage {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 3rem;
+        }
+
+        .simulator-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        .simulator-card.generic .status-dot {
+            background: #facc15;
+            box-shadow: 0 0 5px #facc15;
+        }
+
+        .simulator-card.mencia {
+            border-color: var(--primary-red);
+        }
+
+        .simulator-card.mencia .status-dot {
+            background: var(--primary-red);
+            box-shadow: 0 0 5px var(--primary-red);
+        }
+
+        /* Contenido simulado */
+        .chat-interface,
+        .app-interface {
+            flex-grow: 1;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* Efecto de escritura para Chatbot */
+        .typing-animation::after {
+            content: '...';
+            animation: blink 1s infinite;
+        }
+
+        /* Salida estructurada para MencIA */
+        .structured-output {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-red);
+            display: none;
+            animation: slideIn 0.4s ease-out forwards;
+        }
+
+        /* Barra de tokens/consumo */
+        .metric-container {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-bg {
+            background: #334155;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 2s ease-out;
+        }
+
+        /* Colores de barras */
+        .generic .progress-fill {
+            background: #f87171;
+        }
+
+        /* Rojo claro consumo alto */
+        .mencia .progress-fill {
+            background: var(--accent-green);
+        }
+
+        /* Verde consumo bajo */
+
+        /* --- Capas de Contexto (Cards inferiores) --- */
+        .context-layers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1000px;
+            opacity: 0;
+            /* Oculto al inicio */
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .context-layers.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .context-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .context-card h3 {
+            color: var(--text-white);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .context-icon {
+            color: var(--primary-red);
+        }
+
+        .context-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-gray);
+        }
+
+        .stat-highlight {
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: .2;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: .2;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .comparison-stage {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="/" class="block hover:opacity-90 transition-opacity" aria-label="Volver al inicio"><img
+                    src="../logos/mencia-logo-trans-dark.png" style="height: 42px; width: auto; object-fit: contain;"
+                    alt="MencIA"></a>
+        </div>
+        <h1>Comparador de tareas: funcionalidad frente a espectÃ¡culo</h1>
+        <p id="cta-comparador"
+            style="margin-top: 1rem; color: var(--primary-red); font-weight: 600; font-size: 1rem; animation: pulse 2s infinite;">
+            ¡Selecciona una opción abajo para iniciar la comparativa!</p>
+    </header>
+
+    <!-- Selector -->
+    <div class="task-selector">
+        <button class="task-btn" onclick="runSimulation('boe')">Monitor de edictos BOE</button>
+        <button class="task-btn" onclick="runSimulation('resume')">Resumidor de documentos</button>
+        <button class="task-btn" onclick="runSimulation('calc')">Calculadora de plazos</button>
+    </div>
+
+    <!-- Ãrea de SimulaciÃ³n -->
+    <div class="comparison-stage">
+
+        <!-- Izquierda: Chatbot GenÃ©rico -->
+        <div class="simulator-card generic">
+            <div class="card-header">
+                <span style="font-weight:600;">Chatbot GenÃ©rico</span>
+                <div class="status-dot"></div>
+            </div>
+            <div class="chat-interface" id="generic-output">
+                <!-- Se llena con JS -->
+            </div>
+            <div class="metric-container">
+                <div class="progress-label">
+                    <span>Consumo de Tokens / EnergÃ­a</span>
+                    <span id="generic-metric">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="generic-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Derecha: MencIA (Lugo) -->
+        <div class="simulator-card mencia">
+            <div class="card-header">
+                <span style="font-weight:600; color:var(--primary-red);">Modelo MencIA "3 Clics"</span>
+                <div class="status-dot"></div>
+            </div>
+            <div class="app-interface" id="mencia-output">
+                <!-- Se llena con JS -->
+            </div>
+            <div class="metric-container">
+                <div class="progress-label">
+                    <span>Consumo de Tokens / EnergÃ­a</span>
+                    <span id="mencia-metric">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="mencia-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capas de Contexto -->
+    <div class="context-layers" id="context-layers">
+
+        <!-- Capa 1: Green AI -->
+        <div class="context-card">
+            <h3><i class="fa-solid fa-leaf context-icon" style="color:var(--accent-green)"></i> Green in AI</h3>
+            <p>El modelo de Lugo apuesta por la eficiencia por diseÃ±o. Al usar aplicaciones especializadas ("un clic,
+                una tarea") evitamos diÃ¡logos redundantes que disparan el consumo energÃ©tico.</p>
+            <span class="stat-highlight">El 56,8% de la ciudadanÃ­a prefiere sostenibilidad a potencia bruta.</span>
+        </div>
+
+        <!-- Capa 2: Pacto de Estado (NUEVA) -->
+        <div class="context-card" style="border-color: rgba(207, 17, 45, 0.3);">
+            <h3><i class="fa-solid fa-tree-city context-icon"></i> Pacto de Estado</h3>
+            <p>Frugalidad tecnolÃ³gica aplicada al territorio. La IA permite gestionar mejor los recursos rurales
+                mediante el anÃ¡lisis de datos locales, como la <strong>prevenciÃ³n de incendios</strong> o la
+                <strong>gestiÃ³n de aguas</strong>, sin necesidad de grandes infraestructuras.
+            </p>
+            <span class="stat-highlight">TecnologÃ­a Ãºtil para la emergencia climÃ¡tica.</span>
+        </div>
+
+        <!-- Capa 3: Apply AI -->
+        <div class="context-card">
+            <h3><i class="fa-solid fa-star context-icon" style="color:#fbbf24"></i> Apply AI - UE</h3>
+            <p>SincronÃ­a total con la estrategia europea. La especializaciÃ³n de tareas se alinea con los objetivos de
+                los EDIH, ofreciendo soluciones concretas y soberanas a la administraciÃ³n local.</p>
+            <span class="stat-highlight">Modelo validado como "buena prÃ¡ctica" europea.</span>
+        </div>
+
+    </div>
+
+    <script>
+        // -- i18n --
+        var lang = new URLSearchParams(window.location.search).get('lang') || 'es';
+        var isGl = lang === 'gl';
+
+        if (isGl) {
+            document.title = 'MencIA: Comparador de eficiencia';
+            var h1 = document.querySelector('h1');
+            if (h1) h1.textContent = 'Comparador de tarefas: funcionalidade fronte a espect\u00e1culo';
+            var cta = document.getElementById('cta-comparador');
+            if (cta) cta.textContent = '\u00a1Selecciona unha opci\u00f3n abaixo para iniciar a comparativa!';
+            var btns = document.querySelectorAll('.task-btn');
+            if (btns[0]) btns[0].textContent = 'Monitor de edictos BOE';
+            if (btns[1]) btns[1].textContent = 'Resumidor de documentos';
+            if (btns[2]) btns[2].textContent = 'Calculadora de prazos';
+            var headers = document.querySelectorAll('.card-header span');
+            if (headers[0]) headers[0].textContent = 'Chatbot Xen\u00e9rico';
+            document.querySelectorAll('.progress-label span:first-child').forEach(function (el) { el.textContent = 'Consumo de Tokens / Enerx\u00eda'; });
+            var ctxCards = document.querySelectorAll('.context-card');
+            if (ctxCards[0]) {
+                ctxCards[0].querySelector('h3').innerHTML = '<i class="fa-solid fa-leaf context-icon" style="color:var(--accent-green)"></i> Green in AI';
+                ctxCards[0].querySelector('p').textContent = 'O modelo de Lugo aposta pola eficiencia por dese\u00f1o. Ao usar aplicaci\u00f3ns especializadas (\u201cun clic, unha tarefa\u201d) evitamos di\u00e1logos redundantes que disparan o consumo ener\u0078\u00e9tico.';
+                ctxCards[0].querySelector('.stat-highlight').textContent = 'O 56,8% da cidad\u00e1n\u00eda prefire sostibilidade a potencia bruta.';
+            }
+            if (ctxCards[1]) {
+                ctxCards[1].querySelector('h3').innerHTML = '<i class="fa-solid fa-tree-city context-icon"></i> Pacto de Estado';
+                ctxCards[1].querySelector('p').innerHTML = 'Frugalidade tecnol\u00f3xica aplicada ao territorio. A IA permite xestionar mellor os recursos rurais mediante a an\u00e1lise de datos locais, como a <strong>prevenci\u00f3n de incendios</strong> ou a <strong>xesti\u00f3n de augas</strong>, sen necesidade de grandes infraestruturas.';
+                ctxCards[1].querySelector('.stat-highlight').textContent = 'Tecnolox\u00eda \u00fatil para a emerxencia clim\u00e1tica.';
+            }
+            if (ctxCards[2]) {
+                ctxCards[2].querySelector('h3').innerHTML = '<i class="fa-solid fa-star context-icon" style="color:#fbbf24"></i> Apply AI - UE';
+                ctxCards[2].querySelector('p').textContent = 'Sincron\u00eda total coa estratexia europea. A especializaci\u00f3n de tarefas ali\u00f1ase cos obxectivos dos EDIH, ofrecendo soluci\u00f3ns concretas e soberanas \u00e1 administraci\u00f3n local.';
+                ctxCards[2].querySelector('.stat-highlight').textContent = 'Modelo validado como \u201cboa pr\u00e1ctica\u201d europea.';
+            }
+        }
+
+        var simulations = {
+            boe: {
+                generic: isGl
+                    ? 'Ola, son o teu asistente virtual. Para buscar no BOE necesito que me especifiques a data, o departamento e palabras clave. Estou procesando a t\u00faa petici\u00f3n... buscando en bases de datos xerais... atopei 400 resultados posibles. Queres que os liste todos ou prefires filtrar por comunidade aut\u00f3noma?...'
+                    : 'Hola, soy tu asistente virtual. Para buscar en el BOE necesito que me especifiques la fecha, el departamento y palabras clave. Estoy procesando tu petici\u00f3n... buscando en bases de datos generales... he encontrado 400 resultados posibles. \u00bfQuieres que los liste todos o prefieres filtrar por comunidad aut\u00f3noma?...',
+                mencia: isGl
+                    ? '<h4><i class=\'fa-solid fa-check\'></i> Edicto Detectado</h4><p><strong>Bolet\u00edn:</strong> BOE-A-2025-1234</p><p><strong>Estado:</strong> Notificaci\u00f3n xudicial (Concursal)</p><p><strong>Acci\u00f3n:</strong> Enviado a Recadaci\u00f3n.</p>'
+                    : '<h4><i class=\'fa-solid fa-check\'></i> Edicto Detectado</h4><p><strong>Bolet\u00edn:</strong> BOE-A-2025-1234</p><p><strong>Estado:</strong> Notificaci\u00f3n judicial (Concursal)</p><p><strong>Acci\u00f3n:</strong> Enviado a Recaudaci\u00f3n.</p>',
+                genericLoad: 85, menciaLoad: 15
+            },
+            resume: {
+                generic: isGl
+                    ? 'Claro, podo axudarte con iso. Por favor sube o texto. Procesando... \u00c9 un texto longo. Aqu\u00ed tes un primeiro par\u00e1grafo... Queres que contin\u00fae co segundo? Lembra que te\u00f1o un l\u00edmite de tokens por resposta, polo que terei que facelo en varias partes...'
+                    : 'Claro, puedo ayudarte con eso. Por favor sube el texto. Procesando... Es un texto largo. Aqu\u00ed tienes un primer p\u00e1rrafo... \u00bfQuieres que contin\u00fae con el segundo? Recuerda que tengo un l\u00edmite de tokens por respuesta, as\u00ed que tendr\u00e9 que hacerlo en varias partes...',
+                mencia: isGl
+                    ? '<h4><i class=\'fa-solid fa-file-lines\'></i> Resumo Executivo</h4><ul><li>Obxecto: Licitaci\u00f3n de obras.</li><li>Orzamento: 150.000\u20ac.</li><li>Prazo: 3 meses.</li></ul><p><em>Documento procesado en 0.4s</em></p>'
+                    : '<h4><i class=\'fa-solid fa-file-lines\'></i> Resumen Ejecutivo</h4><ul><li>Objeto: Licitaci\u00f3n de obras.</li><li>Presupuesto: 150.000\u20ac.</li><li>Plazo: 3 meses.</li></ul><p><em>Documento procesado en 0.4s</em></p>',
+                genericLoad: 95, menciaLoad: 10
+            },
+            calc: {
+                generic: isGl
+                    ? 'Para calcular prazos necesito saber a lei aplic\u00e1bel. \u00c9 a LCSP 9/2017? Ben. Cando se publicou o anuncio? \u00c9 d\u00eda h\u00e1bil ou natural no teu municipio? Agarda, d\u00e9ixame consultar o calendario laboral xeral de Espa\u00f1a...'
+                    : 'Para calcular plazos necesito saber la ley aplicable. \u00bfEs la LCSP 9/2017? Bien. \u00bfCu\u00e1ndo se public\u00f3 el anuncio? \u00bfEs d\u00eda h\u00e1bil o natural en tu municipio? Espera, d\u00e9jame consultar el calendario laboral general de Espa\u00f1a...',
+                mencia: isGl
+                    ? '<h4><i class=\'fa-regular fa-calendar-check\'></i> Prazo Finalizado</h4><p><strong>Fin de presentaci\u00f3n:</strong> 15 de Outubro (14:00h)</p><p><em>C\u00e1lculo axustado a festivos locais de Lugo.</em></p>'
+                    : '<h4><i class=\'fa-regular fa-calendar-check\'></i> Plazo Finalizado</h4><p><strong>Fin de presentaci\u00f3n:</strong> 15 de Octubre (14:00h)</p><p><em>C\u00e1lculo ajustado a festivos locales de Lugo.</em></p>',
+                genericLoad: 70, menciaLoad: 5
+            }
+        };
+
+        function runSimulation(type, evtArg) {
+            var cta = document.getElementById('cta-comparador');
+            if (cta) cta.style.display = 'none';
+            var buttons = document.querySelectorAll('.task-btn');
+            buttons.forEach(function (b) { b.classList.remove('active'); });
+            var activeBtn = evtArg && evtArg.target ? evtArg.target : (event && event.target ? event.target : null);
+            if (activeBtn) activeBtn.classList.add('active');
+            var genericOut = document.getElementById('generic-output');
+            var menciaOut = document.getElementById('mencia-output');
+            var layers = document.getElementById('context-layers');
+            layers.classList.remove('visible');
+            genericOut.innerHTML = '<p style="color:#777">' + (isGl ? 'Iniciando conversa...' : 'Iniciando conversaci\u00f3n...') + '</p>';
+            menciaOut.innerHTML = '<p style="color:#777">' + (isGl ? 'Cargando m\u00f3dulo...' : 'Cargando m\u00f3dulo...') + '</p>';
+            document.getElementById('generic-bar').style.width = '0%';
+            document.getElementById('mencia-bar').style.width = '0%';
+            document.getElementById('generic-metric').innerText = '0%';
+            document.getElementById('mencia-metric').innerText = '0%';
+            var data = simulations[type];
+            setTimeout(function () {
+                menciaOut.innerHTML = '<div class="structured-output" style="display:block">' + data.mencia + '</div>';
+                document.getElementById('mencia-bar').style.width = data.menciaLoad + '%';
+                document.getElementById('mencia-metric').innerText = data.menciaLoad + '% (' + (isGl ? 'Baixo' : 'Bajo') + ')';
+            }, 800);
+            setTimeout(function () {
+                var text = data.generic;
+                genericOut.innerHTML = '<p class="typing-animation" style="color:var(--text-gray)">' + text.substring(0, 60) + '...</p>';
+                setTimeout(function () {
+                    genericOut.innerHTML = '<p>' + text + '</p>';
+                    document.getElementById('generic-bar').style.width = data.genericLoad + '%';
+                    document.getElementById('generic-metric').innerText = data.genericLoad + '% (' + (isGl ? 'Alto' : 'Alto') + ')';
+                    setTimeout(function () { layers.classList.add('visible'); }, 500);
+                }, 1500);
+            }, 500);
+        }
+
+        // Initialization code if needed
+    </script>
+</body>
+
+</html>

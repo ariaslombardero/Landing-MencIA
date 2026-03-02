@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
 
 const NAV_ITEMS = [
     { id: 'dilema', gl: 'O contexto', es: 'El contexto' },
@@ -7,13 +7,15 @@ const NAV_ITEMS = [
     { id: 'ferramentas', gl: 'Ferramentas', es: 'Herramientas' },
     { id: 'aliñacion', gl: 'Aliñación', es: 'Alineación' },
     { id: 'hoja-ruta', gl: 'Folla de ruta', es: 'Hoja de ruta' },
-    { id: 'simulaciones', gl: 'Simuladores', es: 'Simuladores' },
+    { id: 'archivos', gl: 'Arquivos', es: 'Archivos' },
+    { id: 'simulaciones', gl: 'Laboratorio', es: 'Laboratorio' },
 ];
 
 export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
     const [activeSection, setActiveSection] = useState('');
     const [themeTooltip, setThemeTooltip] = useState(false);
     const [langTooltip, setLangTooltip] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleScroll = useCallback(() => {
         const sections = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(Boolean);
@@ -55,7 +57,7 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                             src="/logos/mencia-logo-trans-dark.png"
                             alt="MencIA"
                             style={{
-                                height: '42px',
+                                height: '54px',
                                 width: 'auto',
                                 objectFit: 'contain',
                                 borderRadius: '4px',
@@ -68,7 +70,7 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                             src="/logos/mencia-logo-trans-light.png"
                             alt="MencIA"
                             style={{
-                                height: '42px',
+                                height: '54px',
                                 width: 'auto',
                                 objectFit: 'contain',
                                 borderRadius: '4px',
@@ -79,7 +81,7 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
             </div>
 
             {/* Desktop Nav Links */}
-            <div className="nav-links" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+            <div className="nav-links" style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
                 {NAV_ITEMS.map((item) => (
                     <a
                         key={item.id}
@@ -174,6 +176,55 @@ export default function Navbar({ lang, setLang, lightMode, toggleLightMode }) {
                         }
                     </div>
                 </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                    className="mobile-menu-btn"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    aria-label="Toggle Navigation"
+                    style={{ position: 'relative', zIndex: 110 }}
+                >
+                    {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Mobile Menu Overlay */}
+            <div className={`mobile-nav-overlay ${mobileMenuOpen ? 'open' : ''}`} style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                background: lightMode ? 'rgba(255, 255, 255, 0.98)' : 'rgba(15, 23, 42, 0.98)',
+                zIndex: 105,
+                display: mobileMenuOpen ? 'flex' : 'none',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '2.5rem',
+                opacity: mobileMenuOpen ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)'
+            }}>
+                {NAV_ITEMS.map((item) => (
+                    <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className={`nav-link`}
+                        style={{
+                            fontSize: '1.75rem',
+                            fontWeight: 600,
+                            letterSpacing: '-0.02em',
+                            color: activeSection === item.id
+                                ? 'var(--mencia-red)'
+                                : 'var(--text-primary)'
+                        }}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
+                        {lang === 'es' ? item.es : item.gl}
+                    </a>
+                ))}
             </div>
         </nav>
     );

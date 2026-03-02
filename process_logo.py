@@ -29,12 +29,8 @@ def process_logo(input_path, output_dark_path, output_light_path):
                 pixels_dark[x, y] = (new_r, new_g, new_b, alpha)
                 
                 # For light mode:
-                # If it's a shade of grey (R~=G~=B), make it dark grey #0f172a
-                # If it's red (R > G+40 and R > B+40), keep it red
-                if r > g + 40 and r > b + 40:
-                    pixels_light[x, y] = (new_r, new_g, new_b, alpha)
-                else:
-                    pixels_light[x, y] = (15, 23, 42, alpha)
+                # Make the letters and cross all red (MencIA Red: #cf112d)
+                pixels_light[x, y] = (207, 17, 45, alpha)
 
     img_dark.save(output_dark_path, "PNG")
     img_light.save(output_light_path, "PNG")

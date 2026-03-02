@@ -18,8 +18,8 @@ export default function Solucion({ lang }) {
                             </h2>
                             <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                                 {lang === 'es'
-                                    ? <>MencIA es un modelo que combina control e innovación, apostando por <strong>Inteligencia Artificial de código abierto y pesos abiertos</strong> en infraestructuras propias.</>
-                                    : <>MencIA é un modelo que combina control e innovación, apostando por <strong>Intelixencia Artificial de código aberto e pesos abertos</strong> en infraestruturas propias.</>
+                                    ? <>MencIA es un modelo que combina control e innovación, apostando por Inteligencia Artificial de código abierto y pesos abiertos en infraestructuras propias.</>
+                                    : <>MencIA é un modelo que combina control e innovación, apostando por Intelixencia Artificial de código aberto e pesos abertos en infraestruturas propias.</>
                                 }
                             </p>
                         </div>
@@ -29,7 +29,7 @@ export default function Solucion({ lang }) {
                             {[
                                 { icon: ShieldCheck, color: '#3b82f6', title: { gl: 'Control de datos', es: 'Control de datos' }, desc: { gl: 'A información sensible nunca abandona os nosos servidores. Privacidade absoluta.', es: 'La información sensible nunca abandona nuestros servidores. Privacidad absoluta.' } },
                                 { icon: Settings2, color: '#22c55e', title: { gl: 'Adaptabilidade real', es: 'Adaptabilidad real' }, desc: { gl: 'As ferramentas personalízanse ás necesidades locais, non ao revés.', es: 'Las herramientas se personalizan a las necesidades locales, no al revés.' } },
-                                { icon: Coins, color: 'var(--mencia-red)', title: { gl: 'Sostibilidade económica', es: 'Sostenibilidad económica' }, desc: { gl: 'Eliminamos custos de licenzas e investimos en activos propios.', es: 'Eliminamos costes de licencias e invertimos en activos propios.' } },
+                                { icon: Coins, color: 'var(--mencia-red)', title: { gl: 'Sustentabilidade económica', es: 'Sostenibilidad económica' }, desc: { gl: 'Eliminamos custos de licenzas e investimos en activos propios.', es: 'Eliminamos costes de licencias e invertimos en activos propios.' } },
                             ].map(({ icon: Icon, color, title, desc }, i) => (
                                 <div key={i} className="glass-panel reveal-text" style={{ padding: '1.25rem', display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
                                     <div style={{ marginTop: '0.25rem', background: `${color}15`, padding: '0.5rem', borderRadius: '0.375rem', color }}>

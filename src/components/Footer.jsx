@@ -1,15 +1,15 @@
 export default function Footer({ lang, lightMode }) {
     return (
-        <footer className="footer">
-            <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <footer className="footer" style={{ padding: '2rem 0', width: '100%', overflow: 'hidden' }}>
+            <div className="container" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '1rem' }}>
+                <div style={{ flex: '1 1 200px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', minWidth: '150px' }}>
                     {/* Dark mode: transparent logo */}
                     {!lightMode && (
                         <img
                             src="/logos/mencia-logo-trans-dark.png"
                             alt="MencIA"
                             style={{
-                                height: '28px',
+                                height: '46px',
                                 width: 'auto',
                                 objectFit: 'contain',
                                 borderRadius: '4px',
@@ -22,7 +22,7 @@ export default function Footer({ lang, lightMode }) {
                             src="/logos/mencia-logo-trans-light.png"
                             alt="MencIA"
                             style={{
-                                height: '28px',
+                                height: '46px',
                                 width: 'auto',
                                 objectFit: 'contain',
                                 borderRadius: '4px',
@@ -30,20 +30,17 @@ export default function Footer({ lang, lightMode }) {
                         />
                     )}
                 </div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-                    {lang === 'es'
-                        ? '© 2025 MencIA — Estrategia de Inteligencia Artificial · Deputación de Lugo'
-                        : '© 2025 MencIA — Estratexia de Intelixencia Artificial · Deputación de Lugo'
-                    }
-                </p>
-                <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <a href="#hero" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', transition: 'color 0.3s' }}>
-                        {lang === 'es' ? 'Inicio' : 'Inicio'}
-                    </a>
-                    <a href="#simulaciones" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', transition: 'color 0.3s' }}>
-                        {lang === 'es' ? 'Simuladores' : 'Simuladores'}
-                    </a>
+
+                <div style={{ flex: '2 1 400px', textAlign: 'center', minWidth: '300px' }}>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>
+                        {lang === 'es'
+                            ? '© 2026 MencIA — Estrategia de Inteligencia Artificial · Deputación de Lugo'
+                            : '© 2026 MencIA — Estratexia de Intelixencia Artificial · Deputación de Lugo'
+                        }
+                    </p>
                 </div>
+
+                <div style={{ flex: '1 1 200px', minWidth: '150px' }} className="hidden sm:block"></div>
             </div>
         </footer>
     );

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MencIA: Radar Estratégico</title>
+
+    <!-- Tipografía: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Chart.js para el radar -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary-red: #cf112d;
+            --text-white: #ffffff;
+            --text-dim: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-dim: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* Fondo sutil inspirado en circuitería roja */
+            background-image:
+                radial-gradient(circle at 5% 10%, rgba(207, 17, 45, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 95% 90%, rgba(207, 17, 45, 0.05) 0%, transparent 30%);
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-dim);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-accent {
+            color: var(--primary-red);
+        }
+
+        .title-section h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .title-section p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Main Layout */
+        main {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        /* Chart Section */
+        .chart-wrapper {
+            position: relative;
+            padding: 1rem;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        /* Context Panel (Right Side) */
+        .context-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-dim);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            border-left: 4px solid var(--primary-red);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .context-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(207, 17, 45, 0.15);
+            color: var(--primary-red);
+            font-weight: 700;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Quote Section */
+        .quote-box {
+            margin-top: 1rem;
+            background: linear-gradient(90deg, rgba(207, 17, 45, 0.1), transparent);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(207, 17, 45, 0.2);
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: var(--text-white);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .quote-author {
+            margin-top: 0.5rem;
+            color: var(--primary-red);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Utility for animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .chart-wrapper {
+                height: 400px;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="/" class="block hover:opacity-90 transition-opacity" aria-label="Volver al inicio"><img
+                    src="../logos/mencia-logo-trans-dark.png" style="height: 42px; width: auto; object-fit: contain;"
+                    alt="MencIA"></a>
+        </div>
+        <div class="title-section">
+            <h1>Radar estratégico: Lugo en Europa</h1>
+            <p>Comparativa de rendimiento del modelo vs. administración tradicional</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Radar Chart -->
+        <div class="chart-wrapper">
+            <canvas id="radarChart"></canvas>
+        </div>
+
+        <!-- Dynamic Context Panel -->
+        <div class="context-panel">
+
+            <!-- Dynamic Info Card -->
+            <div class="info-card" id="dynamic-card">
+                <!-- Default Content -->
+                <h3><i class="fa-solid fa-chart-pie"></i> Alineación Estratégica</h3>
+                <p>Pasa el cursor sobre los puntos rojos del gráfico para descubrir cómo el modelo MencIA conecta los
+                    objetivos locales con las grandes estrategias nacionales y europeas.</p>
+                <div class="context-badge">Interacción requerida</div>
+            </div>
+
+            <!-- Fixed Quote -->
+            <div class="quote-box">
+                <div class="quote-text">"El modelo de Lugo no es solo compatible con la visión europea, sino un playbook
+                    validado y listo para integrarse en la caja de herramientas digital de la Unión."</div>
+                <div class="quote-author">Informe Apply AI</div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        var lang = new URLSearchParams(window.location.search).get('lang') || 'es';
+        var isGl = lang === 'gl';
+
+        var i18n = {
+            pageTitle:  isGl ? 'MencIA: Radar estrat\u00e9xico'   : 'MencIA: Radar Estrat\u00e9gico',
+            h1:         isGl ? 'Radar estrat\u00e9xico: Lugo en Europa' : 'Radar estrat\u00e9gico: Lugo en Europa',
+            subtitle:   isGl ? 'Comparativa de rendemento do modelo vs. administraci\u00f3n tradicional' : 'Comparativa de rendimiento del modelo vs. administraci\u00f3n tradicional',
+            cardTitle:  isGl ? 'Ali\u00f1aci\u00f3n Estrat\u00e9xica' : 'Alineaci\u00f3n Estrat\u00e9gica',
+            cardBody:   isGl ? 'Pasa o cursor sobre os puntos vermellos do gr\u00e1fico para descubrir como o modelo MencIA conecta os obxectivos locais coas grandes estratexias nacionais e europeas.' : 'Pasa el cursor sobre los puntos rojos del gr\u00e1fico para descubrir c\u00f3mo el modelo MencIA conecta los objetivos locales con las grandes estrategias nacionales y europeas.',
+            cardBadge:  isGl ? 'Interacci\u00f3n requirida' : 'Interacci\u00f3n requerida',
+            quote:      isGl ? '"O modelo de Lugo non s\u00f3 \u00e9 compatible coa visi\u00f3n europea, sen\u00f3n un playbook validado e listo para integrarse na caixa de ferramentas dixital da Uni\u00f3n."' : '"El modelo de Lugo no es solo compatible con la visi\u00f3n europea, sino un playbook validado y listo para integrarse en la caja de herramientas digital de la Uni\u00f3n."',
+            quoteAuthor: 'Informe Apply AI',
+            labels: isGl
+                ? ['Soberan\u00eda tecnol\u00f3xica', 'Sostibilidade (Green AI)', 'Replicabilidade', 'C\u00f3digo aberto', 'Competitividade']
+                : ['Soberan\u00eda tecnol\u00f3gica', 'Sostenibilidad (Green AI)', 'Replicabilidad', 'C\u00f3digo abierto', 'Competitividad'],
+            dataset0: 'Modelo MencIA',
+            dataset1: isGl ? 'Promedio Administraci\u00f3n' : 'Promedio Administraci\u00f3n'
+        };
+
+        var contextDataRaw = [
+            { title: isGl ? 'Soberan\u00eda tecnol\u00f3xica' : 'Soberan\u00eda tecnol\u00f3gica', icon: 'fa-shield-halved',
+              text:  isGl ? 'Conexi\u00f3n directa coa estratexia <strong>\'AI First\'</strong> da UE. Garantimos o control total dos datos e eliminamos dependencias de provedores externos (feudalismo dixital).'
+                           : 'Conexi\u00f3n directa con la estrategia <strong>\'AI First\'</strong> de la UE. Garantizamos el control total de los datos y eliminamos dependencias de proveedores externos (feudalismo digital).',
+              badge: isGl ? 'Estratexia UE Apply AI' : 'Estrategia UE Apply AI' },
+            { title: isGl ? 'Sostibilidade (Green AI)' : 'Sostenibilidad (Green AI)', icon: 'fa-leaf',
+              text:  isGl ? 'Ali\u00f1aci\u00f3n co <strong>Pacto de Estado</strong> e a emerxencia clim\u00e1tica. O noso enfoque de \'un clic, unha tarefa\' reduce drasticamente a pegada de carbono fronte a modelos masivos.'
+                           : 'Alineaci\u00f3n con el <strong>Pacto de Estado</strong> y la emergencia clim\u00e1tica. Nuestro enfoque de \'un clic, una tarea\' reduce dr\u00e1sticamente la huella de carbono frente a modelos masivos.',
+              badge: 'Pacto de Estado / Green AI' },
+            { title: isGl ? 'Replicabilidade' : 'Replicabilidad', icon: 'fa-clone',
+              text:  isGl ? 'Un modelo dese\u00f1ado como <strong>Playbook</strong>. Documentaci\u00f3n, c\u00f3digo e metodolox\u00eda listos para ser exportados a outras deputaci\u00f3ns e \u00e1 caixa de ferramentas da UE.'
+                           : 'Un modelo dise\u00f1ado como <strong>Playbook</strong>. Documentaci\u00f3n, c\u00f3digo y metodolog\u00eda listos para ser exportados a otras diputaciones y a la caja de herramientas de la UE.',
+              badge: isGl ? 'Escalabilidade Europea' : 'Escalabilidad Europea' },
+            { title: isGl ? 'C\u00f3digo aberto' : 'C\u00f3digo abierto', icon: 'fa-code-branch',
+              text:  isGl ? 'Cumprimento do principio de transparencia. Usamos e contibu\u00edmos ao ecosistema <strong>Open Source</strong>, permitindo auditor\u00eda p\u00fablica e mellora continua.'
+                           : 'Cumplimiento del principio de transparencia. Utilizamos y contribuimos al ecosistema <strong>Open Source</strong>, permitiendo auditor\u00eda p\u00fablica y mejora continua.',
+              badge: 'Transparencia Total' },
+            { title: isGl ? 'Competitividade' : 'Competitividad', icon: 'fa-rocket',
+              text:  isGl ? 'Mellora real da produtividade administrativa sen sacrificar dereitos. Convertemos a administraci\u00f3n local nun motor de innovaci\u00f3n \u00e1xil.'
+                           : 'Mejora real de la productividad administrativa sin sacrificar derechos. Convertimos a la administraci\u00f3n local en un motor de innovaci\u00f3n \u00e1gil.',
+              badge: isGl ? 'Eficiencia P\u00fablica' : 'Eficiencia P\u00fablica' }
+        ];
+
+        document.title = i18n.pageTitle;
+        var tsH1 = document.querySelector('.title-section h1');
+        if(tsH1) tsH1.textContent = i18n.h1;
+        var tsP  = document.querySelector('.title-section p');
+        if(tsP)  tsP.textContent  = i18n.subtitle;
+        var dcH3 = document.querySelector('#dynamic-card h3');
+        if(dcH3) dcH3.innerHTML = '<i class="fa-solid fa-chart-pie"></i> ' + i18n.cardTitle;
+        var dcP  = document.querySelector('#dynamic-card p');
+        if(dcP)  dcP.textContent = i18n.cardBody;
+        var dcB  = document.querySelector('#dynamic-card .context-badge');
+        if(dcB)  dcB.textContent = i18n.cardBadge;
+        var qt   = document.querySelector('.quote-text');
+        if(qt)   qt.textContent  = i18n.quote;
+        var qa   = document.querySelector('.quote-author');
+        if(qa)   qa.textContent  = i18n.quoteAuthor;
+
+        var chartData = {
+            labels: i18n.labels,
+            datasets: [{
+                label: i18n.dataset0,
+                data: [95, 90, 100, 100, 85],
+                fill: true,
+                backgroundColor: 'rgba(207,17,45,0.2)',
+                borderColor: '#cf112d',
+                pointBackgroundColor: '#cf112d',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#cf112d',
+                borderWidth: 3
+            },{
+                label: i18n.dataset1,
+                data: [30, 40, 20, 30, 50],
+                fill: true,
+                backgroundColor: 'rgba(148,163,184,0.1)',
+                borderColor: '#475569',
+                pointBackgroundColor: '#475569',
+                borderDash: [5,5],
+                borderWidth: 1
+            }]
+        };
+
+        var chartConfig = {
+            type: 'radar',
+            data: chartData,
+            options: {
+                responsive: true,
+                elements: { line: { tension: 0.3 } },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255,255,255,0.1)' },
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        pointLabels: { color: '#94a3b8', font: { family: "'Plus Jakarta Sans',sans-serif", size: 12, weight: '600' } },
+                        ticks: { display: false, backdropColor: 'transparent' },
+                        suggestedMin: 0, suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#fff', font: { family: "'Plus Jakarta Sans'" } } },
+                    tooltip: { enabled: false }
+                },
+                onHover: function(event, elements) {
+                    if (elements.length && elements[0].datasetIndex === 0) {
+                        updateContextPanel(elements[0].index);
+                    }
+                }
+            }
+        };
+
+        var ctx = document.getElementById('radarChart').getContext('2d');
+        var myChart = new Chart(ctx, chartConfig);
+
+        function updateContextPanel(index) {
+            var card = document.getElementById('dynamic-card');
+            var d = contextDataRaw[index];
+            if (card.dataset.currentIndex == index) return;
+            card.classList.remove('fade-in');
+            void card.offsetWidth;
+            card.innerHTML = '<h3><i class="fa-solid ' + d.icon + '" style="color:var(--primary-red)"></i> ' + d.title + '</h3><p>' + d.text + '</p><div class="context-badge">' + d.badge + '</div>';
+            card.classList.add('fade-in');
+            card.dataset.currentIndex = index;
+        }
+    </script>
+</body>
+
+</html>
