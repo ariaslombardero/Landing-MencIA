@@ -58,4 +58,9 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 ## 👨‍💻 Autor
 
-Desarrollado y diseñado con pasión como parte de mi portfolio personal. Si te interesa explorar más de mi trabajo o discutir oportunidades, no dudes en conectar conmigo. Siéntete libre de navegar por el código fuente para explorar las técnicas de desarrollo y arquitectura aplicadas.
+**José Antonio Arias Lombardero**
+*Experto en Inteligencia Artificial aplicada al sector público, innovación, contratación y fondos europeos.*
+
+Esta aplicación forma parte de un portfolio de soluciones tecnológicas conceptualizadas, desarrolladas y desplegadas en entornos cloud para su aplicación en el sector público. Mi objetivo es demostrar cómo el uso estratégico de modelos avanzados de IA (Vibe Coding) puede escalar radicalmente la digitalización, la operatividad y la alfabetización tecnológica de la Administración.
+
+🔗 [Consulta mi portfolio completo de aplicaciones y trayectoria profesional](https://ja-lombardero.vercel.app/)
