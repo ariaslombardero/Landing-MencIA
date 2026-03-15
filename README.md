@@ -6,7 +6,7 @@
 
 Este repositorio contiene la **Landing Page interactiva y portal principal** que he desarrollado para **MencIA**, la Estrategia de Inteligencia Artificial impulsada por la Diputación de Lugo.
 
-> **Nota del Autor:** Este es un proyecto de desarrollo personal diseñado y programado desde cero para mi portfolio, enfocado en crear una experiencia de usuario (UX/UI) moderna, inmersiva y altamente interactiva, aplicando las mejores prácticas de desarrollo Frontend.
+> **Nota:** Este proyecto demuestra la viabilidad de crear soluciones tecnológicas institucionales de alto impacto utilizando metodologías íntegras de Inteligencia Artificial (Vibe Coding).
 
 ## 🌟 Características principales
 
@@ -31,11 +31,11 @@ Este proyecto es un caso práctico en el que quería probar mis habilidades en *
 ## 🛠️ Stack tecnológico
 
 *   **Core:** React 18, Vite
-*   **Estilado:** CSS3 Nativo Avanzado (Variables CS, Flexbox, CSS Grid)
+*   **Estilado:** CSS3 nativo avanzado (Variables CS, Flexbox, CSS Grid)
 *   **Iconografía:** Lucide-React
-*   **Animación & Interacción:** GSAP, Lenis (Studio Freight)
+*   **Animación e interacción:** GSAP, Lenis (Studio Freight)
 
-## 💻 Instalación y uso Local
+## 💻 Instalación y uso local
 
 Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
