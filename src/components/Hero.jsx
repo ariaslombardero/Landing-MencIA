@@ -83,7 +83,7 @@ export default function Hero({ lang }) {
                 {/* Award Badge centered below title */}
                 <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
                     <a
-                        href="https://www.linkedin.com/feed/update/urn:li:activity:7430267421929906176/"
+                        href="https://www.aec.es/nosotros/actualidad-aec/el-ii-congreso-foro-grc-consolida-su-liderazgo-como-espacio-de-referencia-en-gobernanza-riesgo-y-cumplimiento/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hero-element award-badge"
