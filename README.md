@@ -58,7 +58,7 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 ## 👨‍💻 Autor
 
-**José Antonio Arias Lombardero**
+**Jose Antonio Arias Lombardero**
 *Experto en Inteligencia Artificial aplicada al sector público, innovación, contratación y fondos europeos.*
 
 Esta aplicación forma parte de un portfolio de soluciones tecnológicas conceptualizadas, desarrolladas y desplegadas en entornos cloud para su aplicación en el sector público. Mi objetivo es demostrar cómo el uso estratégico de modelos avanzados de IA (Vibe Coding) puede escalar radicalmente la digitalización, la operatividad y la alfabetización tecnológica de la Administración.
