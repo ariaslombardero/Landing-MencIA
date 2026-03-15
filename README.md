@@ -8,7 +8,7 @@ Este repositorio contiene la **Landing Page interactiva y portal principal** que
 
 > **Nota:** Este proyecto demuestra la viabilidad de crear soluciones tecnológicas institucionales de alto impacto utilizando metodologías íntegras de Inteligencia Artificial (Vibe Coding).
 
-## 🌟 Características principales
+## 📌 Características principales
 
 *   **Diseño premium y vibe coding:** Interfaz moderna con modo oscuro nativo, efectos *glassmorphism*, gradientes sutiles y tipografía cuidada (Inter/JetBrains Mono).
 *   **Trilingüe (internacionalización):** Soporte dinámico para Gallego, Castellano e Inglés, controlado a través de variables de estado y parámetros de URL, garantizando una accesibilidad sin barreras.
