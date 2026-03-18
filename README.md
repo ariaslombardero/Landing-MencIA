@@ -1,10 +1,16 @@
 # MencIA - Estrategia pública de Inteligencia Artificial 🚀
 
+<div align="center">
+   
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 ![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white)
 
-Este repositorio contiene la **Landing Page interactiva y portal principal** que he desarrollado para **MencIA**, la Estrategia de Inteligencia Artificial impulsada por la Diputación de Lugo.
+<img src="./thumbnail.png" alt="Landing MencIA Thumbnail" width="100%" />
+
+</div>
+
+Este repositorio contiene la **Landing Page interactiva y el portal principal** que he desarrollado para **MencIA**, la Estrategia de Inteligencia Artificial impulsada por la Diputación de Lugo.
 
 > **Nota:** Este proyecto demuestra la viabilidad de crear soluciones tecnológicas institucionales de alto impacto utilizando metodologías íntegras de Inteligencia Artificial (Vibe Coding).
 
@@ -15,7 +21,7 @@ Este repositorio contiene la **Landing Page interactiva y portal principal** que
 *   **Experiencia inmersiva:** 
     *   Uso integrado de **GSAP** y **ScrollTrigger** para animaciones precisas basadas en el comportamiento del scroll del usuario.
     *   **Lenis Scroll** para una respuesta de desplazamiento extremadamente suave y fluida (Smooth Scrolling).
-    *   **Integración de audio (BSO):** Banda sonora inmersiva nativa interactiva que responde a la negación.
+    *   **Integración de audio (BSO):** Banda sonora inmersiva nativa interactiva generada integramente con IA.
 *   **Totalmente responsive:** Arquitectura *mobile-first* fluida comprobada en múltiples resoluciones.
 *   **Optimizada para rendimiento:** Construida con Vite + React para tiempos de carga y compilación casi instantáneos (HMR) y un empaquetado optimizado para despliegue en Vercel.
 
@@ -41,7 +47,7 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/jose-antarias/LandingMencIA.git
+   git clone https://github.com/jose-antarias/Landing-MencIA.git
    ```
 2. Navega al directorio del proyecto:
    ```bash
@@ -55,6 +61,10 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
    ```bash
    npm run dev
    ```
+   
+## 📜 Licencia
+
+Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) incluido en el repositorio para más detalles.
 
 ## 👨‍💻 Autor
 
