@@ -29,7 +29,7 @@ Este repositorio contiene la **Landing Page interactiva y el portal principal** 
 
 Este proyecto es un caso práctico en el que quería probar mis habilidades en **AI-Driven Development**. Todo el ciclo de vida del software, desde la conceptualización hasta el despliegue, ha sido orquestado dirigiendo estratégicamente a modelos de IA avanzados:
 
-1.  **Ideación y prototipado inicial:** Interacción con **Gemini 3.1 pro usando su función Canvas** para construir los primeros prototipos en HTML, tanto de la estructura principal de la landing como de la lógica de los simuladores.
+1.  **Ideación y prototipado inicial:** Interacción con **Gemini 3.1 Pro usando su función Canvas** para construir los primeros prototipos en HTML, tanto de la estructura principal de la landing como de la lógica de los simuladores.
 2.  **Arquitectura y desarrollo React/Vite:** Refactorización dinámica del código base inicial hacia un entorno moderno y escalable utilizando el ecosistema de agentes de **Antigravity (Google)**. Se iteró hasta conseguir el diseño *premium* y las animaciones complejas (GSAP/Lenis).
 3.  **Gestión de repositorio (CI/CD):** Creación del repositorio en GitHub y sincronización de los avances, cambios y commits orquestados de forma automatizada mediante integraciones **MCP (Model Context Protocol)** desde Antigravity.
 4.  **Despliegue y debugging continuo:** Despliegue manual e integración continua en **Vercel**. Resolución de errores y bloqueos nativos de compilación en la nube (ej. problemas de rutas, ESLint) debugeando en tiempo real con agentes de IA y aplicando parches automáticos directos a GitHub vía MCP.
@@ -47,7 +47,7 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/jose-antarias/Landing-MencIA.git
+   git clone https://github.com/ariaslombardero/Landing-MencIA.git
    ```
 2. Navega al directorio del proyecto:
    ```bash
@@ -73,4 +73,4 @@ Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](./LI
 
 Esta aplicación forma parte de un portfolio de soluciones tecnológicas conceptualizadas, desarrolladas y desplegadas en entornos cloud para su aplicación en el sector público. Mi objetivo es demostrar cómo el uso estratégico de modelos avanzados de IA (Vibe Coding) puede escalar radicalmente la digitalización, la operatividad y la alfabetización tecnológica de la Administración.
 
-🔗 [Consulta mi portfolio completo de aplicaciones y trayectoria profesional](https://ja-lombardero.vercel.app/)
+🔗 [Consulta mi portfolio completo de aplicaciones y trayectoria profesional](https://ariaslombardero.es/)
